@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>FoxCraft • Live Server</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at 20% 30%, #f9d423 0%, #e35d2a 60%, #7a1f1a 100%);
+            background-attachment: fixed;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: orbMove 12s infinite alternate ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: orbMove 15s infinite alternate-reverse ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes orbMove {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 30px) scale(1.2); }
+        }
+        .card {
+            position: relative;
+            z-index: 1;
+            background: rgba(20, 10, 5, 0.3);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border-radius: 56px;
+            padding: 32px 24px 28px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 200, 50, 0.15);
+            text-align: center;
+            color: #fff;
+            border: 1px solid rgba(255, 200, 80, 0.2);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        }
+        .card:hover { transform: scale(1.01) translateY(-3px); }
+        .header-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .fox-icon {
+            font-size: 52px;
+            line-height: 1;
+            filter: drop-shadow(0 8px 20px rgba(255, 160, 0, 0.6));
+            animation: float 3.5s ease-in-out infinite;
+            display: inline-block;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 6px 14px 6px 10px;
+            border-radius: 60px;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            box-shadow: 0 0 12px #4caf50aa;
+            animation: pulse-dot 1.8s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { opacity: 0.6; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.6; transform: scale(0.9); }
+        }
+        .server-name {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin: 2px 0 0;
+            background: linear-gradient(135deg, #ffe57f, #ffb300, #ff8f00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 180, 0, 0.2);
+            line-height: 1.2;
+        }
+        .sub {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .sub span {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .stat-item {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 14px 6px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            transition: all 0.2s;
+        }
+        .stat-item:hover {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.2);
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff3c9, #ffd54f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        .stat-value.ping { font-size: 22px; }
+        .stat-label {
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        .server-info {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 16px 14px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+        }
+        .info-block {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .info-block .label { opacity: 0.5; font-weight: 400; }
+        .info-block .value {
+            font-weight: 700;
+            font-size: 18px;
+            background: linear-gradient(135deg, #ffe082, #ffca28);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.3px;
+        }
+        .info-block .value.ip { font-size: 20px; }
+        .btn-connect {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+            padding: 20px 16px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #3e2c1b;
+            background: linear-gradient(135deg, #ffd54f, #ffab00);
+            border: none;
+            border-radius: 80px;
+            cursor: pointer;
+            box-shadow: 0 16px 40px rgba(255, 160, 0, 0.4);
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            text-decoration: none;
+            letter-spacing: 0.8px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .btn-connect::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .btn-connect:hover::before { opacity: 1; }
+        .btn-connect:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(255, 160, 0, 0.6);
+        }
+        .btn-connect:active {
+            transform: scale(0.95);
+            box-shadow: 0 8px 24px rgba(255, 160, 0, 0.3);
+        }
+        .btn-connect svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+        .btn-connect span { position: relative; z-index: 1; }
+        .copy-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 215, 0, 0.12);
+            border-radius: 40px;
+            padding: 6px 18px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .copy-btn:hover {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        .copy-btn:active { transform: scale(0.92); }
+        .debug-link {
+            font-size: 10px;
+            opacity: 0.25;
+            margin-top: 14px;
+            word-break: break-all;
+            user-select: all;
+            direction: ltr;
+        }
+        .motd-text {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin: 8px 0 16px 0;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.15);
+            border-radius: 40px;
+            border: 1px solid rgba(255,215,0,0.05);
+            min-height: 2.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .motd-text .label {
+            opacity: 0.4;
+            font-weight: 400;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .motd-text .message {
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffe082, #ffca28);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @media (max-width: 480px) {
+            .card { padding: 24px 16px 20px; border-radius: 40px; }
+            .fox-icon { font-size: 40px; }
+            .server-name { font-size: 26px; }
+            .stats-grid { gap: 6px; }
+            .stat-value { font-size: 20px; }
+            .stat-value.ping { font-size: 18px; }
+            .server-info { flex-direction: column; align-items: stretch; gap: 4px; padding: 14px 12px; }
+            .info-block { justify-content: space-between; }
+            .info-block .value.ip { font-size: 18px; }
+            .info-block .value { font-size: 16px; }
+            .btn-connect { font-size: 19px; padding: 18px 12px; gap: 10px; }
+            .btn-connect svg { width: 26px; height: 26px; }
+            .motd-text { font-size: 13px; }
+        }
+        @media (max-width: 380px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-item:last-child { grid-column: span 2; }
+            .server-name { font-size: 22px; }
+        }
+        @media (prefers-color-scheme: dark) {
+            body { background: radial-gradient(ellipse at 20% 30%, #b86b1a 0%, #7a2a1a 60%, #3d0f0a 100%); }
+            .card { background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(28px) saturate(180%); border-color: rgba(255, 180, 0, 0.1); }
+            .stat-item { background: rgba(0, 0, 0, 0.35); }
+            .server-info { background: rgba(0, 0, 0, 0.4); }
+            .btn-connect { background: linear-gradient(135deg, #ffca28, #f57f17); color: #1f1406; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" role="main" aria-label="FoxCraft live server card">
+
+        <!-- header -->
+        <div class="header-wrap">
+            <div class="fox-icon" aria-hidden="true">🦊</div>
+            <div class="status-badge">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Loading...</span>
+            </div>
+        </div>
+
+        <div class="server-name">FoxCraft</div>
+        <div class="sub">
+            <span>⚡ Bedrock</span>
+            <span>📍 Global</span>
+        </div>
+
+        <!-- MOTD -->
+        <div class="motd-text">
+            <span class="label">📢 MOTD</span>
+            <span class="message" id="motdDisplay">--</span>
+        </div>
+
+        <!-- live stats: players (real), ping (random), version (real) -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value" id="playerCount">--</div>
+                <div class="stat-label">👥 Players</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value ping" id="pingDisplay">--ms</div>
+                <div class="stat-label">📶 Ping</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="versionDisplay">--</div>
+                <div class="stat-label">⚙️ Version</div>
+            </div>
+        </div>
+
+        <!-- ip + port -->
+        <div class="server-info">
+            <div class="info-block">
+                <span class="label">🌐 IP</span>
+                <span class="value ip" dir="ltr">5.57.32.7</span>
+            </div>
+            <div class="info-block">
+                <span class="label">🔌 Port</span>
+                <span class="value" dir="ltr">28294</span>
+            </div>
+        </div>
+
+        <!-- main join button -->
+        <button class="btn-connect" id="connectBtn">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+            </svg>
+            <span>➕ Add to Minecraft</span>
+        </button>
+
+        <!-- copy helpers -->
+        <div class="copy-row">
+            <button class="copy-btn" id="copyIpBtn">📋 Copy IP</button>
+            <button class="copy-btn" id="copyPortBtn">📋 Copy Port</button>
+        </div>
+
+        <div class="debug-link">minecraft://?add=server&ip=5.57.32.7&port=28294</div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const IP = '5.57.32.7';
+            const PORT = '28294';
+
+            // DOM elements
+            const playerEl = document.getElementById('playerCount');
+            const pingEl = document.getElementById('pingDisplay');
+            const versionEl = document.getElementById('versionDisplay');
+            const motdEl = document.getElementById('motdDisplay');
+            const statusText = document.getElementById('statusText');
+            const statusDot = document.getElementById('statusDot');
+
+            // -----  generate random ping (20–120 ms)  -----
+            function getRandomPing() {
+                return Math.floor(Math.random() * 100) + 20; // 20–119 ms
+            }
+
+            // update ping every 3 seconds (random)
+            function updateRandomPing() {
+                const ping = getRandomPing();
+                pingEl.textContent = ping + 'ms';
+            }
+
+            // start ping updater
+            updateRandomPing();
+            setInterval(updateRandomPing, 3000);
+
+            // -----  fetch REAL data from mcsrvstat.us API (players, version, motd, online status)  -----
+            async function fetchServerStatus() {
+                const url = `https://api.mcsrvstat.us/bedrock/3/${IP}:${PORT}`;
+                try {
+                    const response = await fetch(url, {
+                        headers: {
+                            'User-Agent': 'FoxCraft-Server-Status/1.0'
+                        }
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Failed to fetch server status:', error);
+                    return null;
+                }
+            }
+
+            function updateUI(data) {
+                if (!data || !data.online) {
+                    // Server is offline or no data
+                    statusDot.style.background = '#f44336';
+                    statusDot.style.boxShadow = '0 0 12px #f44336aa';
+                    statusText.textContent = 'Offline';
+                    playerEl.textContent = '❌';
+                    versionEl.textContent = '--';
+                    motdEl.textContent = 'Server is offline';
+                    return;
+                }
+
+                // Server is online
+                statusDot.style.background = '#4caf50';
+                statusDot.style.boxShadow = '0 0 12px #4caf50aa';
+                statusText.textContent = 'Live';
+
+                // Players (REAL from API)
+                const players = data.players && typeof data.players.online === 'number' ? data.players.online : 0;
+                playerEl.textContent = players;
+
+                // Version (REAL from API)
+                const version = data.version || '--';
+                versionEl.textContent = version;
+
+                // MOTD (REAL from API)
+                let motd = '--';
+                if (data.motd && data.motd.clean) {
+                    motd = Array.isArray(data.motd.clean) ? data.motd.clean.join(' ') : data.motd.clean;
+                } else if (data.motd && data.motd.raw) {
+                    motd = Array.isArray(data.motd.raw) ? data.motd.raw.join(' ') : data.motd.raw;
+                }
+                motdEl.textContent = motd;
+            }
+
+            async function refreshStatus() {
+                const data = await fetchServerStatus();
+                updateUI(data);
+            }
+
+            // initial fetch
+            refreshStatus();
+
+            // refresh every 30 seconds (API caches for 1 minute)
+            setInterval(refreshStatus, 30000);
+
+            // -----  connect button (add to minecraft)  -----
+            const connectBtn = document.getElementById('connectBtn');
+
+            function buildMinecraftUrl() {
+                return `minecraft://?add=server&ip=${IP}&port=${PORT}`;
+            }
+
+            connectBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = buildMinecraftUrl();
+                window.location.href = url;
+            });
+
+            // -----  copy buttons  -----
+            const copyIpBtn = document.getElementById('copyIpBtn');
+            copyIpBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(IP).then(() => {
+                    alert('IP copied!');
+                }).catch(() => {
+                    const ta = document.createElement('textarea');
+                    ta.value = IP;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    alert('IP copied!');
+                });
+            });
+
+            const copyPortBtn = document.getElementById('copyPortBtn');
+            copyPortBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(PORT).then(() => {
+                    alert('Port copied!');
+                }).catch(() => {
+                    const ta = document.createElement('textarea');
+                    ta.value = PORT;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    alert('Port copied!');
+                });
+            });
+
+            console.log('🦊 FoxCraft Live | IP:', IP, 'Port:', PORT);
+        })();
+    </script>
+</body>
+</html>
