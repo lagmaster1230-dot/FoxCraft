@@ -436,21 +436,23 @@
                 return Math.floor(Math.random() * 100) + 20; // 20–119 ms
             }
 
-            // update ping every 3 seconds (random)
             function updateRandomPing() {
                 const ping = getRandomPing();
                 pingEl.textContent = ping + 'ms';
             }
 
-            // start ping updater
             updateRandomPing();
             setInterval(updateRandomPing, 3000);
 
-            // -----  fetch REAL data from mcsrvstat.us API (players, version, motd, online status)  -----
+            // -----  fetch REAL data from mcsrvstat.us via proxy (to avoid CORS)  -----
             async function fetchServerStatus() {
-                const url = `https://api.mcsrvstat.us/bedrock/3/${IP}:${PORT}`;
+                // Use a public proxy that returns raw response
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const targetUrl = `https://api.mcsrvstat.us/bedrock/3/${IP}:${PORT}`;
+                const fullUrl = proxyUrl + encodeURIComponent(targetUrl);
+
                 try {
-                    const response = await fetch(url, {
+                    const response = await fetch(fullUrl, {
                         headers: {
                             'User-Agent': 'FoxCraft-Server-Status/1.0'
                         }
@@ -474,7 +476,7 @@
                     statusText.textContent = 'Offline';
                     playerEl.textContent = '❌';
                     versionEl.textContent = '--';
-                    motdEl.textContent = 'Server is offline';
+                    motdEl.textContent = 'Server is offline or unreachable';
                     return;
                 }
 
@@ -509,7 +511,7 @@
             // initial fetch
             refreshStatus();
 
-            // refresh every 30 seconds (API caches for 1 minute)
+            // refresh every 30 seconds
             setInterval(refreshStatus, 30000);
 
             // -----  connect button (add to minecraft)  -----
