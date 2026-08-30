@@ -1,565 +1,1246 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>FoxCraft • Live Server</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>FoxCraft | سرور Survival ماینکرفت بدراک</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --night: #0d110a;
+            --night2: #161e10;
+            --forest: #1c2917;
+            --forest2: #233620;
+            --moss: #4f7a3d;
+            --moss-light: #8fbf6a;
+            --fox: #ef7b1e;
+            --fox-light: #ffab4d;
+            --fox-deep: #c85a10;
+            --fox-glow: rgba(239, 123, 30, .35);
+            --cream: #f4ecd8;
+            --amber: #e8b84b;
+            --dirt: #6b4a2e;
+            --dirt-dark: #4a3220;
+            --grass: #5a8f3e;
+            --slot-border: #0a0d07;
+            --danger: #c0453b;
+            --glass: rgba(255, 255, 255, .05);
+            --glass-border: rgba(255, 255, 255, .08);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, .7);
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, .5);
+            --radius: 16px;
+            --touch-target: 48px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(ellipse at 20% 30%, #f9d423 0%, #e35d2a 60%, #7a1f1a 100%);
-            background-attachment: fixed;
-            padding: 16px;
-            position: relative;
+            font-family: 'Vazir', sans-serif;
+            background: var(--night);
+            color: var(--cream);
             overflow-x: hidden;
-        }
-        body::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            left: -20%;
-            width: 70%;
-            height: 70%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: orbMove 12s infinite alternate ease-in-out;
-            pointer-events: none;
-            z-index: 0;
-        }
-        body::after {
-            content: '';
-            position: absolute;
-            bottom: -20%;
-            right: -20%;
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: orbMove 15s infinite alternate-reverse ease-in-out;
-            pointer-events: none;
-            z-index: 0;
-        }
-        @keyframes orbMove {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, 30px) scale(1.2); }
-        }
-        .card {
             position: relative;
-            z-index: 1;
-            background: rgba(20, 10, 5, 0.3);
-            backdrop-filter: blur(24px) saturate(200%);
-            -webkit-backdrop-filter: blur(24px) saturate(200%);
-            border-radius: 56px;
-            padding: 32px 24px 28px;
-            max-width: 440px;
-            width: 100%;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 200, 50, 0.15);
-            text-align: center;
-            color: #fff;
-            border: 1px solid rgba(255, 200, 80, 0.2);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
         }
-        .card:hover { transform: scale(1.01) translateY(-3px); }
-        .header-wrap {
+
+        .pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--night);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--fox);
+            border-radius: 4px;
+        }
+
+        /* ===== AMBIENT BG ===== */
+        .bg-fx {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 20% 10%, rgba(143, 191, 106, .07), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(239, 123, 30, .10), transparent 45%),
+                radial-gradient(ellipse at 50% 90%, rgba(90, 143, 62, .08), transparent 50%);
+        }
+
+        .grain {
+            position: absolute;
+            inset: 0;
+            opacity: .035;
+            background-image:
+                repeating-linear-gradient(0deg, #000 0 2px, transparent 2px 4px),
+                repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 4px);
+            pointer-events: none;
+        }
+
+        .particle-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--fox-light);
+            box-shadow: 0 0 12px var(--fox-glow);
+            opacity: 0;
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(.3);
+                opacity: 0;
+            }
+            15% {
+                opacity: .7;
+            }
+            85% {
+                opacity: .7;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(40px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% {
+                opacity: .15;
+            }
+            100% {
+                opacity: .8;
+            }
+        }
+
+        .parallax-trees {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 140px;
+            z-index: 0;
+            opacity: .45;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: relative;
+            z-index: 3;
+            padding: 12px 4vw;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(13, 17, 10, .7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .fox-icon {
-            font-size: 52px;
-            line-height: 1;
-            filter: drop-shadow(0 8px 20px rgba(255, 160, 0, 0.6));
-            animation: float 3.5s ease-in-out infinite;
-            display: inline-block;
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--slot-border);
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .5));
+            image-rendering: -webkit-optimize-contrast;
         }
-        .status-badge {
+        .brand-name {
+            font-size: .85rem;
+            letter-spacing: 0.5px;
+            color: var(--cream);
+            text-shadow: 0 2px 12px rgba(239, 123, 30, .2);
+            font-weight: 700;
+        }
+        .brand-name .fx {
+            color: var(--fox-light);
+        }
+
+        .status-pill {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 6px 14px 6px 10px;
-            border-radius: 60px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: .6rem;
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(0, 0, 0, .35);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            white-space: nowrap;
         }
-        .status-dot {
-            width: 10px;
-            height: 10px;
+        .dot {
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
-            background: #4caf50;
-            box-shadow: 0 0 12px #4caf50aa;
-            animation: pulse-dot 1.8s infinite;
-        }
-        @keyframes pulse-dot {
-            0% { opacity: 0.6; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.6; transform: scale(0.9); }
-        }
-        .server-name {
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin: 2px 0 0;
-            background: linear-gradient(135deg, #ffe57f, #ffb300, #ff8f00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 180, 0, 0.2);
-            line-height: 1.2;
-        }
-        .sub {
-            font-size: 13px;
-            font-weight: 400;
-            opacity: 0.7;
-            letter-spacing: 0.5px;
-            margin-bottom: 18px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .sub span {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 2px 12px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 215, 0, 0.08);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-        .stat-item {
-            background: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 14px 6px;
-            border: 1px solid rgba(255, 215, 0, 0.08);
-            transition: all 0.2s;
-        }
-        .stat-item:hover {
-            background: rgba(255, 215, 0, 0.08);
-            border-color: rgba(255, 215, 0, 0.2);
-        }
-        .stat-value {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff3c9, #ffd54f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-        .stat-value.ping { font-size: 22px; }
-        .stat-label {
-            font-size: 11px;
-            font-weight: 500;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-        .server-info {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 32px;
-            padding: 16px 14px;
-            margin-bottom: 22px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px 12px;
-        }
-        .info-block {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .info-block .label { opacity: 0.5; font-weight: 400; }
-        .info-block .value {
-            font-weight: 700;
-            font-size: 18px;
-            background: linear-gradient(135deg, #ffe082, #ffca28);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 0.3px;
-        }
-        .info-block .value.ip { font-size: 20px; }
-        .btn-connect {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            width: 100%;
-            padding: 20px 16px;
-            font-size: 22px;
-            font-weight: 800;
-            color: #3e2c1b;
-            background: linear-gradient(135deg, #ffd54f, #ffab00);
-            border: none;
-            border-radius: 80px;
-            cursor: pointer;
-            box-shadow: 0 16px 40px rgba(255, 160, 0, 0.4);
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-            text-decoration: none;
-            letter-spacing: 0.8px;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        .btn-connect::before {
-            content: '';
-            position: absolute;
-            top: -60%;
-            left: -60%;
-            width: 220%;
-            height: 220%;
-            background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s;
-            pointer-events: none;
-        }
-        .btn-connect:hover::before { opacity: 1; }
-        .btn-connect:hover {
-            transform: scale(1.02);
-            box-shadow: 0 20px 50px rgba(255, 160, 0, 0.6);
-        }
-        .btn-connect:active {
-            transform: scale(0.95);
-            box-shadow: 0 8px 24px rgba(255, 160, 0, 0.3);
-        }
-        .btn-connect svg {
-            width: 32px;
-            height: 32px;
-            fill: currentColor;
+            background: var(--moss-light);
+            box-shadow: 0 0 14px var(--moss-light);
+            animation: pulse 1.8s infinite;
             flex-shrink: 0;
         }
-        .btn-connect span { position: relative; z-index: 1; }
-        .copy-row {
+        .dot.off {
+            background: var(--danger);
+            box-shadow: 0 0 14px var(--danger);
+        }
+        .dot.unknown {
+            background: var(--amber);
+            box-shadow: 0 0 14px var(--amber);
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: .3;
+                transform: scale(.85);
+            }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            z-index: 2;
+            padding: 6vh 4vw 5vh;
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 6px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+            min-height: 70vh;
         }
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 215, 0, 0.12);
-            border-radius: 40px;
-            padding: 6px 18px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, transparent 50%, var(--night) 100%);
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .55rem;
+            letter-spacing: 1.5px;
+            color: var(--moss-light);
+            background: rgba(79, 122, 61, .15);
+            border: 1px solid rgba(143, 191, 106, .3);
+            padding: 6px 16px;
+            border-radius: 30px;
             backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
         }
-        .copy-btn:hover {
-            background: rgba(255, 215, 0, 0.15);
-            border-color: rgba(255, 215, 0, 0.3);
+        .eyebrow svg {
+            width: 14px;
+            height: 14px;
         }
-        .copy-btn:active { transform: scale(0.92); }
-        .debug-link {
-            font-size: 10px;
-            opacity: 0.25;
-            margin-top: 14px;
-            word-break: break-all;
-            user-select: all;
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 3.2rem);
+            line-height: 1.1;
+            color: var(--cream);
+            text-shadow: 4px 4px 0 var(--slot-border), 0 0 40px rgba(239, 123, 30, .08);
+            font-weight: 900;
+        }
+        .hero h1 .fx {
+            color: var(--fox-light);
+            text-shadow: 0 0 30px var(--fox-glow);
+        }
+
+        .hero p.sub {
+            max-width: 480px;
+            font-size: .95rem;
+            line-height: 1.9;
+            color: #d9d2bd;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+        }
+
+        .live-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .live-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(0, 0, 0, .3);
+            backdrop-filter: blur(4px);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: .75rem;
+        }
+        .live-chip svg {
+            width: 16px;
+            height: 16px;
+            color: var(--fox-light);
+        }
+        .live-chip b {
+            color: var(--amber);
+            font-family: 'Press Start 2P';
+            font-size: .6rem;
             direction: ltr;
         }
-        .motd-text {
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0.9;
-            margin: 8px 0 16px 0;
-            padding: 8px 12px;
-            background: rgba(0,0,0,0.15);
-            border-radius: 40px;
-            border: 1px solid rgba(255,215,0,0.05);
-            min-height: 2.5em;
+
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn {
+            font-family: 'Vazir', sans-serif;
+            font-weight: 700;
+            font-size: .85rem;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform .12s ease, box-shadow .2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            min-height: var(--touch-target);
+            justify-content: center;
+            flex: 1 1 auto;
+            min-width: 140px;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        .btn:active {
+            transform: scale(.94);
+        }
+        .btn-primary {
+            background: linear-gradient(145deg, var(--fox-light), var(--fox-deep));
+            color: var(--night);
+            box-shadow: 0 4px 20px var(--fox-glow);
+        }
+        .btn-primary:active {
+            box-shadow: 0 2px 12px var(--fox-glow);
+        }
+        .btn-ghost {
+            background: rgba(255, 255, 255, .04);
+            color: var(--cream);
+            border: 1px solid rgba(255, 255, 255, .10);
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-art {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+        .hero-art img {
+            width: 100%;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, .06);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .6), inset 0 0 60px rgba(239, 123, 30, .04);
+            animation: bob 4s ease-in-out infinite;
+            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .4));
+        }
+        @keyframes bob {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .hero-art .glow-ring {
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(239, 123, 30, .06), transparent 70%);
+            animation: breathe 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes breathe {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: .5;
+            }
+            50% {
+                transform: scale(1.12);
+                opacity: 1;
+            }
+        }
+
+        /* ===== GROUND ===== */
+        .ground {
+            height: 28px;
+            position: relative;
+            z-index: 2;
+            background:
+                linear-gradient(180deg, var(--grass) 0 38%, var(--dirt) 38% 65%, var(--dirt-dark) 65% 100%);
+            background-size: 28px 28px;
+            box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .3), 0 6px 30px rgba(0, 0, 0, .5);
+            border-top: 1px solid rgba(0, 0, 0, .2);
+            border-bottom: 1px solid rgba(0, 0, 0, .2);
+        }
+        .ground::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(90deg, rgba(0, 0, 0, .06) 0 2px, transparent 2px 28px);
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            position: relative;
+            z-index: 2;
+            padding: 5vh 4vw;
+        }
+        .section-head {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .section-head .eyebrow {
+            margin-bottom: 12px;
+        }
+        .section-head h2 {
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            color: var(--cream);
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, .3);
+            font-weight: 800;
+        }
+        .section-head h2 .fx {
+            color: var(--fox-light);
+        }
+
+        /* ===== CARD ===== */
+        .craft-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            margin: 0 auto;
+            gap: 24px;
+        }
+
+        .info-card {
+            width: 100%;
+            max-width: 500px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(28, 41, 23, .5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 24px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .field label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .6rem;
+            color: var(--moss-light);
+            letter-spacing: 0.5px;
+        }
+        .field label svg {
+            width: 13px;
+            height: 13px;
+        }
+        .field .value-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: rgba(15, 21, 12, .7);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 10px;
+            padding: 10px 14px;
+            backdrop-filter: blur(4px);
             flex-wrap: wrap;
         }
-        .motd-text .label {
-            opacity: 0.4;
-            font-weight: 400;
-            font-size: 11px;
-            text-transform: uppercase;
+        .field .value-row span.val {
+            font-size: .95rem;
+            letter-spacing: 0.5px;
+            direction: ltr;
+            font-weight: 700;
+            color: var(--fox-light);
+            word-break: break-all;
         }
-        .motd-text .message {
-            font-weight: 600;
-            background: linear-gradient(135deg, #ffe082, #ffca28);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .copy-btn {
+            background: var(--moss);
+            color: var(--night);
+            border: none;
+            border-radius: 8px;
+            font-size: .65rem;
+            padding: 6px 14px;
+            cursor: pointer;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: background .15s, transform .1s;
+            font-family: 'Vazir', sans-serif;
+            min-height: 36px;
         }
+        .copy-btn:active {
+            transform: scale(.92);
+        }
+        .copy-btn.copied {
+            background: var(--fox);
+        }
+
+        .quick-connect {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(145deg, var(--fox-light), var(--fox-deep));
+            color: var(--night);
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-weight: 800;
+            font-size: .9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--fox-glow);
+            transition: transform .12s ease, box-shadow .2s ease;
+            font-family: 'Vazir', sans-serif;
+            min-height: var(--touch-target);
+            width: 100%;
+        }
+        .quick-connect:active {
+            transform: scale(.96);
+            box-shadow: 0 2px 12px var(--fox-glow);
+        }
+        .quick-connect svg {
+            width: 20px;
+            height: 20px;
+        }
+        .quick-note {
+            font-size: .65rem;
+            color: #a79f87;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* ===== STRIP ===== */
+        .strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            max-width: 600px;
+            margin: 40px auto 0;
+        }
+        .stat {
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .04);
+            background: rgba(0, 0, 0, .25);
+            backdrop-filter: blur(4px);
+            padding: 18px 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: transform .15s ease, border-color .15s ease;
+        }
+        .stat:active {
+            transform: scale(.96);
+        }
+        .stat svg {
+            width: 22px;
+            height: 22px;
+            color: var(--fox-light);
+        }
+        .stat .n {
+            font-family: 'Press Start 2P';
+            font-size: .9rem;
+            color: var(--fox-light);
+            direction: ltr;
+        }
+        .stat .l {
+            font-size: .65rem;
+            color: #cfc7ae;
+        }
+
+        /* ===== BAND ===== */
+        .band {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .band-card {
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .04);
+            background: rgba(28, 41, 23, .4);
+            backdrop-filter: blur(4px);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform .15s ease, border-color .15s ease;
+        }
+        .band-card:active {
+            transform: scale(.97);
+        }
+        .band-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(0, 0, 0, .3);
+            color: var(--amber);
+            font-size: 24px;
+        }
+        .band-text label {
+            display: block;
+            font-size: .6rem;
+            color: var(--moss-light);
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .band-text .v {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--cream);
+        }
+        .band-text a {
+            color: var(--fox-light);
+            text-decoration: none;
+        }
+        .band-text a:active {
+            color: var(--fox);
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .04);
+            background: rgba(28, 41, 23, .3);
+            backdrop-filter: blur(4px);
+            padding: 14px 16px;
+            transition: border-color .15s ease;
+        }
+        .step:active {
+            border-color: rgba(239, 123, 30, .2);
+        }
+        .step .num {
+            font-family: 'Press Start 2P';
+            font-size: .7rem;
+            color: var(--night);
+            background: var(--amber);
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            direction: ltr;
+            box-shadow: 0 4px 12px rgba(232, 184, 75, .15);
+        }
+        .step p {
+            line-height: 1.8;
+            font-size: .85rem;
+            color: #e5dfc9;
+        }
+        .step b {
+            color: var(--fox-light);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 32px 4vw 40px;
+            border-top: 1px solid rgba(255, 255, 255, .04);
+            color: #e6dcc4;
+            font-size: .7rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            background: rgba(13, 17, 10, .4);
+            backdrop-filter: blur(8px);
+        }
+        footer .fname {
+            color: var(--fox-light);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        footer .fname .fx {
+            color: var(--fox);
+        }
+        footer .social-row {
+            display: flex;
+            gap: 18px;
+            margin-top: 4px;
+        }
+        footer .social-row a {
+            color: var(--cream);
+            opacity: .4;
+            transition: opacity .2s;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        footer .social-row a:active {
+            opacity: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
-            .card { padding: 24px 16px 20px; border-radius: 40px; }
-            .fox-icon { font-size: 40px; }
-            .server-name { font-size: 26px; }
-            .stats-grid { gap: 6px; }
-            .stat-value { font-size: 20px; }
-            .stat-value.ping { font-size: 18px; }
-            .server-info { flex-direction: column; align-items: stretch; gap: 4px; padding: 14px 12px; }
-            .info-block { justify-content: space-between; }
-            .info-block .value.ip { font-size: 18px; }
-            .info-block .value { font-size: 16px; }
-            .btn-connect { font-size: 19px; padding: 18px 12px; gap: 10px; }
-            .btn-connect svg { width: 26px; height: 26px; }
-            .motd-text { font-size: 13px; }
+            .hero {
+                padding: 4vh 3vw 4vh;
+                gap: 18px;
+            }
+            .hero h1 {
+                font-size: clamp(1.6rem, 7vw, 2.4rem);
+            }
+            .hero p.sub {
+                font-size: .85rem;
+                line-height: 1.8;
+            }
+            .btn {
+                font-size: .75rem;
+                padding: 12px 18px;
+                min-width: 120px;
+                min-height: 44px;
+            }
+            .btn svg {
+                width: 16px;
+                height: 16px;
+            }
+            .live-chip {
+                font-size: .65rem;
+                padding: 6px 12px;
+            }
+            .live-chip svg {
+                width: 14px;
+                height: 14px;
+            }
+            .info-card {
+                padding: 18px 14px;
+                gap: 12px;
+            }
+            .field .value-row {
+                padding: 8px 12px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .field .value-row span.val {
+                font-size: .85rem;
+                text-align: center;
+            }
+            .copy-btn {
+                width: 100%;
+                justify-content: center;
+                font-size: .6rem;
+                padding: 8px;
+            }
+            .quick-connect {
+                font-size: .8rem;
+                padding: 14px;
+                min-height: 44px;
+            }
+            .strip {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .stat {
+                padding: 14px 8px;
+            }
+            .stat .n {
+                font-size: .75rem;
+            }
+            .stat .l {
+                font-size: .58rem;
+            }
+            .band-card {
+                padding: 14px 16px;
+            }
+            .band-icon {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                font-size: 20px;
+            }
+            .band-text .v {
+                font-size: .9rem;
+            }
+            .step {
+                padding: 12px 14px;
+                gap: 12px;
+            }
+            .step .num {
+                width: 28px;
+                height: 28px;
+                min-width: 28px;
+                font-size: .6rem;
+            }
+            .step p {
+                font-size: .78rem;
+                line-height: 1.7;
+            }
+            .section-head h2 {
+                font-size: 1.3rem;
+            }
+            .eyebrow {
+                font-size: .5rem;
+                padding: 4px 12px;
+            }
+            header {
+                padding: 10px 3vw;
+            }
+            .brand-mark {
+                width: 34px;
+                height: 34px;
+            }
+            .brand-name {
+                font-size: .7rem;
+            }
+            .status-pill {
+                font-size: .5rem;
+                padding: 4px 10px;
+                gap: 5px;
+            }
+            .dot {
+                width: 7px;
+                height: 7px;
+            }
+            .ground {
+                height: 22px;
+                background-size: 22px 22px;
+            }
         }
+
         @media (max-width: 380px) {
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-            .stat-item:last-child { grid-column: span 2; }
-            .server-name { font-size: 22px; }
+            .strip {
+                grid-template-columns: 1fr 1fr;
+            }
+            .btn {
+                min-width: 100px;
+                font-size: .7rem;
+                padding: 10px 14px;
+            }
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            .hero-art {
+                max-width: 200px;
+            }
         }
-        @media (prefers-color-scheme: dark) {
-            body { background: radial-gradient(ellipse at 20% 30%, #b86b1a 0%, #7a2a1a 60%, #3d0f0a 100%); }
-            .card { background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(28px) saturate(180%); border-color: rgba(255, 180, 0, 0.1); }
-            .stat-item { background: rgba(0, 0, 0, 0.35); }
-            .server-info { background: rgba(0, 0, 0, 0.4); }
-            .btn-connect { background: linear-gradient(135deg, #ffca28, #f57f17); color: #1f1406; }
+
+        :focus-visible {
+            outline: 3px solid var(--amber);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .dot,
+            .particle,
+            .star,
+            .hero-art img,
+            .hero-art .glow-ring {
+                animation: none !important;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="card" role="main" aria-label="FoxCraft live server card">
-
-        <!-- header -->
-        <div class="header-wrap">
-            <div class="fox-icon" aria-hidden="true">🦊</div>
-            <div class="status-badge">
-                <span class="status-dot" id="statusDot"></span>
-                <span id="statusText">Loading...</span>
-            </div>
-        </div>
-
-        <div class="server-name">FoxCraft</div>
-        <div class="sub">
-            <span>⚡ Bedrock</span>
-            <span>📍 Global</span>
-        </div>
-
-        <!-- MOTD -->
-        <div class="motd-text">
-            <span class="label">📢 MOTD</span>
-            <span class="message" id="motdDisplay">--</span>
-        </div>
-
-        <!-- live stats: players (real), ping (random), version (real) -->
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-value" id="playerCount">--</div>
-                <div class="stat-label">👥 Players</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value ping" id="pingDisplay">--ms</div>
-                <div class="stat-label">📶 Ping</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="versionDisplay">--</div>
-                <div class="stat-label">⚙️ Version</div>
-            </div>
-        </div>
-
-        <!-- ip + port -->
-        <div class="server-info">
-            <div class="info-block">
-                <span class="label">🌐 IP</span>
-                <span class="value ip" dir="ltr">5.57.32.7</span>
-            </div>
-            <div class="info-block">
-                <span class="label">🔌 Port</span>
-                <span class="value" dir="ltr">28294</span>
-            </div>
-        </div>
-
-        <!-- main join button -->
-        <button class="btn-connect" id="connectBtn">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-            </svg>
-            <span>➕ Add to Minecraft</span>
-        </button>
-
-        <!-- copy helpers -->
-        <div class="copy-row">
-            <button class="copy-btn" id="copyIpBtn">📋 Copy IP</button>
-            <button class="copy-btn" id="copyPortBtn">📋 Copy Port</button>
-        </div>
-
-        <div class="debug-link">minecraft://?add=server&ip=5.57.32.7&port=28294</div>
+    <!-- ===== AMBIENT BG ===== -->
+    <div class="bg-fx">
+        <div class="grain"></div>
+        <div class="particle-container" id="particles"></div>
+        <div class="star-container" id="stars"></div>
+        <svg class="parallax-trees" viewBox="0 0 1200 140" preserveAspectRatio="none">
+            <polygon points="0,140 0,90 40,40 80,90 90,60 130,120 170,55 210,120 250,75 290,140" fill="#1c2917" />
+            <polygon points="250,140 300,80 340,120 380,60 420,120 460,85 500,140" fill="#233620" opacity=".8" />
+            <polygon points="500,140 560,70 610,130 660,55 710,130 760,80 820,140" fill="#1c2917" />
+            <polygon points="800,140 850,90 900,130 950,65 1000,130 1050,80 1200,140" fill="#233620" opacity=".8" />
+        </svg>
     </div>
 
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="brand">
+            <img class="brand-mark" src="https://cdn.imgurl.ir/uploads/m129243_FoxCraft_upscaled_2x.jpg" alt="FoxCraft" onerror="this.onerror=null; this.replaceWith(fallbackLogoSVG(40));" />
+            <div class="brand-name pixel">
+                <span class="fx">Fox</span>Craft
+            </div>
+        </div>
+        <div class="status-pill">
+            <span class="dot unknown" id="status-dot"></span>
+            <span id="status-text">در حال بررسی…</span>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-text">
+            <span class="eyebrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-8 4 3 3-5 3 5 4-3 2 8H3z"/><path d="M5 15h14l-1 5H6l-1-5z"/></svg>
+                سرور Survival بدراک
+            </span>
+            <h1>به <span class="fx">Fox</span>Craft خوش اومدی</h1>
+            <p class="sub">یک سرور <b>Survival</b> با نسخه‌ی بدراک، مخصوص ساختن، ماجراجویی و بقا با دوستات. آی‌پی رو کپی کن یا با یک کلیک وصل شو.</p>
+
+            <div class="live-row">
+                <div class="live-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M3 20c0-3 2-5 5-5s5 2 5 5M11 20c0-3 2-5 5-5s5 2 5 5"/></svg>
+                    <span id="players-text">دریافت بازیکنان…</span>
+                </div>
+                <div class="live-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+                    TPS: <b>20</b>
+                </div>
+            </div>
+
+            <div class="cta-row">
+                <button class="btn btn-primary" id="quick-play-hero">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                    اتصال سریع
+                </button>
+                <button class="btn btn-ghost" onclick="document.getElementById('howto').scrollIntoView({behavior:'smooth'})">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+                    راهنما
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-art">
+            <div class="glow-ring"></div>
+            <img src="https://cdn.imgurl.ir/uploads/m129243_FoxCraft_upscaled_2x.jpg" alt="FoxCraft Logo" onerror="this.onerror=null; this.replaceWith(fallbackLogoSVG(280,true));" />
+        </div>
+    </section>
+
+    <!-- ===== GROUND ===== -->
+    <div class="ground" aria-hidden="true"></div>
+
+    <!-- ===== CONNECT ===== -->
+    <section id="connect">
+        <div class="section-head">
+            <span class="eyebrow">اطلاعات سرور Survival</span>
+            <h2>اتصال به <span class="fx">Fox</span>Craft</h2>
+        </div>
+
+        <div class="craft-wrap">
+            <div class="info-card">
+                <div class="field">
+                    <label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3z"/></svg> آدرس IP</label>
+                    <div class="value-row">
+                        <span class="val" id="ip-val">5.57.32.7</span>
+                        <button class="copy-btn" onclick="copyText('5.57.32.7', this)">کپی</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M9 15h.01"/></svg> پورت (Port)</label>
+                    <div class="value-row">
+                        <span class="val" id="port-val">28294</span>
+                        <button class="copy-btn" onclick="copyText('28294', this)">کپی</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg> نسخه بازی (Bedrock)</label>
+                    <div class="value-row">
+                        <span class="val">1.21.50 – 1.21.51</span>
+                    </div>
+                </div>
+
+                <button class="quick-connect" id="quick-play-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                    باز کردن ماینکرفت و اتصال خودکار
+                </button>
+                <p class="quick-note">این دکمه ماینکرفت بدراک رو باز می‌کنه و سرور رو خودکار اضافه می‌کنه (فقط روی موبایل/تبلت). اگه کار نکرد از IP و پورت بالا به‌صورت دستی استفاده کن.</p>
+            </div>
+        </div>
+
+        <div class="strip">
+            <div class="stat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M3 20c0-3 2-5 5-5s5 2 5 5M11 20c0-3 2-5 5-5s5 2 5 5"/></svg>
+                <div class="n" id="stat-players">…</div>
+                <div class="l">بازیکنان آنلاین</div>
+            </div>
+            <div class="stat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+                <div class="n">20</div>
+                <div class="l">TPS سرور</div>
+            </div>
+            <div class="stat">
+                <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+                <div class="n">1.21.50</div>
+                <div class="l">نسخه سازگار</div>
+            </div>
+            <div class="stat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M9 15h.01"/></svg>
+                <div class="n">28294</div>
+                <div class="l">پورت اتصال</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GROUND ===== -->
+    <div class="ground" aria-hidden="true"></div>
+
+    <!-- ===== ABOUT ===== -->
+    <section>
+        <div class="section-head">
+            <span class="eyebrow">درباره سرور Survival</span>
+            <h2>مدیریت و کانال‌ها</h2>
+        </div>
+        <div class="band">
+            <div class="band-card">
+                <div class="band-icon">👑</div>
+                <div class="band-text">
+                    <label>اونر سرور</label>
+                    <div class="v">LagMaster</div>
+                </div>
+            </div>
+            <div class="band-card">
+                <div class="band-icon">📱</div>
+                <div class="band-text">
+                    <label>کانال روبیکا</label>
+                    <div class="v"><a href="https://rubika.ir/FoxCraftSv" target="_blank" rel="noopener">@FoxCraftSv</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOWTO ===== -->
+    <section id="howto">
+        <div class="section-head">
+            <span class="eyebrow">شروع سریع Survival</span>
+            <h2>چطور به سرور وصل شویم؟</h2>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="num pixel">1</div>
+                <p>ماینکرفت <b>Bedrock</b> رو با نسخه‌ی <b>1.21.50 تا 1.21.51</b> باز کن. برای اتصال بدون مشکل، مطمئن شو نسخه‌ی بازیت با این محدوده هماهنگه.</p>
+            </div>
+            <div class="step">
+                <div class="num pixel">2</div>
+                <p>می‌تونی روی دکمه‌ی <b>«اتصال سریع به سرور»</b> بزنی تا خودش سرور رو داخل بازی اضافه کنه، یا از روش دستی زیر استفاده کنی.</p>
+            </div>
+            <div class="step">
+                <div class="num pixel">3</div>
+                <p>در بخش <b>Play → Servers → Add Server</b>، در قسمت Server Address آدرس <b>5.57.32.7</b> و در قسمت Port مقدار <b>28294</b> رو وارد کن.</p>
+            </div>
+            <div class="step">
+                <div class="num pixel">4</div>
+                <p>سرور رو ذخیره کن، روش بزن و وارد دنیای <b>Survival FoxCraft</b> شو 🦊</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <span class="fname"><span class="fx">Fox</span>Craft</span>
+        <span>سرور Survival بدراک · 5.57.32.7:28294</span>
+        <span>اونر: LagMaster · روبیکا: @FoxCraftSv</span>
+        <div class="social-row">
+            <a href="https://rubika.ir/FoxCraftSv" target="_blank" rel="noopener" title="روبیکا">📱</a>
+            <a href="#" title="اینستاگرام (به‌زودی)">📷</a>
+            <a href="#" title="یوتیوب (به‌زودی)">▶️</a>
+        </div>
+    </footer>
+
     <script>
-        (function() {
-            'use strict';
-
-            const IP = '5.57.32.7';
-            const PORT = '28294';
-
-            // DOM elements
-            const playerEl = document.getElementById('playerCount');
-            const pingEl = document.getElementById('pingDisplay');
-            const versionEl = document.getElementById('versionDisplay');
-            const motdEl = document.getElementById('motdDisplay');
-            const statusText = document.getElementById('statusText');
-            const statusDot = document.getElementById('statusDot');
-
-            // -----  generate random ping (20–120 ms)  -----
-            function getRandomPing() {
-                return Math.floor(Math.random() * 100) + 20; // 20–119 ms
+        // ===== FALLBACK SVG =====
+        function fallbackLogoSVG(size, big) {
+            const ns = 'http://www.w3.org/2000/svg';
+            const svg = document.createElementNS(ns, 'svg');
+            svg.setAttribute('viewBox', '0 0 100 100');
+            svg.style.width = size + 'px';
+            svg.style.height = size + 'px';
+            if (big) {
+                svg.style.filter = 'drop-shadow(0 14px 0 rgba(0,0,0,.35))';
+                svg.style.animation = 'bob 4s ease-in-out infinite';
+            } else {
+                svg.style.filter = 'drop-shadow(0 4px 12px rgba(0,0,0,.5))';
             }
+            svg.innerHTML = `
+            <rect x="18" y="8" width="16" height="16" fill="#c85a10" rx="4"/>
+            <rect x="66" y="8" width="16" height="16" fill="#c85a10" rx="4"/>
+            <rect x="14" y="28" width="72" height="52" fill="#ef7b1e" stroke="#0a0d07" stroke-width="3" rx="6"/>
+            <rect x="30" y="52" width="40" height="24" fill="#f4ecd8" rx="4"/>
+            <rect x="30" y="42" width="10" height="10" fill="#0a0d07" rx="2"/>
+            <rect x="60" y="42" width="10" height="10" fill="#0a0d07" rx="2"/>
+            <rect x="44" y="60" width="12" height="10" fill="#0a0d07" rx="2"/>
+          `;
+            return svg;
+        }
 
-            function updateRandomPing() {
-                const ping = getRandomPing();
-                pingEl.textContent = ping + 'ms';
-            }
+        // ===== CONSTANTS =====
+        const SERVER_IP = '5.57.32.7';
+        const SERVER_PORT = '28294';
+        const SERVER_NAME = 'FoxCraft';
 
-            updateRandomPing();
-            setInterval(updateRandomPing, 3000);
-
-            // -----  fetch REAL data from mcsrvstat.us via proxy (to avoid CORS)  -----
-            async function fetchServerStatus() {
-                // Use a public proxy that returns raw response
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const targetUrl = `https://api.mcsrvstat.us/bedrock/3/${IP}:${PORT}`;
-                const fullUrl = proxyUrl + encodeURIComponent(targetUrl);
-
-                try {
-                    const response = await fetch(fullUrl, {
-                        headers: {
-                            'User-Agent': 'FoxCraft-Server-Status/1.0'
-                        }
-                    });
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error('Failed to fetch server status:', error);
-                    return null;
-                }
-            }
-
-            function updateUI(data) {
-                if (!data || !data.online) {
-                    // Server is offline or no data
-                    statusDot.style.background = '#f44336';
-                    statusDot.style.boxShadow = '0 0 12px #f44336aa';
-                    statusText.textContent = 'Offline';
-                    playerEl.textContent = '❌';
-                    versionEl.textContent = '--';
-                    motdEl.textContent = 'Server is offline or unreachable';
-                    return;
-                }
-
-                // Server is online
-                statusDot.style.background = '#4caf50';
-                statusDot.style.boxShadow = '0 0 12px #4caf50aa';
-                statusText.textContent = 'Live';
-
-                // Players (REAL from API)
-                const players = data.players && typeof data.players.online === 'number' ? data.players.online : 0;
-                playerEl.textContent = players;
-
-                // Version (REAL from API)
-                const version = data.version || '--';
-                versionEl.textContent = version;
-
-                // MOTD (REAL from API)
-                let motd = '--';
-                if (data.motd && data.motd.clean) {
-                    motd = Array.isArray(data.motd.clean) ? data.motd.clean.join(' ') : data.motd.clean;
-                } else if (data.motd && data.motd.raw) {
-                    motd = Array.isArray(data.motd.raw) ? data.motd.raw.join(' ') : data.motd.raw;
-                }
-                motdEl.textContent = motd;
-            }
-
-            async function refreshStatus() {
-                const data = await fetchServerStatus();
-                updateUI(data);
-            }
-
-            // initial fetch
-            refreshStatus();
-
-            // refresh every 30 seconds
-            setInterval(refreshStatus, 30000);
-
-            // -----  connect button (add to minecraft)  -----
-            const connectBtn = document.getElementById('connectBtn');
-
-            function buildMinecraftUrl() {
-                return `minecraft://?add=server&ip=${IP}&port=${PORT}`;
-            }
-
-            connectBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const url = buildMinecraftUrl();
-                window.location.href = url;
+        // ===== COPY =====
+        function copyText(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.textContent;
+                btn.textContent = 'کپی شد!';
+                btn.classList.add('copied');
+                setTimeout(() => { btn.textContent = orig;
+                    btn.classList.remove('copied'); }, 1500);
+            }).catch(() => {
+                const orig = btn.textContent;
+                btn.textContent = 'خطا';
+                setTimeout(() => { btn.textContent = orig; }, 1500);
             });
+        }
 
-            // -----  copy buttons  -----
-            const copyIpBtn = document.getElementById('copyIpBtn');
-            copyIpBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText(IP).then(() => {
-                    alert('IP copied!');
-                }).catch(() => {
-                    const ta = document.createElement('textarea');
-                    ta.value = IP;
-                    document.body.appendChild(ta);
-                    ta.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(ta);
-                    alert('IP copied!');
-                });
-            });
+        // ===== QUICK CONNECT =====
+        function quickConnect() {
+            const uri = `minecraft://?addExternalServer=${encodeURIComponent(SERVER_NAME)}|${SERVER_IP}:${SERVER_PORT}`;
+            window.location.href = uri;
+        }
+        document.getElementById('quick-play-hero').addEventListener('click', quickConnect);
+        document.getElementById('quick-play-card').addEventListener('click', quickConnect);
 
-            const copyPortBtn = document.getElementById('copyPortBtn');
-            copyPortBtn.addEventListener('click', function() {
-                navigator.clipboard.writeText(PORT).then(() => {
-                    alert('Port copied!');
-                }).catch(() => {
-                    const ta = document.createElement('textarea');
-                    ta.value = PORT;
-                    document.body.appendChild(ta);
-                    ta.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(ta);
-                    alert('Port copied!');
-                });
-            });
-
-            console.log('🦊 FoxCraft Live | IP:', IP, 'Port:', PORT);
+        // ===== PARTICLES =====
+        (function spawnParticles() {
+            const container = document.getElementById('particles');
+            const count = 24;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 3 + Math.random() * 5;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (14 + Math.random() * 16) + 's';
+                p.style.animationDelay = (Math.random() * 18) + 's';
+                p.style.opacity = .3 + Math.random() * .4;
+                container.appendChild(p);
+            }
         })();
+
+        // ===== STARS =====
+        (function spawnStars() {
+            const container = document.getElementById('stars');
+            const count = 40;
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = 1 + Math.random() * 2;
+                s.style.width = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 50 + '%';
+                s.style.animationDuration = (2 + Math.random() * 4) + 's';
+                s.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(s);
+            }
+        })();
+
+        // ===== STATUS FETCH =====
+        async function fetchStatus() {
+            const dot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+            const playersText = document.getElementById('players-text');
+            const statPlayers = document.getElementById('stat-players');
+            try {
+                const res = await fetch(`https://api.mcsrvstat.us/bedrock/3/${SERVER_IP}:${SERVER_PORT}`, { cache: 'no-store' });
+                const data = await res.json();
+                if (data && data.online) {
+                    const online = data.players?.online ?? 0;
+                    const max = data.players?.max ?? '?';
+                    dot.classList.remove('off', 'unknown');
+                    statusText.textContent = 'سرور روشن';
+                    playersText.textContent = `${online} / ${max} بازیکن`;
+                    statPlayers.textContent = online;
+                } else {
+                    dot.classList.remove('off');
+                    dot.classList.add('unknown');
+                    statusText.textContent = 'همگام‌سازی';
+                    playersText.textContent = 'در حال بروزرسانی…';
+                    statPlayers.textContent = '—';
+                }
+            } catch (_) {
+                dot.classList.remove('off');
+                dot.classList.add('unknown');
+                statusText.textContent = 'نامشخص';
+                playersText.textContent = '—';
+                statPlayers.textContent = '—';
+            }
+        }
+        fetchStatus();
+        setInterval(fetchStatus, 60000);
     </script>
 </body>
 </html>
