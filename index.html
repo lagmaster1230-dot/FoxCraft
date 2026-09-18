@@ -3,27 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FoxNova | سرور ماینکرافت FoxNova - SMP Anarchy</title>
-<meta name="description" content="سرور ماینکرافت FoxNova — SMP Anarchy، پشتیبانی از جاوا و بدراک">
+<title>FoxNova | سرور ماینکرافت FoxNova — سیزن سوم | SMP Anarchy</title>
+<meta name="description" content="سرور ماینکرافت FoxNova — سیزن سوم، SMP Anarchy، پشتیبانی از جاوا و بدراک 1.21.50 تا 1.21.93">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*, *::before, *::after {
-    margin: 0; padding: 0; box-sizing: border-box;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --bg-1: #0d0805;
     --border: #3a2410;
+    --border-soft: rgba(255, 184, 0, .18);
     --yellow: #ffd23f;
     --orange: #ff8c00;
     --red: #ff2d00;
     --text: #fff5e1;
     --muted: #b8a07a;
+    --green: #22c55e;
+    --green-soft: #6ee7a0;
+    --blue: #74dcff;
+    --purple: #c084fc;
+    --purple-soft: #e9d5ff;
     --grad-brand: linear-gradient(135deg, #ffd23f 0%, #ff8c00 45%, #ff2d00 100%);
     --grad-btn: linear-gradient(135deg, #ffb800, #ff5a00);
+    --grad-purple: linear-gradient(135deg, #c084fc, #a855f7);
+    --glass-strong: rgba(13, 8, 5, .88);
+    --ease-smooth: cubic-bezier(.22, 1, .36, 1);
+    --ease-spring: cubic-bezier(.2, .9, .3, 1.15);
 }
 
 html { scroll-behavior: smooth; }
@@ -32,98 +40,240 @@ body {
     font-family: 'Vazirmatn', Tahoma, sans-serif;
     background: var(--bg-1);
     color: var(--text);
-    line-height: 1.8;
+    line-height: 1.85;
     overflow-x: hidden;
     min-height: 100vh;
     -webkit-tap-highlight-color: transparent;
-    background-image:
-        radial-gradient(600px 400px at 15% 5%, rgba(255, 184, 0, .18), transparent 70%),
-        radial-gradient(600px 400px at 85% 95%, rgba(255, 90, 0, .18), transparent 70%);
-    background-attachment: fixed;
 }
 
 body.modal-open { overflow: hidden; }
 
-.container {
-    width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 16px;
-}
+.container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 16px; }
 
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
 .mc-icon {
-    width: 1.4em;
-    height: 1.4em;
+    width: 1.35em; height: 1.35em;
     object-fit: contain;
     image-rendering: pixelated;
     vertical-align: middle;
     display: inline-block;
+    flex-shrink: 0;
+}
+
+.icon-fallback {
+    display: inline-block;
+    width: 1.2em; height: 1.2em;
+    line-height: 1.2em;
+    text-align: center;
+    color: var(--yellow);
+    font-size: 1em;
+    font-weight: 900;
 }
 
 /* BACKGROUND */
+.aurora {
+    position: fixed; inset: -25%; z-index: -4;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 18% 28%, rgba(255, 184, 0, .20), transparent 42%),
+        radial-gradient(circle at 82% 18%, rgba(255, 90, 0, .16), transparent 42%),
+        radial-gradient(circle at 50% 85%, rgba(255, 45, 0, .12), transparent 48%);
+    filter: blur(60px);
+    animation: auroraMove 26s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes auroraMove {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    50%  { transform: translate3d(3%, -2%, 0) scale(1.1); }
+    100% { transform: translate3d(-2%, 3%, 0) scale(1.05); }
+}
+
 .bg-grid {
-    position: fixed;
-    inset: 0;
-    z-index: -2;
+    position: fixed; inset: 0; z-index: -3;
     pointer-events: none;
     background-image:
         linear-gradient(rgba(255, 178, 0, .05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 178, 0, .05) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
+    background-size: 54px 54px;
+    mask-image: radial-gradient(ellipse at center, #000 25%, transparent 82%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 82%);
 }
 
-.particles {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-}
+.particles { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
 
 .particles span {
-    position: absolute;
-    bottom: -10px;
-    width: 5px;
-    height: 5px;
+    position: absolute; bottom: -12px;
+    width: 5px; height: 5px;
     background: var(--yellow);
     border-radius: 50%;
-    box-shadow: 0 0 8px var(--yellow);
+    box-shadow: 0 0 10px var(--yellow);
     opacity: 0;
-    animation: floatUp 18s linear infinite;
+    animation: floatUp 24s linear infinite;
     will-change: transform, opacity;
 }
 
-.particles span:nth-child(1) { left: 12%; animation-delay: 0s; }
-.particles span:nth-child(2) { left: 38%; animation-delay: 5s; background: var(--orange); box-shadow: 0 0 8px var(--orange); }
-.particles span:nth-child(3) { left: 68%; animation-delay: 9s; }
-.particles span:nth-child(4) { left: 88%; animation-delay: 13s; background: var(--red); box-shadow: 0 0 8px var(--red); }
+.particles span:nth-child(1) { left: 8%;  animation-delay: 0s; }
+.particles span:nth-child(2) { left: 26%; animation-delay: 4s;  background: var(--orange); box-shadow: 0 0 10px var(--orange); width: 4px; height: 4px; }
+.particles span:nth-child(3) { left: 45%; animation-delay: 9s; }
+.particles span:nth-child(4) { left: 62%; animation-delay: 13s; background: var(--red); box-shadow: 0 0 10px var(--red); width: 4px; height: 4px; }
+.particles span:nth-child(5) { left: 78%; animation-delay: 6s; }
+.particles span:nth-child(6) { left: 92%; animation-delay: 16s; background: var(--orange); box-shadow: 0 0 10px var(--orange); }
 
 @keyframes floatUp {
     0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-    15%  { opacity: .7; }
-    85%  { opacity: .7; }
-    100% { transform: translate3d(0, -105vh, 0); opacity: 0; }
+    12%  { opacity: .8; }
+    88%  { opacity: .8; }
+    100% { transform: translate3d(0, -108vh, 0); opacity: 0; }
 }
+
+/* SEASON BANNER */
+.season-banner {
+    position: relative;
+    background: linear-gradient(90deg, #2a0a04, #3d1505, #2a0a04);
+    border-bottom: 1px solid rgba(255, 140, 0, .45);
+    overflow: hidden;
+    z-index: 101;
+}
+
+.season-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(255, 210, 63, .18), transparent 45%),
+        radial-gradient(circle at 80% 50%, rgba(255, 45, 0, .18), transparent 45%);
+    animation: bannerGlow 3.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes bannerGlow {
+    0%, 100% { opacity: .55; }
+    50%      { opacity: 1; }
+}
+
+.season-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 54px;
+    padding: 8px 48px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.season-pulse {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 12px; height: 12px;
+}
+
+.season-pulse::before,
+.season-pulse::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: seasonRipple 2s ease-out infinite;
+    opacity: 0;
+}
+
+.season-pulse::after { animation-delay: 1s; }
+
+@keyframes seasonRipple {
+    0%   { transform: scale(.6); opacity: .8; }
+    100% { transform: scale(2.8); opacity: 0; }
+}
+
+.season-dot {
+    position: relative;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--yellow);
+    box-shadow: 0 0 14px var(--yellow);
+    z-index: 1;
+}
+
+.season-text {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.season-text strong {
+    background: var(--grad-brand);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 3s linear infinite;
+    font-weight: 900;
+}
+
+@keyframes shimmer { to { background-position: 200% center; } }
+
+.season-cta {
+    font-size: 12px;
+    font-weight: 800;
+    color: #1a0e00;
+    background: var(--grad-btn);
+    padding: 5px 14px;
+    border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(255, 90, 0, .5);
+    white-space: nowrap;
+}
+
+.season-close {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .15);
+    color: #ffb8a0;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s, color .2s, transform .25s;
+    padding: 0;
+    line-height: 1;
+    z-index: 2;
+}
+
+.season-close:hover { background: var(--red); color: #fff; transform: translateY(-50%) rotate(90deg); }
 
 /* HEADER */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(13, 8, 5, .95);
-    border-bottom: 1px solid rgba(255, 140, 0, .22);
+    background: var(--glass-strong);
+    border-bottom: 1px solid var(--border-soft);
+    transition: box-shadow .3s var(--ease-smooth), background .3s;
 }
+
+.site-header.scrolled { box-shadow: 0 8px 30px rgba(0, 0, 0, .55); }
 
 @media (hover: hover) and (min-width: 900px) {
     .site-header {
-        background: rgba(13, 8, 5, .75);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        background: rgba(13, 8, 5, .72);
+        backdrop-filter: blur(16px) saturate(140%);
+        -webkit-backdrop-filter: blur(16px) saturate(140%);
     }
 }
 
@@ -133,35 +283,28 @@ img { max-width: 100%; display: block; }
     bottom: -1px; left: 0; right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--yellow), var(--orange), transparent);
-    opacity: .6;
+    opacity: .65;
 }
 
 .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 66px;
+    height: 68px;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 900;
-    font-size: 22px;
-}
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 22px; }
 
 .logo-icon {
-    width: 34px;
-    height: 34px;
+    width: 36px; height: 36px;
     image-rendering: pixelated;
-    filter: drop-shadow(0 0 8px rgba(255, 178, 0, .7));
+    filter: drop-shadow(0 0 10px rgba(255, 178, 0, .8));
     animation: foxBounce 3s ease-in-out infinite;
 }
 
 @keyframes foxBounce {
     0%, 100% { transform: translate3d(0, 0, 0); }
-    50%      { transform: translate3d(0, -3px, 0); }
+    50%      { transform: translate3d(0, -4px, 0); }
 }
 
 .logo-text {
@@ -173,24 +316,20 @@ img { max-width: 100%; display: block; }
     animation: shimmer 4s linear infinite;
 }
 
-@keyframes shimmer {
-    to { background-position: 200% center; }
-}
-
 .nav {
     display: flex;
     gap: 4px;
     padding: 5px;
-    background: rgba(28, 17, 8, .6);
+    background: rgba(28, 17, 8, .65);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
 }
 
 .nav-link {
     padding: 8px 14px;
-    border-radius: 8px;
+    border-radius: 9px;
     color: var(--muted);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
     transition: color .2s, background .2s;
     cursor: pointer;
@@ -200,11 +339,19 @@ img { max-width: 100%; display: block; }
     border: none;
     background: transparent;
     font-family: inherit;
+    position: relative;
 }
 
-.nav-link:hover {
+.nav-link:hover { color: #fff; background: rgba(255, 140, 0, .18); }
+
+.nav-link .badge-new {
+    font-size: 9px;
+    font-weight: 900;
+    background: var(--red);
     color: #fff;
-    background: rgba(255, 140, 0, .18);
+    padding: 1px 5px;
+    border-radius: 4px;
+    letter-spacing: .3px;
 }
 
 .menu-toggle {
@@ -218,66 +365,45 @@ img { max-width: 100%; display: block; }
     padding: 10px 12px;
 }
 
-.menu-toggle span {
-    width: 22px;
-    height: 2px;
-    background: var(--text);
-    border-radius: 3px;
-}
+.menu-toggle span { width: 22px; height: 2px; background: var(--text); border-radius: 3px; }
 
 /* LIVE BAR */
 .live-bar {
-    background: rgba(28, 17, 8, .9);
-    border-bottom: 1px solid rgba(255, 184, 0, .2);
+    background: linear-gradient(180deg, rgba(28, 17, 8, .85), rgba(21, 12, 6, .9));
+    border-bottom: 1px solid var(--border-soft);
     padding: 12px 0;
+    position: relative;
 }
 
-.live-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-}
+.live-inner { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
 
-.live-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 700;
-    font-size: 14px;
-}
+.live-status { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
 
 .live-dot {
     width: 9px; height: 9px;
     border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 8px #22c55e;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
     animation: livePulse 2s ease-in-out infinite;
     flex-shrink: 0;
 }
 
-.live-dot.offline {
-    background: var(--red);
-    box-shadow: 0 0 8px var(--red);
-    animation: none;
-}
+.live-dot.offline { background: var(--red); box-shadow: 0 0 10px var(--red); animation: none; }
+.live-dot.unknown { background: var(--muted); box-shadow: 0 0 10px var(--muted); animation: livePulse 1.4s ease-in-out infinite; }
 
-@keyframes livePulse {
-    0%, 100% { opacity: 1; }
-    50%      { opacity: .4; }
-}
+@keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
 
-.live-status-text { color: #22c55e; font-weight: 800; }
+.live-status-text { color: var(--green); font-weight: 800; }
 .live-status-text.offline { color: var(--red); }
+.live-status-text.unknown { color: var(--muted); }
 
 .live-count {
     display: flex;
     align-items: baseline;
     gap: 6px;
     padding: 5px 14px;
-    background: rgba(255, 184, 0, .15);
-    border: 1px solid rgba(255, 184, 0, .4);
+    background: rgba(255, 184, 0, .14);
+    border: 1px solid rgba(255, 184, 0, .42);
     border-radius: 999px;
 }
 
@@ -291,20 +417,11 @@ img { max-width: 100%; display: block; }
     display: inline-block;
 }
 
-.live-count-number.pop {
-    animation: numberPop .4s ease;
-}
+.live-count-number.pop { animation: numberPop .45s ease; }
 
-@keyframes numberPop {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.25); }
-}
+@keyframes numberPop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.28); } }
 
-.live-count-label {
-    font-size: 12.5px;
-    color: var(--muted);
-    font-weight: 700;
-}
+.live-count-label { font-size: 12.5px; color: var(--muted); font-weight: 700; }
 
 .live-ip-mini {
     display: flex;
@@ -319,18 +436,34 @@ img { max-width: 100%; display: block; }
     border-radius: 10px;
     direction: ltr;
     cursor: pointer;
-    transition: border-color .2s, background .2s;
+    transition: border-color .2s, background .2s, color .2s;
+    font-family: 'Vazirmatn', monospace;
 }
 
-.live-ip-mini.copied {
-    background: #16a34a;
-    color: #fff;
-    border-color: #16a34a;
+.live-ip-mini:hover { border-color: var(--yellow); }
+.live-ip-mini.copied { background: #16a34a; color: #fff; border-color: #16a34a; }
+
+.refresh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: rgba(13, 8, 5, .6);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 15px;
+    transition: color .2s, border-color .2s, transform .3s var(--ease-smooth);
+    font-family: inherit;
+    padding: 0;
 }
 
-/* ============================================
-   PLAYER LIST — با رتبه و آیکون
-   ============================================ */
+.refresh-btn:hover { color: var(--yellow); border-color: var(--yellow); }
+.refresh-btn.spinning { animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* PLAYER LIST */
 .player-list-container {
     display: flex;
     flex-wrap: wrap;
@@ -348,56 +481,30 @@ img { max-width: 100%; display: block; }
     border-radius: 999px;
     font-size: 12.5px;
     font-weight: 700;
-    transition: transform .2s;
+    transition: transform .2s var(--ease-smooth);
     direction: ltr;
 }
 
-.player-badge:hover {
-    transform: translateY(-2px);
-}
+.player-badge:hover { transform: translateY(-2px); }
 
-.badge-icon {
-    width: 18px;
-    height: 18px;
-    image-rendering: pixelated;
-    object-fit: contain;
-    flex-shrink: 0;
-}
+.badge-icon { width: 18px; height: 18px; image-rendering: pixelated; object-fit: contain; flex-shrink: 0; }
+.badge-role { font-weight: 900; font-size: 11.5px; letter-spacing: .3px; }
+.badge-name { font-weight: 800; color: #fff; }
 
-.badge-role {
-    font-weight: 900;
-    font-size: 11.5px;
-    letter-spacing: .3px;
-}
-
-.badge-name {
-    font-weight: 800;
-    color: #fff;
-}
-
-/* 🟡 Owner */
 .player-badge.role-owner {
     background: linear-gradient(135deg, rgba(255, 210, 63, .22), rgba(255, 140, 0, .12));
     border: 1px solid rgba(255, 210, 63, .55);
     box-shadow: 0 0 12px rgba(255, 210, 63, .2);
 }
 .player-badge.role-owner .badge-role { color: #ffd23f; }
-.player-badge.role-owner:hover {
-    box-shadow: 0 0 18px rgba(255, 210, 63, .45);
-}
 
-/* 🔵 Manager */
 .player-badge.role-manager {
     background: linear-gradient(135deg, rgba(116, 220, 255, .22), rgba(0, 180, 255, .1));
     border: 1px solid rgba(116, 220, 255, .55);
     box-shadow: 0 0 12px rgba(116, 220, 255, .2);
 }
 .player-badge.role-manager .badge-role { color: #74dcff; }
-.player-badge.role-manager:hover {
-    box-shadow: 0 0 18px rgba(116, 220, 255, .45);
-}
 
-/* ⚪ Player */
 .player-badge.role-player {
     background: rgba(255, 184, 0, .1);
     border: 1px solid rgba(184, 160, 122, .35);
@@ -406,37 +513,62 @@ img { max-width: 100%; display: block; }
 .player-badge.role-player .badge-name { color: var(--yellow); }
 
 /* HERO */
-.hero {
-    padding: 60px 0 55px;
-    text-align: center;
+.hero { padding: 72px 0 56px; text-align: center; position: relative; }
+
+.hero-greeting {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, rgba(255, 210, 63, .14), rgba(255, 90, 0, .08));
+    border: 1px solid rgba(255, 184, 0, .45);
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--yellow);
+    margin-bottom: 14px;
+    box-shadow: 0 0 22px rgba(255, 184, 0, .14);
+}
+
+.hero-greeting .greet-icon {
+    width: 20px; height: 20px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 8px rgba(255, 184, 0, .55));
+}
+
+.hero-greeting .greet-time {
+    color: var(--muted);
+    font-size: 12.5px;
+    font-weight: 700;
+    direction: ltr;
+    font-variant-numeric: tabular-nums;
 }
 
 .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 16px;
-    background: rgba(28, 17, 8, .75);
-    border: 1px solid rgba(255, 184, 0, .45);
+    padding: 8px 18px;
+    background: linear-gradient(135deg, rgba(255, 210, 63, .16), rgba(255, 90, 0, .1));
+    border: 1px solid rgba(255, 184, 0, .55);
     border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 13.5px;
+    font-weight: 800;
     color: var(--yellow);
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 0 24px rgba(255, 184, 0, .18);
+    animation: badgeGlow 3s ease-in-out infinite;
 }
 
-.hero-badge::before {
-    content: '';
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 8px #22c55e;
+@keyframes badgeGlow {
+    0%, 100% { box-shadow: 0 0 22px rgba(255, 184, 0, .16); }
+    50%      { box-shadow: 0 0 34px rgba(255, 140, 0, .34); }
 }
 
 .hero-title {
-    font-size: clamp(38px, 8vw, 84px);
+    font-size: clamp(40px, 9vw, 92px);
     font-weight: 900;
-    line-height: 1.05;
+    line-height: 1.03;
     letter-spacing: -1px;
     margin-bottom: 18px;
 }
@@ -449,61 +581,47 @@ img { max-width: 100%; display: block; }
     color: transparent;
     animation: shimmer 5s linear infinite;
     display: block;
+    filter: drop-shadow(0 6px 30px rgba(255, 120, 0, .28));
 }
 
 .hero-title .outline {
     display: block;
     color: transparent;
-    -webkit-text-stroke: 2px rgba(255, 184, 0, .55);
-    font-size: .35em;
-    letter-spacing: 8px;
+    -webkit-text-stroke: 2px rgba(255, 184, 0, .5);
+    font-size: .3em;
+    letter-spacing: 9px;
     font-weight: 700;
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
 .hero-subtitle {
-    font-size: clamp(14px, 2.2vw, 18px);
+    font-size: clamp(14px, 2.2vw, 17.5px);
     color: var(--muted);
-    max-width: 620px;
-    margin: 0 auto 30px;
+    max-width: 660px;
+    margin: 0 auto 32px;
 }
 
-.hero-subtitle strong {
-    color: var(--yellow);
-    font-weight: 800;
-}
+.hero-subtitle strong { color: var(--yellow); font-weight: 800; }
 
-.hero-buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+.hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 .btn {
-    padding: 13px 28px;
-    border-radius: 12px;
+    padding: 14px 30px;
+    border-radius: 13px;
     font-weight: 800;
     font-size: 15px;
-    transition: transform .2s, box-shadow .2s, border-color .2s, color .2s;
+    transition: transform .28s var(--ease-smooth), box-shadow .3s, border-color .25s, color .25s;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     font-family: inherit;
     border: none;
+    will-change: transform;
 }
 
-.btn-primary {
-    background: var(--grad-btn);
-    color: #1a0e00;
-    box-shadow: 0 6px 20px rgba(255, 90, 0, .4);
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(255, 90, 0, .55);
-}
+.btn-primary { background: var(--grad-btn); color: #1a0e00; box-shadow: 0 8px 24px rgba(255, 90, 0, .42); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(255, 90, 0, .58); }
 
 .btn-outline {
     background: rgba(28, 17, 8, .7);
@@ -511,22 +629,88 @@ img { max-width: 100%; display: block; }
     color: var(--text);
 }
 
-.btn-outline:hover {
-    border-color: var(--yellow);
-    color: var(--yellow);
-    transform: translateY(-3px);
+.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-3px); }
+
+/* Trust bar */
+.trust-bar { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+
+.trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(13, 8, 5, .55);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted);
+    transition: border-color .25s, color .25s, transform .25s var(--ease-smooth);
 }
 
+.trust-item:hover { border-color: rgba(255, 184, 0, .5); color: var(--text); transform: translateY(-2px); }
+.trust-item img { width: 18px; height: 18px; image-rendering: pixelated; }
+
+/* STATS */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-top: 44px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat-box {
+    background: linear-gradient(160deg, rgba(28, 17, 8, .8), rgba(18, 10, 4, .7));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 14px;
+    text-align: center;
+    transition: transform .3s var(--ease-smooth), border-color .3s, box-shadow .3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--grad-brand);
+    opacity: .55;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 184, 0, .55);
+    box-shadow: 0 12px 30px rgba(255, 140, 0, .18);
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 900;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1.2;
+}
+
+.stat-label { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-top: 4px; }
+
 /* SERVER INFO */
-.server-info { padding: 15px 0 50px; }
+.server-info { padding: 20px 0 55px; }
 
 .server-card {
     background: linear-gradient(160deg, #1c1108, #120a04);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 26px;
+    border-radius: 22px;
+    padding: 28px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
 }
 
 .server-card::before {
@@ -540,104 +724,71 @@ img { max-width: 100%; display: block; }
 .server-card-title {
     font-size: 19px;
     font-weight: 900;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
     color: var(--yellow);
 }
 
-.server-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-}
+.server-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
 
 .server-item {
-    background: rgba(13, 8, 5, .6);
+    background: rgba(13, 8, 5, .62);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    transition: border-color .2s;
+    border-radius: 13px;
+    padding: 15px 17px;
+    transition: border-color .25s, transform .25s var(--ease-smooth), background .25s;
 }
 
-.server-item:hover { border-color: var(--yellow); }
+.server-item:hover { border-color: var(--yellow); transform: translateY(-2px); background: rgba(28, 17, 8, .72); }
 
-.server-item-label {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 5px;
-    font-weight: 600;
-}
-
-.server-item-value {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--text);
-    word-break: break-word;
-}
-
+.server-item-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+.server-item-value { font-size: 15px; font-weight: 800; color: var(--text); word-break: break-word; }
 .server-item-value.highlight { color: var(--yellow); }
+.server-item-value.ltr { direction: ltr; text-align: right; }
 
-.server-item-value.ltr {
-    direction: ltr;
-    text-align: right;
-}
-
-.ip-copy {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
+.ip-copy { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
 .copy-btn {
     background: var(--grad-btn);
     color: #1a0e00;
     border: none;
-    padding: 5px 12px;
+    padding: 5px 13px;
     border-radius: 8px;
     font-family: inherit;
     font-weight: 800;
     font-size: 12px;
     cursor: pointer;
-    transition: background .2s;
+    transition: transform .2s var(--ease-smooth), background .2s;
 }
 
-.copy-btn.copied {
-    background: #16a34a;
-    color: #fff;
-}
+.copy-btn:hover { transform: translateY(-1px); }
+.copy-btn.copied { background: #16a34a; color: #fff; }
 
 /* SECTION HEADER */
-.shop-section,
-.about-section { padding: 55px 0; }
+.shop-section, .changelog-section, .support-section, .about-section { padding: 58px 0; }
 
-.section-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
+.section-header { text-align: center; margin-bottom: 44px; }
 
 .section-tag {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 5px 14px;
+    padding: 6px 15px;
     border-radius: 999px;
     background: rgba(255, 184, 0, .13);
-    border: 1px solid rgba(255, 184, 0, .4);
+    border: 1px solid rgba(255, 184, 0, .42);
     color: var(--yellow);
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 800;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
+    margin-bottom: 13px;
+    letter-spacing: 1.5px;
 }
 
-.section-title {
-    font-size: clamp(24px, 5vw, 40px);
-    font-weight: 900;
-    margin-bottom: 8px;
-}
+.section-tag img { width: 16px; height: 16px; image-rendering: pixelated; }
+
+.section-title { font-size: clamp(25px, 5vw, 42px); font-weight: 900; margin-bottom: 9px; }
 
 .section-title .gradient-text {
     background: var(--grad-brand);
@@ -646,296 +797,952 @@ img { max-width: 100%; display: block; }
     color: transparent;
 }
 
-.section-subtitle {
-    color: var(--muted);
-    font-size: 14.5px;
-    max-width: 500px;
-    margin: 0 auto;
-}
+.section-subtitle { color: var(--muted); font-size: 14.5px; max-width: 520px; margin: 0 auto; }
 
-/* PRODUCTS */
-.products-grid {
+/* TRUST STRIP */
+.trust-strip {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 22px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto 34px;
 }
 
-.product-card {
+.trust-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
     background: linear-gradient(160deg, #1c1108, #120a04);
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    contain: layout paint;
+    border-radius: 14px;
+    transition: border-color .3s, transform .3s var(--ease-smooth), box-shadow .3s;
 }
 
-.product-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(255, 184, 0, .65);
-    box-shadow: 0 14px 34px rgba(255, 140, 0, .22);
+.trust-card:hover {
+    border-color: rgba(255, 184, 0, .5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(255, 140, 0, .14);
 }
 
-.product-image {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/10;
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1f1206, #2a1a0a);
-    margin-bottom: 14px;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 14px;
-    image-rendering: pixelated;
-    transition: transform .3s ease;
-}
-
-.product-card:hover .product-image img {
-    transform: scale(1.08);
-}
-
-.product-image.no-img::before {
-    content: '🦊';
-    font-size: 56px;
-    filter: drop-shadow(0 0 15px rgba(255, 184, 0, .7));
-}
-
-.product-name {
-    font-size: 18px;
-    font-weight: 800;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.product-caption {
-    color: var(--muted);
-    font-size: 13.5px;
-    margin-bottom: 14px;
-    flex-grow: 1;
-}
-
-.product-price {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 800;
-    font-size: 16px;
-    color: var(--yellow);
+.trust-card-icon {
+    width: 42px; height: 42px;
+    border-radius: 11px;
     background: rgba(255, 184, 0, .12);
-    border: 1px solid rgba(255, 184, 0, .4);
-    padding: 7px 14px;
-    border-radius: 10px;
-    margin-bottom: 14px;
-    align-self: flex-start;
-}
-
-.buy-button {
-    display: block;
-    text-align: center;
-    padding: 13px;
-    border-radius: 12px;
-    background: var(--grad-btn);
-    color: #1a0e00;
-    font-weight: 900;
-    font-size: 15.5px;
-    transition: transform .2s, box-shadow .2s;
-    box-shadow: 0 6px 18px rgba(255, 90, 0, .35);
-    cursor: pointer;
-    font-family: inherit;
-    border: none;
-    width: 100%;
-}
-
-.buy-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 90, 0, .55);
-}
-
-/* MODAL */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .85);
-    z-index: 999;
+    border: 1px solid rgba(255, 184, 0, .35);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 18px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s ease;
+    flex-shrink: 0;
 }
 
-.modal-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
+.trust-card-icon img { width: 26px; height: 26px; image-rendering: pixelated; object-fit: contain; }
 
-.modal-box {
-    background: linear-gradient(160deg, #1c1108, #120a04);
-    border: 1px solid var(--border);
+.trust-card-info { flex: 1; min-width: 0; }
+.trust-card-title { font-size: 13.5px; font-weight: 900; color: var(--text); margin-bottom: 2px; }
+.trust-card-desc { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+
+/* FEATURED */
+.featured-box {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 26px;
+    background: linear-gradient(135deg, #2a1508, #1a0e05);
+    border: 1px solid rgba(255, 184, 0, .42);
     border-radius: 22px;
-    padding: 34px 26px;
-    max-width: 460px;
-    width: 100%;
+    padding: 26px;
+    margin-bottom: 34px;
     position: relative;
-    text-align: center;
-    transform: translate3d(0, 20px, 0) scale(.96);
-    transition: transform .3s cubic-bezier(.2, .9, .3, 1.2);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, .7);
-    max-height: 90vh;
-    overflow-y: auto;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(255, 90, 0, .14);
 }
 
-.modal-overlay.active .modal-box {
-    transform: translate3d(0, 0, 0) scale(1);
-}
-
-.modal-box::before {
+.featured-box::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--yellow), var(--orange), var(--red));
-    border-radius: 22px 22px 0 0;
+    background: var(--grad-brand);
 }
 
-.modal-close {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 90, 0, .18);
-    border: 1px solid rgba(255, 90, 0, .35);
-    color: #ffb8a0;
-    font-size: 18px;
+.featured-box::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 15% 30%, rgba(255, 210, 63, .14), transparent 50%);
+    pointer-events: none;
+}
+
+.featured-media {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1f1206, #2a1a0a);
+    border: 1px solid var(--border);
+    aspect-ratio: 4/3;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background .2s, color .2s, transform .2s;
-    z-index: 10;
-    padding: 0;
-    line-height: 1;
+    z-index: 1;
 }
 
-.modal-close:hover {
-    background: var(--red);
-    color: #fff;
-    transform: rotate(90deg);
-}
-
-.modal-icon-img {
-    width: 64px;
-    height: 64px;
+.featured-media img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    padding: 20px;
     image-rendering: pixelated;
-    margin: 0 auto 12px;
-    display: block;
-    filter: drop-shadow(0 0 12px rgba(255, 184, 0, .5));
 }
 
-.modal-title {
-    font-size: 21px;
+.featured-ribbon {
+    position: absolute;
+    top: 14px; right: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #ff2d00, #ff5a00);
+    color: #fff;
+    font-size: 11.5px;
     font-weight: 900;
-    margin-bottom: 6px;
+    border-radius: 999px;
+    letter-spacing: .5px;
+    box-shadow: 0 6px 18px rgba(255, 45, 0, .55);
+    z-index: 3;
+}
+
+.featured-ribbon img { width: 14px; height: 14px; image-rendering: pixelated; }
+
+.featured-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+    position: relative;
+}
+
+.featured-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 900;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.featured-title {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 10px;
     background: var(--grad-brand);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
-.modal-subtitle {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 22px;
-    line-height: 1.8;
+.featured-desc { color: var(--muted); font-size: 14px; line-height: 1.9; margin-bottom: 16px; }
+.featured-desc strong { color: var(--yellow); font-weight: 800; }
+
+.featured-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+.featured-perk {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(13, 8, 5, .6);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text);
 }
 
-.modal-items {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.featured-perk img { width: 14px; height: 14px; image-rendering: pixelated; }
+
+.featured-buy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 13px;
+    background: var(--grad-btn);
+    color: #1a0e00;
+    font-weight: 900;
+    font-size: 15.5px;
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    box-shadow: 0 10px 28px rgba(255, 90, 0, .48);
+    transition: transform .28s var(--ease-smooth), box-shadow .3s, filter .2s;
+    align-self: flex-start;
+    will-change: transform;
 }
 
-.modal-item {
+.featured-buy:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(255, 90, 0, .65);
+    filter: brightness(1.06);
+}
+
+.featured-buy img { width: 20px; height: 20px; image-rendering: pixelated; }
+
+/* DISCOUNT BOX */
+.discount-box {
+    max-width: 620px;
+    margin: 0 auto 34px;
+    background: linear-gradient(160deg, #1c1108, #120a04);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .35s, box-shadow .35s;
+}
+
+.discount-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--orange), var(--red));
+}
+
+.discount-box.applied {
+    border-color: rgba(34, 197, 94, .6);
+    box-shadow: 0 0 30px rgba(34, 197, 94, .2);
+}
+
+.discount-title {
+    font-size: 14.5px;
+    font-weight: 900;
+    color: var(--yellow);
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: rgba(13, 8, 5, .7);
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.discount-title img { width: 22px; height: 22px; image-rendering: pixelated; }
+
+.discount-hint { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; font-weight: 600; }
+
+.discount-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.discount-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 12px 16px;
+    border-radius: 11px;
+    background: rgba(13, 8, 5, .8);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    transition: border-color .2s, transform .2s;
-    text-align: right;
-    text-decoration: none;
-    color: inherit;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    direction: ltr;
+    text-align: left;
+    transition: border-color .25s, background .25s, box-shadow .25s;
+    outline: none;
 }
 
-.modal-item:hover {
+.discount-input::placeholder { color: rgba(184, 160, 122, .55); direction: rtl; text-align: right; }
+
+.discount-input:focus {
     border-color: var(--yellow);
-    transform: translateX(-4px);
+    background: rgba(28, 17, 8, .9);
+    box-shadow: 0 0 0 3px rgba(255, 184, 0, .12);
 }
 
-.modal-item-icon {
-    width: 44px;
-    height: 44px;
+.discount-input:disabled { opacity: .6; cursor: not-allowed; }
+
+.discount-btn {
+    padding: 12px 26px;
+    border-radius: 11px;
+    background: var(--grad-btn);
+    color: #1a0e00;
+    font-weight: 900;
+    font-size: 14.5px;
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    transition: transform .28s var(--ease-smooth), box-shadow .3s, filter .2s, background .3s;
+    box-shadow: 0 6px 18px rgba(255, 90, 0, .38);
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.discount-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255, 90, 0, .55); filter: brightness(1.06); }
+.discount-btn:disabled { background: rgba(34, 197, 94, .35); color: #d4ffd4; cursor: default; box-shadow: none; transform: none; filter: none; }
+
+.discount-msg {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 9px 14px;
     border-radius: 10px;
-    background: rgba(255, 184, 0, .12);
-    border: 1px solid rgba(255, 184, 0, .3);
+    display: none;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.7;
+}
+
+.discount-msg img { width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0; }
+.discount-msg.show { display: flex; }
+
+.discount-msg.success {
+    background: rgba(34, 197, 94, .15);
+    border: 1px solid rgba(34, 197, 94, .5);
+    color: var(--green-soft);
+}
+
+.discount-msg.error {
+    background: rgba(255, 45, 0, .12);
+    border: 1px solid rgba(255, 45, 0, .5);
+    color: #ff9b7a;
+}
+
+/* PRODUCTS */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 22px;
+}
+
+.product-card {
+    background: linear-gradient(165deg, #1c1108, #120a04);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    transition: transform .35s var(--ease-smooth), border-color .3s, box-shadow .35s;
+    contain: layout paint;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.product-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255, 210, 63, .6), transparent 40%, transparent 60%, rgba(255, 90, 0, .5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .35s;
+    pointer-events: none;
+}
+
+.product-card:hover::after { opacity: 1; }
+
+.product-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(255, 184, 0, .4);
+    box-shadow: 0 18px 44px rgba(255, 140, 0, .22);
+}
+
+/* ویژه کارت جدید */
+.product-card.is-new {
+    border-color: rgba(192, 132, 252, .45);
+    background: linear-gradient(165deg, #201326, #120a1a);
+    box-shadow: 0 12px 40px rgba(192, 132, 252, .15);
+}
+
+.product-card.is-new::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(circle at 85% 12%, rgba(192, 132, 252, .18), transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.product-card.is-new:hover {
+    border-color: rgba(192, 132, 252, .75);
+    box-shadow: 0 18px 50px rgba(192, 132, 252, .3);
+}
+
+.product-card.is-new > * { position: relative; z-index: 1; }
+
+.product-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1f1206, #2a1a0a);
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    overflow: hidden;
-    font-size: 22px;
 }
 
-.modal-item-icon img {
-    width: 32px;
-    height: 32px;
-    image-rendering: pixelated;
+.product-card.is-new .product-image {
+    background: linear-gradient(135deg, #1e1228, #2a1a3a);
+    border-color: rgba(192, 132, 252, .3);
+}
+
+.product-image img {
+    width: 100%; height: 100%;
     object-fit: contain;
+    padding: 14px;
+    image-rendering: pixelated;
+    transition: transform .4s var(--ease-smooth);
 }
 
-.modal-item-info { flex: 1; min-width: 0; }
+.product-card:hover .product-image img { transform: scale(1.09); }
 
-.modal-item-label {
+.product-tags-left {
+    position: absolute;
+    top: 10px; right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 2;
+    align-items: flex-end;
+}
+
+.product-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: .3px;
+    backdrop-filter: blur(6px);
+    white-space: nowrap;
+}
+
+.product-tag img { width: 12px; height: 12px; image-rendering: pixelated; }
+
+.tag-hot { background: linear-gradient(135deg, #ff2d00, #ff5a00); color: #fff; box-shadow: 0 4px 14px rgba(255, 45, 0, .5); }
+.tag-vip { background: linear-gradient(135deg, #ffd23f, #ffb800); color: #1a0e00; box-shadow: 0 4px 14px rgba(255, 184, 0, .5); }
+.tag-off { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 4px 14px rgba(34, 197, 94, .55); }
+
+.tag-new {
+    background: linear-gradient(135deg, #c084fc, #a855f7);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(192, 132, 252, .55);
+    animation: badgeGlow 2.4s ease-in-out infinite;
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.product-caption {
+    color: var(--muted);
+    font-size: 13.5px;
+    margin-bottom: 12px;
+    flex-grow: 1;
+    line-height: 1.8;
+}
+
+/* ============================================
+   SIZE SELECTOR
+   ============================================ */
+.size-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: rgba(13, 8, 5, .55);
+    border: 1px dashed rgba(192, 132, 252, .35);
+    border-radius: 12px;
+}
+
+.size-selector-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 11.5px;
+    font-weight: 800;
+    color: var(--purple);
+    letter-spacing: .5px;
+    margin-bottom: 6px;
+    width: 100%;
+}
+
+.size-selector-label img { width: 14px; height: 14px; image-rendering: pixelated; }
+
+.size-btn {
+    flex: 1 1 calc(33% - 4px);
+    min-width: 70px;
+    padding: 8px 6px;
+    border-radius: 9px;
+    background: rgba(28, 17, 8, .75);
+    border: 1.5px solid var(--border);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .25s var(--ease-smooth);
+    direction: ltr;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .3px;
+}
+
+.size-btn:hover {
+    border-color: rgba(192, 132, 252, .7);
+    color: var(--purple-soft);
+    transform: translateY(-2px);
+}
+
+.size-btn.active {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff;
+    border-color: #c084fc;
+    box-shadow: 0 6px 18px rgba(168, 85, 247, .45);
+    transform: translateY(-2px);
+}
+
+.size-btn .size-price-hint {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 700;
+    opacity: .75;
+    margin-top: 2px;
+}
+
+.size-btn.active .size-price-hint { opacity: .95; }
+
+/* ============================================
+   QUANTITY SLIDER — برای «هر میل پول سرور»
+   ============================================ */
+.quantity-block {
+    margin-bottom: 12px;
+    padding: 14px 14px 12px;
+    background: rgba(13, 8, 5, .6);
+    border: 1px dashed rgba(255, 184, 0, .35);
+    border-radius: 12px;
+    direction: ltr;
+}
+
+.quantity-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-variant-numeric: tabular-nums;
+    flex-wrap: wrap;
+}
+
+.quantity-display .qty-num {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+    min-width: 30px;
+    text-align: right;
+    display: inline-block;
+}
+
+.quantity-display .qty-unit {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--orange);
+    margin-right: 2px;
+}
+
+.quantity-display .qty-eq {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    opacity: .7;
+}
+
+.quantity-display .qty-price {
+    font-size: 15.5px;
+    font-weight: 900;
+    color: var(--green-soft);
+    direction: rtl;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, .08);
+    outline: none;
+    cursor: pointer;
+    direction: ltr;
+    transition: background .2s;
+    margin-bottom: 8px;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--grad-btn);
+    cursor: pointer;
+    border: 2px solid #1a0e00;
+    box-shadow: 0 0 14px rgba(255, 184, 0, .75), 0 2px 6px rgba(0, 0, 0, .55);
+    transition: transform .2s var(--ease-smooth), box-shadow .2s;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.18);
+    box-shadow: 0 0 22px rgba(255, 184, 0, 1), 0 2px 8px rgba(0, 0, 0, .6);
+}
+
+.range-slider::-webkit-slider-thumb:active { transform: scale(1.05); }
+
+.range-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--grad-btn);
+    cursor: pointer;
+    border: 2px solid #1a0e00;
+    box-shadow: 0 0 14px rgba(255, 184, 0, .75);
+}
+
+.range-slider:focus { outline: none; }
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--muted);
+    direction: ltr;
+    font-variant-numeric: tabular-nums;
+    padding: 0 4px;
+}
+
+/* Product price box */
+.product-price {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 15.5px;
+    color: var(--yellow);
+    background: rgba(255, 184, 0, .12);
+    border: 1px solid rgba(255, 184, 0, .4);
+    padding: 7px 15px;
+    border-radius: 11px;
+    margin-bottom: 14px;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    transition: background .35s, border-color .35s, transform .3s var(--ease-spring);
+}
+
+.product-card.is-new .product-price {
+    background: rgba(192, 132, 252, .14);
+    border-color: rgba(192, 132, 252, .45);
+    color: var(--purple-soft);
+}
+
+.price-old { text-decoration: line-through; color: var(--muted); font-size: 13px; font-weight: 700; opacity: .8; }
+.price-new { color: var(--green-soft); font-weight: 900; }
+
+.price-bump { animation: priceBump .5s var(--ease-spring); }
+
+@keyframes priceBump {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.14); }
+    100% { transform: scale(1); }
+}
+
+.buy-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    padding: 13px;
+    border-radius: 13px;
+    background: var(--grad-btn);
+    color: #1a0e00;
+    font-weight: 900;
+    font-size: 15.5px;
+    transition: transform .28s var(--ease-smooth), box-shadow .3s, filter .2s;
+    box-shadow: 0 8px 20px rgba(255, 90, 0, .36);
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    width: 100%;
+    will-change: transform;
+    margin-top: auto;
+}
+
+.buy-button img { width: 20px; height: 20px; image-rendering: pixelated; }
+
+.buy-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255, 90, 0, .56);
+    filter: brightness(1.08);
+}
+
+.buy-button:active { transform: translateY(0); }
+
+.product-card.is-new .buy-button {
+    background: var(--grad-purple);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(168, 85, 247, .48);
+}
+
+.product-card.is-new .buy-button:hover { box-shadow: 0 14px 34px rgba(168, 85, 247, .7); }
+
+/* CHANGELOG */
+.changelog-wrap { max-width: 860px; margin: 0 auto; position: relative; padding-right: 28px; }
+
+.changelog-wrap::before {
+    content: '';
+    position: absolute;
+    top: 8px; bottom: 8px;
+    right: 9px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--yellow), var(--orange) 50%, var(--red));
+    opacity: .45;
+    border-radius: 2px;
+}
+
+.log-item {
+    position: relative;
+    background: linear-gradient(160deg, #1c1108, #120a04);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    transition: transform .3s var(--ease-smooth), border-color .3s, box-shadow .3s;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.log-item::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, var(--yellow), var(--orange));
+    opacity: .7;
+}
+
+.log-item::after {
+    content: '';
+    position: absolute;
+    top: 26px; right: -24px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg-1);
+    border: 2px solid var(--yellow);
+    box-shadow: 0 0 12px rgba(255, 184, 0, .6);
+    z-index: 2;
+}
+
+.log-item:hover {
+    transform: translateX(-4px);
+    border-color: rgba(255, 184, 0, .5);
+    box-shadow: 0 14px 36px rgba(255, 140, 0, .16);
+}
+
+.log-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+
+.log-version {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    background: var(--grad-btn);
+    color: #1a0e00;
+    box-shadow: 0 4px 14px rgba(255, 90, 0, .35);
+}
+
+.log-version img { width: 14px; height: 14px; image-rendering: pixelated; }
+
+.log-version.latest {
+    background: linear-gradient(135deg, #ff2d00, #ff5a00);
+    color: #fff;
+    animation: badgeGlow 2.5s ease-in-out infinite;
+}
+
+.log-version.new-feature {
+    background: linear-gradient(135deg, #c084fc, #a855f7);
+    color: #fff;
+    animation: badgeGlow 2.5s ease-in-out infinite;
+}
+
+.log-date { font-size: 12px; color: var(--muted); font-weight: 700; direction: ltr; font-variant-numeric: tabular-nums; }
+
+.log-title { font-size: 17px; font-weight: 900; color: var(--yellow); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+.log-body { color: var(--text); font-size: 14.5px; line-height: 2; }
+.log-body ul { list-style: none; margin-top: 6px; }
+
+.log-body li {
+    position: relative;
+    padding-right: 20px;
+    margin-bottom: 4px;
+    color: #efe1c8;
+}
+
+.log-body li::before {
+    content: '▸';
+    position: absolute;
+    right: 2px; top: 0;
+    color: var(--orange);
+    font-size: 13px;
+}
+
+.log-body li strong { color: var(--yellow); font-weight: 800; }
+
+.log-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+
+.log-tag {
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid;
+    letter-spacing: .3px;
+}
+
+.tag-new-c { color: #4ade80; border-color: rgba(74, 222, 128, .45); background: rgba(74, 222, 128, .1); }
+.tag-fix { color: #74dcff; border-color: rgba(116, 220, 255, .45); background: rgba(116, 220, 255, .1); }
+.tag-update { color: #ffd23f; border-color: rgba(255, 210, 63, .45); background: rgba(255, 210, 63, .1); }
+.tag-event { color: #ff8c00; border-color: rgba(255, 140, 0, .45); background: rgba(255, 140, 0, .1); }
+.tag-feature { color: #c084fc; border-color: rgba(192, 132, 252, .45); background: rgba(192, 132, 252, .1); }
+
+/* SUPPORT */
+.support-card {
+    max-width: 780px;
+    margin: 0 auto;
+    background: linear-gradient(160deg, #1c1108, #120a04);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 34px 28px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.support-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--orange), var(--red));
+}
+
+.support-icon {
+    width: 72px; height: 72px;
+    image-rendering: pixelated;
+    margin: 0 auto 12px;
+    display: block;
+    filter: drop-shadow(0 0 18px rgba(255, 184, 0, .6));
+    animation: foxBounce 3s ease-in-out infinite;
+}
+
+.support-title {
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.support-desc { color: var(--muted); font-size: 14.5px; margin-bottom: 22px; line-height: 1.95; }
+.support-desc strong { color: var(--yellow); font-weight: 800; }
+
+.support-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    border-radius: 16px;
+    background: var(--grad-btn);
+    color: #1a0e00;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 1px;
+    direction: ltr;
+    box-shadow: 0 12px 32px rgba(255, 90, 0, .42);
+    transition: transform .3s var(--ease-smooth), box-shadow .3s;
+    margin-bottom: 14px;
+    font-variant-numeric: tabular-nums;
+    will-change: transform;
+}
+
+.support-call:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 42px rgba(255, 90, 0, .6); }
+.support-call img { width: 26px; height: 26px; image-rendering: pixelated; }
+
+.support-note {
+    font-size: 13px;
     color: var(--muted);
     font-weight: 600;
-    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.modal-item-value {
-    font-size: 15.5px;
+.support-note .dot-24h {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, .15);
+    border: 1px solid rgba(34, 197, 94, .45);
+    color: var(--green-soft);
     font-weight: 800;
-    color: var(--yellow);
-    direction: ltr;
-    text-align: right;
+    font-size: 12px;
+}
+
+.support-note .dot-24h::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: livePulse 1.5s ease-in-out infinite;
 }
 
 /* ABOUT */
 .about-card {
     background: linear-gradient(160deg, #1c1108, #120a04);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 850px;
+    border-radius: 22px;
+    padding: 32px;
+    max-width: 880px;
     margin: 0 auto;
     position: relative;
     overflow: hidden;
@@ -949,12 +1756,7 @@ img { max-width: 100%; display: block; }
     background: linear-gradient(90deg, var(--yellow), var(--orange), var(--red));
 }
 
-.about-card > p {
-    color: var(--text);
-    margin-bottom: 20px;
-    font-size: 15.5px;
-    line-height: 1.9;
-}
+.about-card > p { color: var(--text); margin-bottom: 22px; font-size: 15.5px; line-height: 2; }
 
 .about-card strong {
     background: var(--grad-brand);
@@ -968,31 +1770,38 @@ img { max-width: 100%; display: block; }
     list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 10px;
+    gap: 11px;
 }
 
 .about-list li {
     background: rgba(28, 17, 8, .7);
     border: 1px solid var(--border);
-    padding: 12px 15px;
-    border-radius: 12px;
+    padding: 13px 16px;
+    border-radius: 13px;
     font-size: 14px;
     font-weight: 600;
-    transition: border-color .2s;
+    transition: border-color .25s, transform .25s var(--ease-smooth);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
 }
 
-.about-list li:hover {
-    border-color: var(--yellow);
+.about-list li:hover { border-color: var(--yellow); transform: translateY(-2px); }
+
+.about-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 1px;
+    background: var(--yellow);
+    box-shadow: 0 0 6px rgba(255, 210, 63, .6);
+    flex-shrink: 0;
 }
 
 /* FOOTER */
 .site-footer {
     border-top: 1px solid var(--border);
     background: rgba(21, 12, 6, .95);
-    padding: 40px 0 30px;
+    padding: 42px 0 30px;
     margin-top: 40px;
     position: relative;
 }
@@ -1026,18 +1835,9 @@ img { max-width: 100%; display: block; }
     gap: 8px;
 }
 
-.footer-copyright {
-    color: var(--muted);
-    font-size: 13px;
-}
-
+.footer-copyright { color: var(--muted); font-size: 13px; line-height: 1.8; }
 .footer-contact { text-align: left; }
-
-.footer-contact p {
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 8px;
-}
+.footer-contact p { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
 
 .footer-rubika {
     display: inline-flex;
@@ -1046,25 +1846,366 @@ img { max-width: 100%; display: block; }
     font-weight: 900;
     color: #1a0e00;
     font-size: 15px;
-    padding: 9px 18px;
-    border-radius: 10px;
+    padding: 10px 20px;
+    border-radius: 11px;
     background: var(--grad-btn);
-    transition: transform .2s;
-    box-shadow: 0 6px 18px rgba(255, 90, 0, .35);
+    transition: transform .28s var(--ease-smooth), box-shadow .3s;
+    box-shadow: 0 8px 20px rgba(255, 90, 0, .36);
     direction: ltr;
 }
 
-.footer-rubika:hover {
-    transform: translateY(-2px);
+.footer-rubika:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255, 90, 0, .52); }
+
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .85);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .28s var(--ease-smooth);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+.modal-box {
+    background: linear-gradient(160deg, #1c1108, #120a04);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px 26px;
+    max-width: 460px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    transform: translate3d(0, 24px, 0) scale(.95);
+    transition: transform .4s var(--ease-spring);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .75);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-overlay.active .modal-box { transform: translate3d(0, 0, 0) scale(1); }
+
+.modal-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--orange), var(--red));
+    border-radius: 24px 24px 0 0;
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 90, 0, .18);
+    border: 1px solid rgba(255, 90, 0, .35);
+    color: #ffb8a0;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .25s, color .25s, transform .35s var(--ease-smooth);
+    z-index: 10;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-close:hover { background: var(--red); color: #fff; transform: rotate(90deg); }
+
+.modal-icon-img {
+    width: 64px; height: 64px;
+    image-rendering: pixelated;
+    margin: 0 auto 12px;
+    display: block;
+    filter: drop-shadow(0 0 14px rgba(255, 184, 0, .55));
+}
+
+.modal-title {
+    font-size: 21px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.modal-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.9; }
+
+/* Order summary in modal */
+.order-summary {
+    background: rgba(13, 8, 5, .7);
+    border: 1px dashed rgba(192, 132, 252, .4);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    text-align: right;
+}
+
+.order-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 5px 0;
+}
+
+.order-summary-row + .order-summary-row { border-top: 1px dashed rgba(255, 184, 0, .15); }
+
+.order-summary-label { color: var(--muted); }
+.order-summary-value { color: var(--text); font-weight: 800; }
+.order-summary-value.price { color: var(--yellow); font-weight: 900; }
+.order-summary-value.price-discount { color: var(--green-soft); font-weight: 900; }
+
+.order-summary-value.size-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(192, 132, 252, .18);
+    border: 1px solid rgba(192, 132, 252, .45);
+    color: var(--purple-soft);
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    direction: ltr;
+    font-variant-numeric: tabular-nums;
+}
+
+.pay-methods { display: flex; flex-direction: column; gap: 12px; }
+
+.pay-method {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(13, 8, 5, .7);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: right;
+    color: var(--text);
+    transition: border-color .28s, transform .28s var(--ease-smooth), background .28s;
+    width: 100%;
+    will-change: transform;
+}
+
+.pay-method:hover {
+    border-color: var(--yellow);
+    transform: translateY(-2px);
+    background: rgba(28, 17, 8, .85);
+}
+
+.pay-method-icon {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: rgba(255, 184, 0, .12);
+    border: 1px solid rgba(255, 184, 0, .3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pay-method-icon img { width: 30px; height: 30px; image-rendering: pixelated; object-fit: contain; }
+
+.pay-method-info { flex: 1; }
+.pay-method-name { font-size: 15.5px; font-weight: 900; color: var(--yellow); margin-bottom: 2px; }
+.pay-method-desc { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+.pay-method-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: transform .28s var(--ease-smooth), color .28s;
+}
+
+.pay-method:hover .pay-method-arrow { color: var(--yellow); transform: translateX(-4px); }
+
+.bank-warning {
+    background: rgba(255, 45, 0, .1);
+    border: 1px solid rgba(255, 45, 0, .45);
+    border-radius: 14px;
+    padding: 22px 18px;
+    margin: 18px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.bank-warning-icon {
+    width: 56px; height: 56px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 16px rgba(255, 45, 0, .6));
+    animation: foxBounce 2s ease-in-out infinite;
+}
+
+.bank-warning-text { font-size: 14.5px; font-weight: 800; color: #ff9b7a; line-height: 1.9; }
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: 11px;
+    background: rgba(28, 17, 8, .85);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color .25s, color .25s, transform .25s var(--ease-smooth);
+}
+
+.btn-back:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-2px); }
+
+.modal-items { display: flex; flex-direction: column; gap: 12px; }
+
+.modal-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(13, 8, 5, .7);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    transition: border-color .25s, transform .25s var(--ease-smooth), background .25s;
+    text-align: right;
+    text-decoration: none;
+    color: inherit;
+    will-change: transform;
+}
+
+.modal-item:hover {
+    border-color: var(--yellow);
+    transform: translateX(-4px);
+    background: rgba(28, 17, 8, .8);
+}
+
+.modal-item-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    background: rgba(255, 184, 0, .12);
+    border: 1px solid rgba(255, 184, 0, .3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.modal-item-icon img { width: 30px; height: 30px; image-rendering: pixelated; object-fit: contain; }
+
+.modal-item-info { flex: 1; min-width: 0; }
+.modal-item-label { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+
+.modal-item-value {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--yellow);
+    direction: ltr;
+    text-align: right;
+}
+
+/* STICKY MOBILE CTA */
+.sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 90;
+    padding: 10px 14px;
+    background: linear-gradient(180deg, transparent, rgba(13, 8, 5, .98) 35%);
+    display: none;
+    pointer-events: none;
+    transform: translate3d(0, 100%, 0);
+    transition: transform .4s var(--ease-smooth);
+}
+
+.sticky-cta.visible { transform: translate3d(0, 0, 0); pointer-events: auto; }
+
+.sticky-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 15px;
+    background: var(--grad-btn);
+    color: #1a0e00;
+    font-weight: 900;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    box-shadow: 0 12px 30px rgba(255, 90, 0, .55), 0 0 0 1px rgba(255, 184, 0, .3) inset;
+    animation: stickyPulse 2.4s ease-in-out infinite;
+}
+
+.sticky-cta-btn img { width: 22px; height: 22px; image-rendering: pixelated; }
+
+@keyframes stickyPulse {
+    0%, 100% { box-shadow: 0 12px 30px rgba(255, 90, 0, .55), 0 0 0 1px rgba(255, 184, 0, .3) inset; }
+    50%      { box-shadow: 0 12px 40px rgba(255, 140, 0, .8), 0 0 0 2px rgba(255, 210, 63, .5) inset; }
+}
+
+@media (max-width: 760px) {
+    .sticky-cta { display: block; }
+    body { padding-bottom: 84px; }
+}
+
+/* CARD ENTRANCE */
+.js-ready .product-card,
+.js-ready .log-item,
+.js-ready .trust-card,
+.js-ready .featured-box {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition: opacity .55s var(--ease-smooth), transform .55s var(--ease-smooth), border-color .3s, box-shadow .3s;
+}
+
+.js-ready .product-card.visible,
+.js-ready .log-item.visible,
+.js-ready .trust-card.visible,
+.js-ready .featured-box.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.js-ready .product-card.visible:hover { transform: translate3d(0, -7px, 0); }
+.js-ready .log-item.visible:hover { transform: translate3d(-4px, 0, 0); }
+.js-ready .trust-card.visible:hover { transform: translate3d(0, -3px, 0); }
+
 /* RESPONSIVE */
+@media (max-width: 900px) {
+    .featured-box { grid-template-columns: 1fr; gap: 20px; }
+    .featured-media { aspect-ratio: 16/10; }
+}
+
 @media (max-width: 760px) {
     .menu-toggle { display: flex; }
 
     .nav {
         position: absolute;
-        top: 66px;
+        top: 68px;
         right: 12px;
         left: 12px;
         background: rgba(13, 8, 5, .99);
@@ -1076,71 +2217,64 @@ img { max-width: 100%; display: block; }
         transform: translate3d(0, -12px, 0);
         opacity: 0;
         pointer-events: none;
-        transition: transform .25s, opacity .25s;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, .6);
+        transition: transform .28s var(--ease-smooth), opacity .28s;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .65);
     }
 
-    .nav.open {
-        transform: translate3d(0, 0, 0);
-        opacity: 1;
-        pointer-events: auto;
-    }
+    .nav.open { transform: translate3d(0, 0, 0); opacity: 1; pointer-events: auto; }
 
-    .nav-link {
-        padding: 13px;
-        text-align: center;
-        justify-content: center;
-    }
+    .nav-link { padding: 13px; text-align: center; justify-content: center; }
 
-    .live-inner { gap: 10px; }
+    .live-inner { gap: 9px; }
     .live-ip-mini { display: none; }
 
-    .player-badge {
-        font-size: 11.5px;
-        padding: 4px 10px 4px 6px;
-    }
-
+    .player-badge { font-size: 11.5px; padding: 4px 10px 4px 6px; }
     .badge-icon { width: 16px; height: 16px; }
 
-    .hero { padding: 45px 0 40px; }
-    .server-card { padding: 20px 16px; }
+    .hero { padding: 48px 0 40px; }
+    .hero-title .outline { letter-spacing: 5px; }
 
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
+    .server-card { padding: 22px 16px; }
+
+    .products-grid { grid-template-columns: 1fr; gap: 16px; }
 
     .product-card:hover { transform: none; }
+    .js-ready .product-card.visible:hover { transform: none; }
     .product-card:hover .product-image img { transform: none; }
 
-    .about-card { padding: 22px 18px; }
+    .about-card { padding: 24px 18px; }
 
-    .footer-inner {
-        flex-direction: column;
-        text-align: center;
-    }
-
+    .footer-inner { flex-direction: column; text-align: center; }
     .footer-contact { text-align: center; }
 
-    .section-header { margin-bottom: 30px; }
+    .section-header { margin-bottom: 32px; }
 
-    .modal-box { padding: 28px 18px; }
-}
+    .modal-box { padding: 30px 18px; }
 
-/* ورود کارت‌ها */
-.product-card {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-    transition: opacity .4s ease, transform .4s ease, border-color .25s ease, box-shadow .25s ease;
-}
+    .stats-row { gap: 10px; margin-top: 36px; }
+    .stat-value { font-size: 22px; }
 
-.product-card.visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-}
+    .changelog-wrap { padding-right: 22px; }
+    .changelog-wrap::before { right: 6px; }
+    .log-item::after { right: -19px; }
 
-.product-card.visible:hover {
-    transform: translate3d(0, -6px, 0);
+    .season-inner { padding: 10px 44px; gap: 8px; }
+    .season-text { font-size: 12.5px; }
+    .season-cta { font-size: 10.5px; padding: 4px 10px; }
+
+    .support-card { padding: 26px 18px; }
+    .support-call { font-size: 18px; padding: 13px 20px; }
+
+    .discount-box { padding: 18px 16px; }
+    .discount-row { flex-direction: column; }
+    .discount-btn { width: 100%; }
+
+    .trust-strip { grid-template-columns: 1fr; }
+    .featured-title { font-size: 20px; }
+
+    .size-btn { flex: 1 1 calc(50% - 3px); }
+    .quantity-display .qty-num { font-size: 19px; }
+    .quantity-display .qty-price { font-size: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1154,20 +2288,38 @@ img { max-width: 100%; display: block; }
 </head>
 <body>
 
+<!-- BACKGROUND -->
+<div class="aurora"></div>
 <div class="bg-grid"></div>
 <div class="particles">
-    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+</div>
+
+
+<!-- SEASON BANNER -->
+<div class="season-banner" id="seasonBanner">
+    <div class="container season-inner">
+        <div class="season-pulse"><span class="season-dot"></span></div>
+        <div class="season-text">
+            <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt="" class="mc-icon"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+            <span><strong>سیزن سوم FoxNova</strong> رسماً آغاز شد — دنیایی کاملاً جدید در انتظار توست!</span>
+        </div>
+        <span class="season-cta">همین حالا وارد شو</span>
+        <button type="button" class="season-close" id="seasonClose" aria-label="بستن">✕</button>
+    </div>
 </div>
 
 
 <!-- HEADER -->
-<header class="site-header">
+<header class="site-header" id="siteHeader">
     <div class="container header-inner">
 
         <a href="#home" class="logo">
-            <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png" 
+            <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png"
                  alt="Fox" class="logo-icon"
-                 onerror="this.outerHTML='<span style=&quot;font-size:30px&quot;>🦊</span>'">
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:28px&quot;>◆</span>'">
             <span class="logo-text">FoxNova</span>
         </a>
 
@@ -1175,8 +2327,9 @@ img { max-width: 100%; display: block; }
             <a href="#home" class="nav-link">خانه</a>
             <a href="#server" class="nav-link">سرور</a>
             <a href="#shop" class="nav-link">فروشگاه</a>
+            <a href="#changelog" class="nav-link">تغییرات <span class="badge-new">NEW</span></a>
+            <a href="#support" class="nav-link">پشتیبانی</a>
             <a href="#about" class="nav-link">درباره</a>
-            <button type="button" class="nav-link" data-open-modal="supportModal">پشتیبانی</button>
         </nav>
 
         <button class="menu-toggle" id="menuToggle" aria-label="منو">
@@ -1202,9 +2355,12 @@ img { max-width: 100%; display: block; }
         </div>
 
         <div class="live-ip-mini" id="liveIpMini" title="برای کپی کلیک کن">
-            <span>🌐</span>
+            <img src="https://minecraft.wiki/images/Compass_JE3_BE3.png" alt="" style="width:16px;height:16px;image-rendering:pixelated;"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
             <span>217.18.90.4:19132</span>
         </div>
+
+        <button type="button" class="refresh-btn" id="refreshBtn" title="بروزرسانی وضعیت" aria-label="بروزرسانی">⟳</button>
 
         <div class="player-list-container" id="playerListContainer"></div>
 
@@ -1215,22 +2371,88 @@ img { max-width: 100%; display: block; }
 <!-- HERO -->
 <section class="hero" id="home">
     <div class="container">
-        <div class="hero-badge">SMP Anarchy — بدون قانون</div>
+
+        <div class="hero-greeting">
+            <img id="greetIcon" class="greet-icon"
+                 src="https://minecraft.wiki/images/Clock_JE3_BE3.png"
+                 alt=""
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+            <span id="greetText">سلام!</span>
+            <span class="greet-time" id="greetTime">--:--</span>
+        </div>
+
+        <div class="hero-badge">
+            <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt="" class="mc-icon"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+            <span>سیزن سوم FoxNova آغاز شد!</span>
+        </div>
 
         <h1 class="hero-title">
             <span class="gradient-text">FoxNova</span>
-            <span class="outline">MINECRAFT SERVER</span>
+            <span class="outline">SEASON III</span>
         </h1>
 
         <p class="hero-subtitle">
-            سرور ماینکرافت فارسی با گیم‌مود <strong>SMP Anarchy</strong> — 
+            سرور ماینکرافت فارسی با گیم‌مود <strong>SMP Anarchy</strong> —
             پشتیبانی از همه نسخه‌های <strong>Java</strong> و <strong>Bedrock 1.21.50 تا 1.21.93</strong>
+            در <strong>سیزن سوم</strong> با نقشه و امکانات کاملاً جدید
         </p>
 
         <div class="hero-buttons">
-            <a href="#shop" class="btn btn-primary">ورود به فروشگاه</a>
-            <a href="#server" class="btn btn-outline">اطلاعات سرور</a>
+            <a href="#shop" class="btn btn-primary">
+                <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png" alt="" style="width:20px;height:20px;image-rendering:pixelated;"
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                ورود به فروشگاه
+            </a>
+            <a href="#changelog" class="btn btn-outline">
+                <img src="https://minecraft.wiki/images/Book_JE2_BE2.png" alt="" style="width:20px;height:20px;image-rendering:pixelated;"
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                تغییرات سیزن سوم
+            </a>
         </div>
+
+        <div class="trust-bar">
+            <div class="trust-item">
+                <img src="https://minecraft.wiki/images/Beacon_JE3_BE2.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <span>تحویل فوری</span>
+            </div>
+            <div class="trust-item">
+                <img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <span>پرداخت امن</span>
+            </div>
+            <div class="trust-item">
+                <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <span>پشتیبانی ۲۴/۷</span>
+            </div>
+            <div class="trust-item">
+                <img src="https://minecraft.wiki/images/Diamond_JE3_BE3.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <span>تضمین کیفیت</span>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-value" id="statPlayers">—</div>
+                <div class="stat-label">پلیر آنلاین</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">III</div>
+                <div class="stat-label">سیزن فعلی</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">Anarchy</div>
+                <div class="stat-label">گیم مود</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">آپ‌تایم سرور</div>
+            </div>
+        </div>
+
     </div>
 </section>
 
@@ -1241,10 +2463,10 @@ img { max-width: 100%; display: block; }
         <div class="server-card">
 
             <div class="server-card-title">
-                <img src="https://minecraft.wiki/images/Compass_JE3_BE3.png" 
+                <img src="https://minecraft.wiki/images/Compass_JE3_BE3.png"
                      alt="" class="mc-icon"
-                     onerror="this.outerHTML='🎮'">
-                اطلاعات سرور FoxNova
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                اطلاعات سرور FoxNova — سیزن سوم
             </div>
 
             <div class="server-grid">
@@ -1255,6 +2477,11 @@ img { max-width: 100%; display: block; }
                         <span class="server-item-value highlight ltr" id="serverIp">217.18.90.4:19132</span>
                         <button class="copy-btn" id="copyIpBtn" type="button">کپی</button>
                     </div>
+                </div>
+
+                <div class="server-item">
+                    <div class="server-item-label">سیزن فعلی</div>
+                    <div class="server-item-value highlight">سیزن سوم (Season III)</div>
                 </div>
 
                 <div class="server-item">
@@ -1278,8 +2505,8 @@ img { max-width: 100%; display: block; }
                 </div>
 
                 <div class="server-item">
-                    <div class="server-item-label">پشتیبانی</div>
-                    <div class="server-item-value">روبیکا: @LagMaster</div>
+                    <div class="server-item-label">پشتیبانی ۲۴ ساعته</div>
+                    <div class="server-item-value">۰۹۱۴۸۱۴۰۴۶۶</div>
                 </div>
 
             </div>
@@ -1294,70 +2521,500 @@ img { max-width: 100%; display: block; }
 
         <div class="section-header">
             <div class="section-tag">
-                <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png" 
-                     alt="" class="mc-icon"
-                     onerror="this.outerHTML='💎'">
-                SHOP
+                <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png"
+                     alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                SHOP — SEASON III
             </div>
             <h2 class="section-title">فروشگاه <span class="gradient-text">FoxNova</span></h2>
             <p class="section-subtitle">کیت مورد نظرت رو انتخاب کن و روی خرید بزن</p>
         </div>
 
-        <!-- ▼▼▼ PRODUCTS: START ▼▼▼ -->
-        <div class="products-grid">
+        <!-- Trust strip -->
+        <div class="trust-strip">
+            <div class="trust-card">
+                <div class="trust-card-icon">
+                    <img src="https://minecraft.wiki/images/Beacon_JE3_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                </div>
+                <div class="trust-card-info">
+                    <div class="trust-card-title">تحویل فوری</div>
+                    <div class="trust-card-desc">کمتر از ۵ دقیقه</div>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-card-icon">
+                    <img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                </div>
+                <div class="trust-card-info">
+                    <div class="trust-card-title">پرداخت مطمئن</div>
+                    <div class="trust-card-desc">با پشتیبانی مستقیم</div>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-card-icon">
+                    <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                </div>
+                <div class="trust-card-info">
+                    <div class="trust-card-title">پشتیبانی ۲۴/۷</div>
+                    <div class="trust-card-desc">هر ساعت از شبانه‌روز</div>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-card-icon">
+                    <img src="https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                </div>
+                <div class="trust-card-info">
+                    <div class="trust-card-title">تضمین بازگشت</div>
+                    <div class="trust-card-desc">در صورت مشکل</div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Featured product -->
+        <div class="featured-box">
+            <div class="featured-media">
+                <div class="featured-ribbon">
+                    <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    پیشنهاد ویژه
+                </div>
+                <img src="https://cdn.imgurl.ir/uploads/k97948_Untitled48_20260916123322.png"
+                     alt="کیت گاد"
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:60px&quot;>◆</span>'">
+            </div>
+            <div class="featured-info">
+                <div class="featured-label">
+                    <img src="https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" alt=""
+                         style="width:14px;height:14px;image-rendering:pixelated;"
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    پرفروش‌ترین محصول سیزن
+                </div>
+                <h3 class="featured-title">کیت گاد — فول انچنت + رنک VIP</h3>
+                <p class="featured-desc">
+                    کامل‌ترین کیت سرور با تمام انچنت‌های سطح بالا، آرمور ندرایت و
+                    <strong>رنک VIP رایگان</strong> برای همیشه. تنها کیتی که همه پلیرهای حرفه‌ای
+                    برای شروع سیزن سوم انتخاب می‌کنند.
+                </p>
+                <div class="featured-perks">
+                    <span class="featured-perk">
+                        <img src="https://minecraft.wiki/images/Diamond_JE3_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        فول انچنت
+                    </span>
+                    <span class="featured-perk">
+                        <img src="https://minecraft.wiki/images/Netherite_Ingot_JE1_BE2.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        آرمور ندرایت
+                    </span>
+                    <span class="featured-perk">
+                        <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        رنک VIP دائمی
+                    </span>
+                </div>
+                <button type="button" class="featured-buy" data-open-modal="buyModal"
+                        data-product-name="کیت گاد"
+                        data-price="1800000">
+                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    همین حالا سفارش بده
+                </button>
+            </div>
+        </div>
+
+        <!-- Discount box -->
+        <div class="discount-box" id="discountBox">
+            <div class="discount-title">
+                <img src="https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <span>کد تخفیف داری؟</span>
+            </div>
+            <p class="discount-hint">
+                کد تخفیف ویژه خود را در کادر زیر وارد کنید و از تخفیف روی همه محصولات بهره‌مند شوید.
+            </p>
+            <div class="discount-row">
+                <input type="text"
+                       class="discount-input"
+                       id="discountInput"
+                       placeholder="کد تخفیف را وارد کنید..."
+                       autocomplete="off"
+                       spellcheck="false">
+                <button type="button" class="discount-btn" id="discountBtn">اعمال کد</button>
+            </div>
+            <div class="discount-msg" id="discountMsg"></div>
+        </div>
+
+        <!-- ================================================================
+             PRODUCTS GRID
+             ================================================================ -->
+        <div class="products-grid" id="productsGrid">
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✦✦✦ اولین محصول: ساخت استش و بیس ✦✦✦
+                 
+                 📷 عکس: برای تغییر عکس، فقط آدرس داخل src را عوض کن
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="product-card is-new" id="stashBaseCard">
+                <div class="product-image">
+                    <div class="product-tags-left">
+                        <span class="product-tag tag-new">
+                            <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
+                                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                            جدید
+                        </span>
+                    </div>
+                    <!-- ▼▼▼ لینک عکس استش و بیس را اینجا بگذار ▼▼▼ -->
+                    <img src="https://cdn.imgurl.ir/uploads/p906822_Untitled48_20260916123322.png"
+                         alt="ساخت استش و بیس" loading="lazy"
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
+                    <!-- ▲▲▲ لینک عکس استش و بیس را اینجا بگذار ▲▲▲ -->
+                </div>
+                <h3 class="product-name">
+                    ساخت استش و بیس
+                    <span class="product-tag tag-new" style="font-size:9.5px;padding:2px 8px;">
+                        <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        NEW
+                    </span>
+                </h3>
+                <p class="product-caption">ساخت استش و بیس اختصاصی با اندازه دلخواه — کاملاً مخفی و امن</p>
+
+                <!-- SIZE SELECTOR -->
+                <div class="size-selector" data-size-selector>
+                    <div class="size-selector-label">
+                        <img src="https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        اندازه را انتخاب کنید
+                    </div>
+                    <button type="button" class="size-btn active" data-size="20x20" data-price="300000">
+                        20×20
+                        <span class="size-price-hint">300K</span>
+                    </button>
+                    <button type="button" class="size-btn" data-size="40x40" data-price="800000">
+                        40×40
+                        <span class="size-price-hint">800K</span>
+                    </button>
+                    <button type="button" class="size-btn" data-size="60x60" data-price="1800000">
+                        60×60
+                        <span class="size-price-hint">1.8M</span>
+                    </button>
+                    <button type="button" class="size-btn" data-size="80x80" data-price="3500000">
+                        80×80
+                        <span class="size-price-hint">3.5M</span>
+                    </button>
+                    <button type="button" class="size-btn" data-size="100x100" data-price="6000000">
+                        100×100
+                        <span class="size-price-hint">6M</span>
+                    </button>
+                </div>
+
+                <div class="product-price" data-price="300000" id="stashPriceBox">
+                    <span class="price-value" id="stashPriceValue">300,000 ریال</span>
+                </div>
+
+                <button type="button" class="buy-button" data-open-modal="buyModal"
+                        data-product-name="ساخت استش و بیس"
+                        data-size="20x20"
+                        data-price="300000">
+                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    خرید
+                </button>
+            </div>
+
+            <!-- کیت گاد -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://cdn.imgurl.ir/uploads/k97948_Untitled48_20260916123322.png" 
+                    <div class="product-tags-left">
+                        <span class="product-tag tag-hot">پرفروش</span>
+                    </div>
+                    <img src="https://cdn.imgurl.ir/uploads/k97948_Untitled48_20260916123322.png"
                          alt="کیت گاد" loading="lazy"
-                         onerror="this.parentElement.classList.add('no-img'); this.remove();">
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
                 </div>
                 <h3 class="product-name">کیت گاد</h3>
-                <p class="product-caption">کیت فول انچنت به همراه رنکVIP</p>
-                <div class="product-price">1,800,000 ریال</div>
-                <button type="button" class="buy-button" data-open-modal="buyModal">خرید</button>
+                <p class="product-caption">کیت فول انچنت به همراه رنک VIP</p>
+                <div class="product-price" data-price="1800000">
+                    <span class="price-value">1,800,000 ریال</span>
+                </div>
+                <button type="button" class="buy-button" data-open-modal="buyModal"
+                        data-product-name="کیت گاد"
+                        data-price="1800000">
+                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    خرید
+                </button>
             </div>
-                    <div class="products-grid">
 
+            <!-- کیت دایمندی -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://cdn.imgurl.ir/uploads/m10702_Untitled48_20260917120247.png" 
+                    <div class="product-tags-left">
+                        <span class="product-tag tag-vip">ویژه</span>
+                    </div>
+                    <img src="https://cdn.imgurl.ir/uploads/m10702_Untitled48_20260917120247.png"
                          alt="کیت دایمندی" loading="lazy"
-                         onerror="this.parentElement.classList.add('no-img'); this.remove();">
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
                 </div>
                 <h3 class="product-name">کیت دایمندی</h3>
                 <p class="product-caption">کیت دایمندی فول اینچنت + کلنک آمتیست سی روزه</p>
-                <div class="product-price">900,000 ریال</div>
-                <button type="button" class="buy-button" data-open-modal="buyModal">خرید</button>
+                <div class="product-price" data-price="900000">
+                    <span class="price-value">900,000 ریال</span>
+                </div>
+                <button type="button" class="buy-button" data-open-modal="buyModal"
+                        data-product-name="کیت دایمندی"
+                        data-price="900000">
+                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    خرید
+                </button>
             </div>
-                    <div class="products-grid">
 
+            <!-- ساخت مپ آرت -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://cdn.imgurl.ir/uploads/x1838_Screenshot_2026-09-17-16-19-27-846_com.mojang.mine1215007.jpg" 
+                    <img src="https://cdn.imgurl.ir/uploads/x1838_Screenshot_2026-09-17-16-19-27-846_com.mojang.mine1215007.jpg"
                          alt="ساخت مپ آرت" loading="lazy"
-                         onerror="this.parentElement.classList.add('no-img'); this.remove();">
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
                 </div>
                 <h3 class="product-name">ساخت مپ آرت</h3>
-                <p class="product-caption"> ساخت مپ آرت با عکس دلخواه</p>
-                <div class="product-price">300,000 ریال</div>
-                <button type="button" class="buy-button" data-open-modal="buyModal">خرید</button>
+                <p class="product-caption">ساخت مپ آرت با عکس دلخواه</p>
+                <div class="product-price" data-price="300000">
+                    <span class="price-value">300,000 ریال</span>
+                </div>
+                <button type="button" class="buy-button" data-open-modal="buyModal"
+                        data-product-name="ساخت مپ آرت"
+                        data-price="300000">
+                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    خرید
+                </button>
             </div>
-                    <div class="products-grid">
 
-            <div class="product-card">
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✦✦✦ هر میل پول سرور — با اسلایدر انتخاب مقدار ✦✦✦
+                 
+                 ⚙️ برای تغییر بازه یا قیمت، فقط مقادیر زیر را ویرایش کن:
+                    - min="1"     : حداقل مقدار (میلیون)
+                    - max="500"   : حداکثر مقدار (میلیون)
+                    - value="10"  : مقدار پیش‌فرض
+                    - data-price-per-unit="50000" : قیمت هر میلیون به ریال
+                 ═══════════════════════════════════════════════════════════ -->
+            <div class="product-card" id="moneyCard">
                 <div class="product-image">
-                    <img src="https://cdn.imgurl.ir/uploads/c76020_1061777-----.jpg" 
+                    <img src="https://cdn.imgurl.ir/uploads/c76020_1061777-----.jpg"
                          alt="هر میل پول سرور" loading="lazy"
-                         onerror="this.parentElement.classList.add('no-img'); this.remove();">
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
                 </div>
                 <h3 class="product-name">هر میل پول سرور</h3>
-                <p class="product-caption">دریافت پول سرور ، برای معامله و خرید در بازی</p>
-                <div class="product-price"> 100,000 ریال</div>
-                <button type="button" class="buy-button" data-open-modal="buyModal">خرید</button>
+                <p class="product-caption">مقدار دلخواه پول سرور را انتخاب کن — قیمت به‌صورت لحظه‌ای محاسبه می‌شود</p>
+
+                <!-- QUANTITY SLIDER -->
+                <div class="quantity-block"
+                     data-slider
+                     data-price-per-unit="50000">
+                    <div class="quantity-display">
+                        <span class="qty-num" id="moneyQty">10</span><span class="qty-unit">m</span>
+                        <span class="qty-eq">=</span>
+                        <span class="qty-price" id="moneyLivePrice">500,000 ریال</span>
+                    </div>
+                    <input type="range"
+                           class="range-slider"
+                           id="moneySlider"
+                           min="1"
+                           max="500"
+                           value="10"
+                           step="1">
+                    <div class="range-labels">
+                        <span>1m</span>
+                        <span>500m</span>
+                    </div>
+                </div>
+
+                <div class="product-price" data-price="500000" id="moneyPriceBox" style="display:none;">
+                    <span class="price-value" id="moneyPriceValue">500,000 ریال</span>
+                </div>
+
+                <button type="button" class="buy-button" data-open-modal="buyModal"
+                        data-product-name="هر میل پول سرور"
+                        data-size="10m"
+                        data-price="500000">
+                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    خرید
+                </button>
             </div>
 
-        <!-- ▲▲▲ PRODUCTS: END ▲▲▲ -->
+        </div>
+
+    </div>
+</section>
+
+
+<!-- CHANGELOG -->
+<section class="changelog-section" id="changelog">
+    <div class="container">
+
+        <div class="section-header">
+            <div class="section-tag">
+                <img src="https://minecraft.wiki/images/Book_JE2_BE2.png"
+                     alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                CHANGELOG
+            </div>
+            <h2 class="section-title">تغییرات <span class="gradient-text">FoxNova</span></h2>
+            <p class="section-subtitle">آخرین اخبار و تغییرات سرور — هر سیزن، یک دنیای جدید</p>
+        </div>
+
+        <div class="changelog-wrap">
+
+            <div class="log-item">
+                <div class="log-head">
+                    <span class="log-version new-feature">
+                        <img src="https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        قابلیت جدید
+                    </span>
+                    <span class="log-date">2026/09/18</span>
+                </div>
+                <h3 class="log-title">افزودن «ساخت استش و بیس» با اندازه‌بندی دلخواه</h3>
+                <div class="log-body">
+                    قابلیت جدید و پرطرفدار ساخت استش و بیس اختصاصی به فروشگاه FoxNova اضافه شد!
+                    می‌تونید اندازه دلخواه خودتون رو از بین ۵ سایز مختلف انتخاب کنید:
+                    <ul>
+                        <li><strong>20×20</strong> — برای بیس‌های کوچک و مخفی</li>
+                        <li><strong>40×40</strong> — برای بیس‌های متوسط و استش‌های استاندارد</li>
+                        <li><strong>60×60</strong> — برای بیس‌های بزرگ با فضای ذخیره‌سازی بالا</li>
+                        <li><strong>80×80</strong> — برای بیس‌های حرفه‌ای و چندطبقه</li>
+                        <li><strong>100×100</strong> — برای استش‌های غول‌پیکر و کلن‌بیس</li>
+                    </ul>
+                    هر اندازه قیمت مخصوص به خودش رو داره و با انتخاب هر سایز، قیمت به‌صورت خودکار
+                    به‌روز میشه.
+                </div>
+                <div class="log-tags">
+                    <span class="log-tag tag-feature">قابلیت جدید</span>
+                    <span class="log-tag tag-new-c">جدید</span>
+                </div>
+            </div>
+
+            <div class="log-item">
+                <div class="log-head">
+                    <span class="log-version latest">
+                        <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        SEASON III
+                    </span>
+                    <span class="log-date">2026/09/18</span>
+                </div>
+                <h3 class="log-title">آغاز رسمی سیزن سوم!</h3>
+                <div class="log-body">
+                    سیزن سوم FoxNova با یک دنیای کاملاً جدید و امکانات تازه آغاز شد. از این لحظه
+                    همه چیز از صفر شروع می‌شود — بیایید و سیزن جدید را با هم بسازیم!
+                    <ul>
+                        <li>نقشه کاملاً جدید با بیوم‌های تازه و ساختارهای مخفی</li>
+                        <li>سیستم اقتصاد جدید و متعادل‌تر</li>
+                        <li>کیت‌های سیزن سوم با قابلیت‌های ویژه</li>
+                        <li>ایونت‌های هفتگی با جوایز اختصاصی</li>
+                    </ul>
+                </div>
+                <div class="log-tags">
+                    <span class="log-tag tag-new-c">جدید</span>
+                    <span class="log-tag tag-update">آپدیت بزرگ</span>
+                    <span class="log-tag tag-event">ایونت</span>
+                </div>
+            </div>
+
+            <div class="log-item">
+                <div class="log-head">
+                    <span class="log-version">v3.0.0</span>
+                    <span class="log-date">2026/09/17</span>
+                </div>
+                <h3 class="log-title">آپدیت هسته سرور</h3>
+                <div class="log-body">
+                    هسته سرور به آخرین نسخه ارتقا پیدا کرد و بهینه‌سازی‌های مهمی انجام شد.
+                    <ul>
+                        <li>پشتیبانی از <strong>Bedrock 1.21.50 تا 1.21.93</strong></li>
+                        <li>پشتیبانی از <strong>همه نسخه‌های Java</strong></li>
+                        <li>کاهش لگ و بهبود پینگ در ساعات شلوغی</li>
+                        <li>رفع باگ‌های گزارش‌شده توسط پلیرها</li>
+                    </ul>
+                </div>
+                <div class="log-tags">
+                    <span class="log-tag tag-fix">رفع باگ</span>
+                    <span class="log-tag tag-update">آپدیت</span>
+                </div>
+            </div>
+
+            <div class="log-item">
+                <div class="log-head">
+                    <span class="log-version">
+                        <img src="https://minecraft.wiki/images/Golden_Apple_JE2_BE2.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        هدیه
+                    </span>
+                    <span class="log-date">2026/09/16</span>
+                </div>
+                <h3 class="log-title">هدیه ورود به سیزن سوم</h3>
+                <div class="log-body">
+                    به مناسبت آغاز سیزن سوم، یک هدیه ویژه برای همه پلیرها فعال شد.
+                    <ul>
+                        <li>کیت شروع رایگان برای همه پلیرهای جدید</li>
+                        <li>۲ برابر پول سرور در ۷ روز اول</li>
+                        <li>دسترسی به ایونت افتتاحیه</li>
+                    </ul>
+                </div>
+                <div class="log-tags">
+                    <span class="log-tag tag-event">ایونت</span>
+                    <span class="log-tag tag-new-c">جدید</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- SUPPORT -->
+<section class="support-section" id="support">
+    <div class="container">
+
+        <div class="section-header">
+            <div class="section-tag">
+                <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png"
+                     alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                SUPPORT 24/7
+            </div>
+            <h2 class="section-title">پشتیبانی <span class="gradient-text">۲۴ ساعته</span></h2>
+            <p class="section-subtitle">هر ساعتی از شبانه‌روز، ما در کنار تو هستیم</p>
+        </div>
+
+        <div class="support-card">
+            <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt="" class="support-icon"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:60px&quot;>◆</span>'">
+            <h3 class="support-title">۲۴ ساعته در خدمتیم</h3>
+            <p class="support-desc">
+                تیم پشتیبانی FoxNova <strong>۲۴ ساعته</strong> آماده پاسخگویی به سوالات، مشکلات و درخواست‌های شماست.
+                می‌تونید هر ساعتی که خواستید به ما <strong>زنگ بزنید</strong> یا از طریق روبیکا پیام بدید.
+            </p>
+
+            <a href="tel:09148140466" class="support-call">
+                <img src="https://minecraft.wiki/images/Map_JE4_BE3.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <span>09148140466</span>
+            </a>
+
+            <div class="support-note">
+                <span class="dot-24h">آماده پاسخگویی ۲۴/۷</span>
+                <span>|</span>
+                <span>روبیکا: <strong style="color:#ffd23f">@LagMaster</strong></span>
+            </div>
+        </div>
 
     </div>
 </section>
@@ -1369,9 +3026,9 @@ img { max-width: 100%; display: block; }
 
         <div class="section-header">
             <div class="section-tag">
-                <img src="https://minecraft.wiki/images/Grass_Block_JE7_BE6.png" 
-                     alt="" class="mc-icon"
-                     onerror="this.outerHTML='🌿'">
+                <img src="https://minecraft.wiki/images/Grass_Block_JE7_BE6.png"
+                     alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
                 ABOUT
             </div>
             <h2 class="section-title">درباره سرور <span class="gradient-text">FoxNova</span></h2>
@@ -1381,17 +3038,20 @@ img { max-width: 100%; display: block; }
             <p>
                 سرور <strong>FoxNova</strong> یک سرور ماینکرافت فارسی با گیم‌مود <strong>SMP Anarchy</strong> است
                 که از همه نسخه‌های <strong>Java</strong> و نسخه‌های <strong>Bedrock از 1.21.50 تا 1.21.93</strong>
-                پشتیبانی می‌کند. در Anarchy هیچ قانونی وجود ندارد — هر کاری دوست داری می‌تونی بکنی،
+                پشتیبانی می‌کند. در <strong>سیزن سوم</strong>، دنیایی تازه با امکانات جدید، ایونت‌های متنوع
+                و اقتصاد پویا در انتظار شماست. در Anarchy هیچ قانونی وجود ندارد — هر کاری دوست داری می‌تونی بکنی،
                 فقط باید از خودت محافظت کنی!
             </p>
 
             <ul class="about-list">
+                <li>سیزن سوم با نقشه کاملاً جدید</li>
                 <li>گیم‌مود SMP Anarchy</li>
                 <li>بدون قانون — آزادی کامل</li>
                 <li>پشتیبانی از تمام نسخه‌های Java</li>
                 <li>پشتیبانی Bedrock 1.21.50 – 1.21.93</li>
                 <li>ایونت‌ها و جوایز هفتگی</li>
-                <li>پشتیبانی از طریق روبیکا</li>
+                <li>پشتیبانی ۲۴ ساعته از طریق روبیکا</li>
+                <li>آپ‌تایم ۲۴ ساعته</li>
             </ul>
         </div>
 
@@ -1405,12 +3065,12 @@ img { max-width: 100%; display: block; }
 
         <div class="footer-brand">
             <div class="footer-logo">
-                <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png" 
+                <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png"
                      alt="Fox" class="mc-icon"
-                     onerror="this.outerHTML='🦊'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
                 FoxNova
             </div>
-            <p class="footer-copyright">© 2026 FoxNova<br>تمامی حقوق محفوظ است.</p>
+            <p class="footer-copyright">© 2026 FoxNova — سیزن سوم<br>تمامی حقوق محفوظ است.</p>
         </div>
 
         <div class="footer-contact">
@@ -1424,46 +3084,145 @@ img { max-width: 100%; display: block; }
 </footer>
 
 
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta" id="stickyCta">
+    <button type="button" class="sticky-cta-btn" data-open-modal="buyModal">
+        <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
+             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+        خرید از فروشگاه FoxNova
+    </button>
+</div>
+
+
 <!-- MODAL — خرید -->
 <div class="modal-overlay" id="buyModal">
     <div class="modal-box">
 
         <button type="button" class="modal-close" data-close-modal aria-label="بستن">✕</button>
 
-        <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" 
-             alt="Chest" class="modal-icon-img"
-             onerror="this.outerHTML='<div style=&quot;font-size:54px;margin-bottom:12px&quot;>📦</div>'">
-
-        <h3 class="modal-title">خرید محصول</h3>
-        <p class="modal-subtitle">
-            برای خرید این محصول، از راه‌های زیر با ما در ارتباط باش 👇
-        </p>
-
-        <div class="modal-items">
-
-            <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="modal-item">
-                <div class="modal-item-icon">
-                    <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" 
-                         alt="" onerror="this.outerHTML='📩'">
-                </div>
-                <div class="modal-item-info">
-                    <div class="modal-item-label">آیدی روبیکا</div>
-                    <div class="modal-item-value">@LagMaster</div>
-                </div>
-            </a>
-
-            <a href="tel:09148140466" class="modal-item">
-                <div class="modal-item-icon">
-                    <img src="https://minecraft.wiki/images/Map_JE4_BE3.png" 
-                         alt="" onerror="this.outerHTML='📞'">
-                </div>
-                <div class="modal-item-info">
-                    <div class="modal-item-label">شماره تماس</div>
-                    <div class="modal-item-value">09148140466</div>
-                </div>
-            </a>
-
+        <div class="order-summary" id="orderSummary" style="display:none;">
+            <div class="order-summary-row">
+                <span class="order-summary-label">محصول:</span>
+                <span class="order-summary-value" id="summaryProduct">—</span>
+            </div>
+            <div class="order-summary-row" id="summarySizeRow" style="display:none;">
+                <span class="order-summary-label">مقدار / اندازه:</span>
+                <span class="order-summary-value size-tag" id="summarySize">—</span>
+            </div>
+            <div class="order-summary-row">
+                <span class="order-summary-label">قیمت:</span>
+                <span class="order-summary-value price" id="summaryPrice">—</span>
+            </div>
+            <div class="order-summary-row" id="summaryDiscountRow" style="display:none;">
+                <span class="order-summary-label">با تخفیف:</span>
+                <span class="order-summary-value price-discount" id="summaryDiscounted">—</span>
+            </div>
         </div>
+
+        <!-- View 1: انتخاب روش پرداخت -->
+        <div id="buyStep1">
+            <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png"
+                 alt="Chest" class="modal-icon-img"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
+
+            <h3 class="modal-title">خرید محصول</h3>
+            <p class="modal-subtitle">
+                روش پرداخت رو انتخاب کن
+            </p>
+
+            <div class="pay-methods">
+
+                <button type="button" class="pay-method" data-method="bank">
+                    <div class="pay-method-icon">
+                        <img src="https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    </div>
+                    <div class="pay-method-info">
+                        <div class="pay-method-name">خرید با درگاه بانکی</div>
+                        <div class="pay-method-desc">پرداخت آنلاین با کارت بانکی</div>
+                    </div>
+                    <span class="pay-method-arrow">‹</span>
+                </button>
+
+                <button type="button" class="pay-method" data-method="normal">
+                    <div class="pay-method-icon">
+                        <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    </div>
+                    <div class="pay-method-info">
+                        <div class="pay-method-name">خرید عادی</div>
+                        <div class="pay-method-desc">ارتباط مستقیم با پشتیبانی</div>
+                    </div>
+                    <span class="pay-method-arrow">‹</span>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- View 2: خطای درگاه بانکی -->
+        <div id="buyStepBank" style="display:none;">
+            <img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png"
+                 alt="" class="modal-icon-img"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
+            <h3 class="modal-title">درگاه بانکی</h3>
+            <p class="modal-subtitle">اطلاعیه مهم</p>
+
+            <div class="bank-warning">
+                <img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png"
+                     alt="" class="bank-warning-icon"
+                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:48px&quot;>◆</span>'">
+                <div class="bank-warning-text">
+                    درگاه بانکی متصل نمی‌باشد<br>
+                    لذا از پرداخت عادی استفاده کنید
+                </div>
+            </div>
+
+            <button type="button" class="btn-back" data-back-to="buyStep1">
+                ← بازگشت
+            </button>
+        </div>
+
+        <!-- View 3: خرید عادی -->
+        <div id="buyStepNormal" style="display:none;">
+            <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png"
+                 alt="" class="modal-icon-img"
+                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
+            <h3 class="modal-title">خرید عادی</h3>
+            <p class="modal-subtitle">
+                برای خرید این محصول، از راه‌های زیر با ما در ارتباط باش
+            </p>
+
+            <div class="modal-items">
+
+                <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="modal-item">
+                    <div class="modal-item-icon">
+                        <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png"
+                             alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    </div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-label">آیدی روبیکا</div>
+                        <div class="modal-item-value">@LagMaster</div>
+                    </div>
+                </a>
+
+                <a href="tel:09148140466" class="modal-item">
+                    <div class="modal-item-icon">
+                        <img src="https://minecraft.wiki/images/Map_JE4_BE3.png"
+                             alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    </div>
+                    <div class="modal-item-info">
+                        <div class="modal-item-label">شماره تماس (۲۴ ساعته)</div>
+                        <div class="modal-item-value">09148140466</div>
+                    </div>
+                </a>
+
+            </div>
+
+            <button type="button" class="btn-back" data-back-to="buyStep1" style="margin-top:18px;">
+                ← بازگشت
+            </button>
+        </div>
+
     </div>
 </div>
 
@@ -1474,36 +3233,36 @@ img { max-width: 100%; display: block; }
 
         <button type="button" class="modal-close" data-close-modal aria-label="بستن">✕</button>
 
-        <img src="https://minecraft.wiki/images/Book_JE2_BE2.png" 
+        <img src="https://minecraft.wiki/images/Book_JE2_BE2.png"
              alt="Book" class="modal-icon-img"
-             onerror="this.outerHTML='<div style=&quot;font-size:54px;margin-bottom:12px&quot;>💬</div>'">
+             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
 
-        <h3 class="modal-title">پشتیبانی FoxNova</h3>
+        <h3 class="modal-title">پشتیبانی ۲۴ ساعته</h3>
         <p class="modal-subtitle">
-            از راه‌های زیر می‌تونی با ما در ارتباط باشی 👇
+            هر ساعتی از شبانه‌روز در خدمتیم — زنگ بزن یا پیام بده
         </p>
 
         <div class="modal-items">
 
+            <a href="tel:09148140466" class="modal-item">
+                <div class="modal-item-icon">
+                    <img src="https://minecraft.wiki/images/Map_JE4_BE3.png"
+                         alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                </div>
+                <div class="modal-item-info">
+                    <div class="modal-item-label">شماره تماس (۲۴ ساعته)</div>
+                    <div class="modal-item-value">09148140466</div>
+                </div>
+            </a>
+
             <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="modal-item">
                 <div class="modal-item-icon">
-                    <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" 
-                         alt="" onerror="this.outerHTML='📩'">
+                    <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png"
+                         alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
                 </div>
                 <div class="modal-item-info">
                     <div class="modal-item-label">آیدی روبیکا</div>
                     <div class="modal-item-value">@LagMaster</div>
-                </div>
-            </a>
-
-            <a href="tel:09148140466" class="modal-item">
-                <div class="modal-item-icon">
-                    <img src="https://minecraft.wiki/images/Map_JE4_BE3.png" 
-                         alt="" onerror="this.outerHTML='📞'">
-                </div>
-                <div class="modal-item-info">
-                    <div class="modal-item-label">شماره تماس</div>
-                    <div class="modal-item-value">09148140466</div>
                 </div>
             </a>
 
@@ -1516,9 +3275,44 @@ img { max-width: 100%; display: block; }
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+    document.body.classList.add('js-ready');
+
+    /* ============================================
+       PRODUCT CONFIGS — قابل ویرایش
+       ============================================ */
+    const PRODUCT_CONFIGS = {
+        /* ساخت استش و بیس — انتخاب اندازه */
+        stashBase: {
+            more: true,
+            type: 'sizes',
+            sizes: [
+                { size: '20x20',   price: 300000   },
+                { size: '40x40',   price: 800000   },
+                { size: '60x60',   price: 1800000  },
+                { size: '80x80',   price: 3500000  },
+                { size: '100x100', price: 6000000  }
+            ]
+        },
+
+        /* هر میل پول سرور — اسلایدر مقدار */
+        money: {
+            more2: true,
+            type: 'slider',
+            min: 1,
+            max: 500,
+            default: 10,
+            unit: 'm',
+            pricePerUnit: 50000    /* قیمت هر میلیون به ریال */
+        }
+    };
+
+    const DISCOUNT_PERCENT = 25;
+    const VALID_CODE = 'sweetiefox';
+
+    let discountApplied = false;
+
     /* ============================================
        سیستم رتبه‌بندی پلیرها
-       برای اضافه کردن نفر جدید، فقط این آبجکت رو ویرایش کن
        ============================================ */
     const PLAYER_ROLES = {
         'lagmaster':  { role: 'Owner',   icon: 'https://minecraft.wiki/images/Nether_Star_JE3_BE3.png' },
@@ -1531,7 +3325,6 @@ document.addEventListener('DOMContentLoaded', function () {
         icon: 'https://minecraft.wiki/images/Emerald_JE3_BE3.png'
     };
 
-    /* ساخت بج پلیر با رتبه و آیکون */
     function buildPlayerBadge(playerName) {
         const key = String(playerName).toLowerCase().trim();
         const info = PLAYER_ROLES[key] || DEFAULT_PLAYER;
@@ -1545,10 +3338,8 @@ document.addEventListener('DOMContentLoaded', function () {
         icon.alt = info.role;
         icon.loading = 'lazy';
         icon.onerror = function () {
-            // اگر آیکون لود نشد، ایموجی پیش‌فرض
-            const fallbacks = { Owner: '👑', Manager: '💎', Player: '⚪' };
             const span = document.createElement('span');
-            span.textContent = fallbacks[info.role] || '⚪';
+            span.textContent = '◆';
             span.style.fontSize = '13px';
             this.parentNode.replaceChild(span, this);
         };
@@ -1569,13 +3360,318 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* ============================================
+       سلام بر اساس ساعت
+       ============================================ */
+    const greetText = document.getElementById('greetText');
+    const greetIcon = document.getElementById('greetIcon');
+    const greetTime = document.getElementById('greetTime');
+
+    const GREET_ICONS = {
+        morning: 'https://minecraft.wiki/images/Sun_JE3_BE3.png',
+        noon:    'https://minecraft.wiki/images/Sun_JE3_BE3.png',
+        evening: 'https://minecraft.wiki/images/Sun_JE3_BE3.png',
+        night:   'https://minecraft.wiki/images/Clock_JE3_BE3.png',
+        late:    'https://minecraft.wiki/images/Clock_JE3_BE3.png'
+    };
+
+    function updateGreeting() {
+        const now = new Date();
+        const h = now.getHours();
+        let text, iconUrl;
+
+        if (h >= 5 && h < 12) { text = 'صبح بخیر'; iconUrl = GREET_ICONS.morning; }
+        else if (h >= 12 && h < 15) { text = 'ظهر بخیر'; iconUrl = GREET_ICONS.noon; }
+        else if (h >= 15 && h < 19) { text = 'عصر بخیر'; iconUrl = GREET_ICONS.evening; }
+        else if (h >= 19 && h < 23) { text = 'شب بخیر'; iconUrl = GREET_ICONS.night; }
+        else { text = 'شب بخیر'; iconUrl = GREET_ICONS.late; }
+
+        if (greetText) greetText.textContent = text + ' — خوش اومدی به FoxNova';
+        if (greetIcon) greetIcon.src = iconUrl;
+
+        if (greetTime) {
+            greetTime.textContent =
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0');
+        }
+    }
+
+    updateGreeting();
+    setInterval(updateGreeting, 30000);
+
+
+    /* ============================================
+       بستن بنر سیزن
+       ============================================ */
+    const seasonBanner = document.getElementById('seasonBanner');
+    const seasonClose = document.getElementById('seasonClose');
+
+    if (seasonClose && seasonBanner) {
+        seasonClose.addEventListener('click', function () {
+            seasonBanner.style.transition = 'opacity .3s, max-height .35s, padding .3s';
+            seasonBanner.style.opacity = '0';
+            seasonBanner.style.maxHeight = '0';
+            seasonBanner.style.overflow = 'hidden';
+            setTimeout(function () { seasonBanner.style.display = 'none'; }, 350);
+        });
+    }
+
+
+    /* ============================================
+       ابزار کمکی
+       ============================================ */
+    function formatPrice(num) {
+        return Number(num).toLocaleString('en-US');
+    }
+
+
+    /* ============================================
+       کد تخفیف
+       ============================================ */
+    const discountBox = document.getElementById('discountBox');
+    const discountInput = document.getElementById('discountInput');
+    const discountBtn = document.getElementById('discountBtn');
+    const discountMsg = document.getElementById('discountMsg');
+    const productPrices = document.querySelectorAll('.product-price');
+
+    function showDiscountMsg(type, text) {
+        discountMsg.className = 'discount-msg show ' + type;
+        const icon = type === 'success'
+            ? '<img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt="" onerror="this.outerHTML=\'<span class=&quot;icon-fallback&quot;>◆</span>\'">'
+            : '<img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png" alt="" onerror="this.outerHTML=\'<span class=&quot;icon-fallback&quot;>◆</span>\'">';
+        discountMsg.innerHTML = icon + '<span>' + text + '</span>';
+    }
+
+    function applyDiscount() {
+        const code = discountInput.value.trim().toLowerCase();
+
+        if (!code) {
+            showDiscountMsg('error', 'لطفاً کد تخفیف رو وارد کن');
+            return;
+        }
+
+        if (code === VALID_CODE) {
+            discountApplied = true;
+            discountInput.disabled = true;
+            discountBtn.disabled = true;
+            discountBtn.textContent = 'اعمال شد';
+            discountBox.classList.add('applied');
+
+            /* به‌روزرسانی قیمت‌های عادی (به‌جز دو کارت با قیمت پویا) */
+            productPrices.forEach(function (priceEl) {
+                if (priceEl.id === 'stashPriceBox') return;
+                if (priceEl.id === 'moneyPriceBox') return;
+                const original = parseInt(priceEl.getAttribute('data-price'), 10);
+                if (isNaN(original)) return;
+                const discounted = Math.round(original * (100 - DISCOUNT_PERCENT) / 100);
+                priceEl.innerHTML =
+                    '<span class="price-old">' + formatPrice(original) + ' ریال</span>' +
+                    '<span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
+            });
+
+            /* تگ تخفیف روی همه کارت‌ها */
+            document.querySelectorAll('.product-card').forEach(function (card) {
+                const imgBox = card.querySelector('.product-image');
+                const tagsBox = imgBox ? imgBox.querySelector('.product-tags-left') : null;
+                if (tagsBox && !tagsBox.querySelector('.tag-off')) {
+                    const tag = document.createElement('span');
+                    tag.className = 'product-tag tag-off';
+                    tag.textContent = '٪' + DISCOUNT_PERCENT + ' تخفیف';
+                    tagsBox.appendChild(tag);
+                }
+            });
+
+            /* رفرش قیمت‌های پویا */
+            refreshStashPrice();
+            updateMoneyDisplay();
+
+            showDiscountMsg('success',
+                'کد تخفیف اعمال شد! ' + DISCOUNT_PERCENT + '٪ تخفیف روی همه محصولات فعال شد.');
+        } else {
+            showDiscountMsg('error', 'کد تخفیف نامعتبره! لطفاً دوباره بررسی کن.');
+        }
+    }
+
+    if (discountBtn && discountInput) {
+        discountBtn.addEventListener('click', applyDiscount);
+        discountInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); applyDiscount(); }
+        });
+        discountInput.addEventListener('input', function () {
+            if (!discountApplied) discountMsg.classList.remove('show');
+        });
+    }
+
+
+    /* ============================================
+       SIZE SELECTOR — ساخت استش و بیس
+       ============================================ */
+    const stashCard = document.getElementById('stashBaseCard');
+    const stashPriceBox = document.getElementById('stashPriceBox');
+    const stashPriceValue = document.getElementById('stashPriceValue');
+    const stashBuyBtn = stashCard ? stashCard.querySelector('.buy-button') : null;
+
+    function refreshStashPrice() {
+        if (!stashCard) return;
+        const activeBtn = stashCard.querySelector('.size-btn.active');
+        if (!activeBtn) return;
+
+        const basePrice = parseInt(activeBtn.getAttribute('data-price'), 10);
+        if (discountApplied) {
+            const discounted = Math.round(basePrice * (100 - DISCOUNT_PERCENT) / 100);
+            stashPriceValue.innerHTML =
+                '<span class="price-old">' + formatPrice(basePrice) + ' ریال</span>' +
+                ' <span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
+        } else {
+            stashPriceValue.textContent = formatPrice(basePrice) + ' ریال';
+        }
+        stashPriceBox.classList.remove('price-bump');
+        void stashPriceBox.offsetWidth;
+        stashPriceBox.classList.add('price-bump');
+        stashPriceBox.setAttribute('data-price', basePrice);
+    }
+
+    if (stashCard) {
+        const sizeButtons = stashCard.querySelectorAll('.size-btn');
+        sizeButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                sizeButtons.forEach(function (b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                const size = this.getAttribute('data-size');
+                if (stashBuyBtn) stashBuyBtn.setAttribute('data-size', size);
+                refreshStashPrice();
+            });
+        });
+    }
+
+
+    /* ============================================
+       QUANTITY SLIDER — هر میل پول سرور
+       ============================================ */
+    const moneyCard = document.getElementById('moneyCard');
+    const moneySlider = document.getElementById('moneySlider');
+    const moneyQty = document.getElementById('moneyQty');
+    const moneyLivePrice = document.getElementById('moneyLivePrice');
+    const moneyPriceBox = document.getElementById('moneyPriceBox');
+    const moneyPriceValue = document.getElementById('moneyPriceValue');
+    const moneyBuyBtn = moneyCard ? moneyCard.querySelector('.buy-button') : null;
+
+    const moneyConfig = PRODUCT_CONFIGS.money;
+    const MONEY_PER_UNIT = moneyConfig.pricePerUnit;
+
+    function updateSliderFill() {
+        if (!moneySlider) return;
+        const val = parseInt(moneySlider.value, 10);
+        const min = parseInt(moneySlider.min, 10);
+        const max = parseInt(moneySlider.max, 10);
+        const percent = ((val - min) / (max - min)) * 100;
+        moneySlider.style.background =
+            'linear-gradient(to right, ' +
+            '#ffd23f 0%, #ff8c00 ' + percent + '%, ' +
+            'rgba(255, 255, 255, .08) ' + percent + '%, rgba(255, 255, 255, .08) 100%)';
+    }
+
+    function updateMoneyDisplay() {
+        if (!moneySlider) return;
+
+        const qty = parseInt(moneySlider.value, 10);
+        const basePrice = qty * MONEY_PER_UNIT;
+
+        moneyQty.textContent = qty;
+
+        if (discountApplied) {
+            const discounted = Math.round(basePrice * (100 - DISCOUNT_PERCENT) / 100);
+            moneyLivePrice.innerHTML =
+                '<span class="price-old">' + formatPrice(basePrice) + ' ریال</span>' +
+                ' <span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
+        } else {
+            moneyLivePrice.textContent = formatPrice(basePrice) + ' ریال';
+        }
+
+        if (moneyPriceBox) moneyPriceBox.setAttribute('data-price', basePrice);
+        if (moneyBuyBtn) {
+            moneyBuyBtn.setAttribute('data-size', qty + 'm');
+            moneyBuyBtn.setAttribute('data-price', basePrice);
+        }
+
+        updateSliderFill();
+    }
+
+    if (moneySlider) {
+        /* تنظیم مقادیر از config */
+        moneySlider.min = moneyConfig.min;
+        moneySlider.max = moneyConfig.max;
+        moneySlider.value = moneyConfig.default;
+        moneySlider.step = 1;
+
+        /* رفرش label ها */
+        const moneyRangeLabels = moneyCard.querySelectorAll('.range-labels span');
+        if (moneyRangeLabels.length >= 2) {
+            moneyRangeLabels[0].textContent = moneyConfig.min + moneyConfig.unit;
+            moneyRangeLabels[1].textContent = moneyConfig.max + moneyConfig.unit;
+        }
+
+        moneySlider.addEventListener('input', updateMoneyDisplay);
+        updateMoneyDisplay();
+    }
+
+
+    /* ============================================
        MODAL SYSTEM
        ============================================ */
-    function openModal(id) {
+    const summaryBox = document.getElementById('orderSummary');
+    const summaryProduct = document.getElementById('summaryProduct');
+    const summarySizeRow = document.getElementById('summarySizeRow');
+    const summarySize = document.getElementById('summarySize');
+    const summaryPrice = document.getElementById('summaryPrice');
+    const summaryDiscountRow = document.getElementById('summaryDiscountRow');
+    const summaryDiscounted = document.getElementById('summaryDiscounted');
+
+    function showOrderSummary(productName, size, basePrice) {
+        if (!summaryBox) return;
+
+        summaryProduct.textContent = productName;
+        summaryPrice.textContent = formatPrice(basePrice) + ' ریال';
+
+        if (size) {
+            summarySizeRow.style.display = '';
+            summarySize.textContent = size;
+        } else {
+            summarySizeRow.style.display = 'none';
+        }
+
+        if (discountApplied) {
+            const discounted = Math.round(basePrice * (100 - DISCOUNT_PERCENT) / 100);
+            summaryDiscountRow.style.display = '';
+            summaryDiscounted.textContent = formatPrice(discounted) + ' ریال';
+        } else {
+            summaryDiscountRow.style.display = 'none';
+        }
+
+        summaryBox.style.display = '';
+    }
+
+    function resetBuyModal() {
+        const s1 = document.getElementById('buyStep1');
+        const sBank = document.getElementById('buyStepBank');
+        const sNormal = document.getElementById('buyStepNormal');
+        if (s1) s1.style.display = '';
+        if (sBank) sBank.style.display = 'none';
+        if (sNormal) sNormal.style.display = 'none';
+        if (summaryBox) summaryBox.style.display = 'none';
+    }
+
+    function openModal(id, options) {
         const modal = document.getElementById(id);
         if (!modal) return;
         modal.classList.add('active');
         document.body.classList.add('modal-open');
+
+        if (id === 'buyModal') {
+            resetBuyModal();
+            if (options && options.productName) {
+                showOrderSummary(options.productName, options.size, options.price);
+            }
+        }
     }
 
     function closeModal(modal) {
@@ -1599,7 +3695,33 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            openModal(this.getAttribute('data-open-modal'));
+
+            const modalId = this.getAttribute('data-open-modal');
+            const productName = this.getAttribute('data-product-name');
+            const size = this.getAttribute('data-size');
+
+            if (modalId === 'buyModal' && productName) {
+                /* پیدا کردن قیمت از خود دکمه یا از کارت */
+                let price = parseInt(this.getAttribute('data-price'), 10);
+
+                if (isNaN(price)) {
+                    const card = this.closest('.product-card');
+                    if (card) {
+                        const priceBox = card.querySelector('.product-price');
+                        if (priceBox) price = parseInt(priceBox.getAttribute('data-price'), 10) || 0;
+                    }
+                }
+
+                if (isNaN(price)) price = 0;
+
+                openModal(modalId, {
+                    productName: productName,
+                    size: size,
+                    price: price
+                });
+            } else {
+                openModal(modalId);
+            }
         });
     });
 
@@ -1623,27 +3745,70 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* ============================================
+       روش پرداخت
+       ============================================ */
+    document.querySelectorAll('.pay-method').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const method = this.getAttribute('data-method');
+            const s1 = document.getElementById('buyStep1');
+            const sBank = document.getElementById('buyStepBank');
+            const sNormal = document.getElementById('buyStepNormal');
+
+            if (method === 'bank') {
+                s1.style.display = 'none';
+                sBank.style.display = '';
+                sNormal.style.display = 'none';
+            } else if (method === 'normal') {
+                s1.style.display = 'none';
+                sBank.style.display = 'none';
+                sNormal.style.display = '';
+            }
+        });
+    });
+
+    document.querySelectorAll('[data-back-to]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-back-to');
+            const target = document.getElementById(targetId);
+            const sBank = document.getElementById('buyStepBank');
+            const sNormal = document.getElementById('buyStepNormal');
+            if (sBank) sBank.style.display = 'none';
+            if (sNormal) sNormal.style.display = 'none';
+            if (target) target.style.display = '';
+        });
+    });
+
+
+    /* ============================================
        منوی موبایل
        ============================================ */
     const menuToggle = document.getElementById('menuToggle');
     const nav = document.querySelector('.nav');
 
     if (menuToggle && nav) {
-        menuToggle.addEventListener('click', function () {
-            nav.classList.toggle('open');
-        });
+        menuToggle.addEventListener('click', function () { nav.classList.toggle('open'); });
         document.querySelectorAll('.nav-link').forEach(function (link) {
-            link.addEventListener('click', function () {
-                nav.classList.remove('open');
-            });
+            link.addEventListener('click', function () { nav.classList.remove('open'); });
         });
+    }
+
+
+    /* ============================================
+       هدر — سایه هنگام اسکرول
+       ============================================ */
+    const siteHeader = document.getElementById('siteHeader');
+    if (siteHeader) {
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 10) siteHeader.classList.add('scrolled');
+            else siteHeader.classList.remove('scrolled');
+        }, { passive: true });
     }
 
 
     /* ============================================
        انیمیشن ورود کارت‌ها
        ============================================ */
-    const cards = document.querySelectorAll('.product-card');
+    const animatedItems = document.querySelectorAll('.product-card, .log-item, .trust-card, .featured-box');
 
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function (entries) {
@@ -1653,14 +3818,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.08 });
 
-        cards.forEach(function (card, i) {
-            card.style.transitionDelay = Math.min(i * 0.06, 0.3) + 's';
-            observer.observe(card);
+        animatedItems.forEach(function (item, i) {
+            item.style.transitionDelay = Math.min(i * 0.06, 0.3) + 's';
+            observer.observe(item);
         });
+
+        setTimeout(function () {
+            animatedItems.forEach(function (item) { item.classList.add('visible'); });
+        }, 1600);
     } else {
-        cards.forEach(function (card) { card.classList.add('visible'); });
+        animatedItems.forEach(function (item) { item.classList.add('visible'); });
     }
 
 
@@ -1738,46 +3907,117 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* ============================================
-       پلیر آنلاین زنده
+       استیکی موبایل CTA
+       ============================================ */
+    const stickyCta = document.getElementById('stickyCta');
+    const shopSection = document.getElementById('shop');
+
+    if (stickyCta && shopSection && window.innerWidth <= 760) {
+        if ('IntersectionObserver' in window) {
+            const ctaObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) stickyCta.classList.add('visible');
+                    else stickyCta.classList.remove('visible');
+                });
+            }, { threshold: 0.15 });
+            ctaObserver.observe(shopSection);
+        } else {
+            stickyCta.classList.add('visible');
+        }
+    }
+
+
+    /* ============================================
+       وضعیت زنده سرور
        ============================================ */
     const liveDot = document.getElementById('liveDot');
     const liveStatusText = document.getElementById('liveStatusText');
     const liveCount = document.getElementById('liveCount');
     const serverStatusValue = document.getElementById('serverStatusValue');
     const playerListContainer = document.getElementById('playerListContainer');
+    const statPlayers = document.getElementById('statPlayers');
+    const refreshBtn = document.getElementById('refreshBtn');
 
     const HOST = SERVER_IP.split(':')[0];
     const PORT = SERVER_IP.split(':')[1] || '19132';
-    const API_URL = 'https://api.mcsrvstat.us/bedrock/3/' + HOST + ':' + PORT;
 
-    let lastCount = 0;
-
-    function setOnline(isOnline, players, playerList) {
-        if (isOnline) {
-            liveDot.classList.remove('offline');
-            liveStatusText.classList.remove('offline');
-            liveStatusText.textContent = 'سرور آنلاین است';
-            liveCount.textContent = players != null ? players : '?';
-            if (serverStatusValue) serverStatusValue.textContent = 'آنلاین ✓';
-        } else {
-            liveDot.classList.add('offline');
-            liveStatusText.classList.add('offline');
-            liveStatusText.textContent = 'سرور آفلاین است';
-            liveCount.textContent = '0';
-            if (serverStatusValue) serverStatusValue.textContent = 'آفلاین ✗';
+    const API_ENDPOINTS = [
+        {
+            url: 'https://api.mcsrvstat.us/bedrock/3/' + HOST + ':' + PORT,
+            parse: function (d) {
+                return {
+                    online: !!d.online,
+                    count: d.players && typeof d.players.online === 'number' ? d.players.online : 0,
+                    list: (d.players && d.players.list) ? d.players.list : []
+                };
+            }
+        },
+        {
+            url: 'https://api.mcstatus.io/v2/status/bedrock/' + HOST + ':' + PORT,
+            parse: function (d) {
+                const list = (d.players && d.players.list) ? d.players.list.map(function (p) {
+                    return p.name_clean || p.name || '';
+                }).filter(Boolean) : [];
+                return {
+                    online: !!d.online,
+                    count: d.players && typeof d.players.online === 'number' ? d.players.online : 0,
+                    list: list
+                };
+            }
+        },
+        {
+            url: 'https://mcapi.us/server/status?ip=' + HOST + '&port=' + PORT,
+            parse: function (d) {
+                const list = (d.players && d.players.sample) ? d.players.sample.map(function (p) {
+                    return p.name;
+                }).filter(Boolean) : [];
+                return {
+                    online: !!d.online,
+                    count: d.players && typeof d.players.now === 'number' ? d.players.now : 0,
+                    list: list
+                };
+            }
         }
+    ];
+
+    let lastCount = -1;
+    let isFetching = false;
+
+    function setUI(state, players, playerList) {
+        if (state === 'online') {
+            liveDot.classList.remove('offline', 'unknown');
+            liveStatusText.classList.remove('offline', 'unknown');
+            liveStatusText.textContent = 'سرور آنلاین است';
+            if (serverStatusValue) serverStatusValue.textContent = 'آنلاین ✓';
+        } else if (state === 'offline') {
+            liveDot.classList.add('offline');
+            liveDot.classList.remove('unknown');
+            liveStatusText.classList.add('offline');
+            liveStatusText.classList.remove('unknown');
+            liveStatusText.textContent = 'سرور آفلاین است';
+            if (serverStatusValue) serverStatusValue.textContent = 'آفلاین ✗';
+        } else {
+            liveDot.classList.add('unknown');
+            liveDot.classList.remove('offline');
+            liveStatusText.classList.add('unknown');
+            liveStatusText.classList.remove('offline');
+            liveStatusText.textContent = 'وضعیت نامشخص';
+            if (serverStatusValue) serverStatusValue.textContent = 'نامشخص';
+        }
+
+        const displayCount = (state === 'online') ? (players != null ? players : 0) : (state === 'offline' ? 0 : '—');
+        liveCount.textContent = displayCount;
+        if (statPlayers) statPlayers.textContent = displayCount;
 
         if (playerListContainer) {
             playerListContainer.innerHTML = '';
             if (playerList && playerList.length > 0) {
-                // مرتب‌سازی: اول Owner، بعد Manager، بعد Player
                 const order = { owner: 1, manager: 2, player: 3 };
                 const sorted = playerList.slice().sort(function (a, b) {
                     const ra = (PLAYER_ROLES[String(a).toLowerCase()] || DEFAULT_PLAYER).role.toLowerCase();
                     const rb = (PLAYER_ROLES[String(b).toLowerCase()] || DEFAULT_PLAYER).role.toLowerCase();
                     return (order[ra] || 99) - (order[rb] || 99);
                 });
-
                 sorted.forEach(function (name) {
                     playerListContainer.appendChild(buildPlayerBadge(name));
                 });
@@ -1791,30 +4031,79 @@ document.addEventListener('DOMContentLoaded', function () {
         liveCount.classList.remove('pop');
         void liveCount.offsetWidth;
         liveCount.classList.add('pop');
+        if (statPlayers) {
+            statPlayers.classList.remove('pop');
+            void statPlayers.offsetWidth;
+            statPlayers.classList.add('pop');
+        }
     }
 
-    function fetchPlayers() {
-        fetch(API_URL)
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                if (data && data.online) {
-                    const players = (data.players && data.players.online != null)
-                        ? data.players.online : 0;
-                    const playerList = (data.players && data.players.list)
-                        ? data.players.list : [];
-                    setOnline(true, players, playerList);
-                    animateCount(players);
-                } else {
-                    setOnline(false);
-                }
-            })
-            .catch(function () {
-                liveStatusText.textContent = 'در حال دریافت اطلاعات...';
+    function tryEndpoint(endpoint) {
+        return new Promise(function (resolve) {
+            const controller = new AbortController();
+            const timer = setTimeout(function () { controller.abort(); }, 7000);
+
+            fetch(endpoint.url, { signal: controller.signal, cache: 'no-store' })
+                .then(function (res) {
+                    clearTimeout(timer);
+                    if (!res.ok) throw new Error('bad status');
+                    return res.json();
+                })
+                .then(function (data) {
+                    const parsed = endpoint.parse(data);
+                    if (parsed && typeof parsed.online === 'boolean') resolve(parsed);
+                    else resolve(null);
+                })
+                .catch(function () {
+                    clearTimeout(timer);
+                    resolve(null);
+                });
+        });
+    }
+
+    function fetchServerStatus() {
+        if (isFetching) return;
+        isFetching = true;
+
+        liveStatusText.classList.add('unknown');
+        liveStatusText.textContent = 'در حال بررسی سرور...';
+
+        const chain = API_ENDPOINTS.reduce(function (promise, endpoint) {
+            return promise.then(function (result) {
+                if (result) return result;
+                return tryEndpoint(endpoint);
             });
+        }, Promise.resolve(null));
+
+        chain.then(function (result) {
+            isFetching = false;
+            if (result) {
+                if (result.online) {
+                    setUI('online', result.count, result.list);
+                    animateCount(result.count);
+                } else {
+                    setUI('offline');
+                }
+            } else {
+                setUI('unknown');
+            }
+        }).catch(function () {
+            isFetching = false;
+            setUI('unknown');
+        });
     }
 
-    fetchPlayers();
-    setInterval(fetchPlayers, 45000);
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+            if (isFetching) return;
+            refreshBtn.classList.add('spinning');
+            fetchServerStatus();
+            setTimeout(function () { refreshBtn.classList.remove('spinning'); }, 800);
+        });
+    }
+
+    fetchServerStatus();
+    setInterval(fetchServerStatus, 45000);
 
 });
 </script>
