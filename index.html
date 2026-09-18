@@ -23,15 +23,12 @@
     --muted: #b8a07a;
     --green: #22c55e;
     --green-soft: #6ee7a0;
-    --blue: #74dcff;
     --purple: #c084fc;
     --purple-soft: #e9d5ff;
     --grad-brand: linear-gradient(135deg, #ffd23f 0%, #ff8c00 45%, #ff2d00 100%);
     --grad-btn: linear-gradient(135deg, #ffb800, #ff5a00);
     --grad-purple: linear-gradient(135deg, #c084fc, #a855f7);
-    --glass-strong: rgba(13, 8, 5, .88);
-    --ease-smooth: cubic-bezier(.22, 1, .36, 1);
-    --ease-spring: cubic-bezier(.2, .9, .3, 1.15);
+    --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
 html { scroll-behavior: smooth; }
@@ -44,12 +41,15 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     -webkit-tap-highlight-color: transparent;
+    background-image:
+        radial-gradient(700px 500px at 15% 5%, rgba(255, 184, 0, .12), transparent 70%),
+        radial-gradient(700px 500px at 85% 95%, rgba(255, 90, 0, .1), transparent 70%);
+    background-attachment: fixed;
 }
 
 body.modal-open { overflow: hidden; }
 
 .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 16px; }
-
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
@@ -62,37 +62,18 @@ img { max-width: 100%; display: block; }
     flex-shrink: 0;
 }
 
-.icon-fallback {
+.icon-fb {
     display: inline-block;
     width: 1.2em; height: 1.2em;
     line-height: 1.2em;
     text-align: center;
     color: var(--yellow);
-    font-size: 1em;
     font-weight: 900;
 }
 
-/* BACKGROUND */
-.aurora {
-    position: fixed; inset: -25%; z-index: -4;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 18% 28%, rgba(255, 184, 0, .20), transparent 42%),
-        radial-gradient(circle at 82% 18%, rgba(255, 90, 0, .16), transparent 42%),
-        radial-gradient(circle at 50% 85%, rgba(255, 45, 0, .12), transparent 48%);
-    filter: blur(60px);
-    animation: auroraMove 26s ease-in-out infinite alternate;
-    will-change: transform;
-}
-
-@keyframes auroraMove {
-    0%   { transform: translate3d(0, 0, 0) scale(1); }
-    50%  { transform: translate3d(3%, -2%, 0) scale(1.1); }
-    100% { transform: translate3d(-2%, 3%, 0) scale(1.05); }
-}
-
+/* ─── BACKGROUND (سبک، بدون blur سنگین) ─── */
 .bg-grid {
-    position: fixed; inset: 0; z-index: -3;
+    position: fixed; inset: 0; z-index: -2;
     pointer-events: none;
     background-image:
         linear-gradient(rgba(255, 178, 0, .05) 1px, transparent 1px),
@@ -102,34 +83,32 @@ img { max-width: 100%; display: block; }
     -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 82%);
 }
 
-.particles { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+.particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 
 .particles span {
     position: absolute; bottom: -12px;
-    width: 5px; height: 5px;
+    width: 4px; height: 4px;
     background: var(--yellow);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--yellow);
+    box-shadow: 0 0 8px var(--yellow);
     opacity: 0;
-    animation: floatUp 24s linear infinite;
+    animation: floatUp 26s linear infinite;
     will-change: transform, opacity;
 }
 
-.particles span:nth-child(1) { left: 8%;  animation-delay: 0s; }
-.particles span:nth-child(2) { left: 26%; animation-delay: 4s;  background: var(--orange); box-shadow: 0 0 10px var(--orange); width: 4px; height: 4px; }
-.particles span:nth-child(3) { left: 45%; animation-delay: 9s; }
-.particles span:nth-child(4) { left: 62%; animation-delay: 13s; background: var(--red); box-shadow: 0 0 10px var(--red); width: 4px; height: 4px; }
-.particles span:nth-child(5) { left: 78%; animation-delay: 6s; }
-.particles span:nth-child(6) { left: 92%; animation-delay: 16s; background: var(--orange); box-shadow: 0 0 10px var(--orange); }
+.particles span:nth-child(1) { left: 15%; animation-delay: 0s; }
+.particles span:nth-child(2) { left: 50%; animation-delay: 8s; background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+.particles span:nth-child(3) { left: 82%; animation-delay: 16s; }
+.particles span:nth-child(4) { left: 32%; animation-delay: 12s; background: var(--red); box-shadow: 0 0 8px var(--red); }
 
 @keyframes floatUp {
     0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-    12%  { opacity: .8; }
-    88%  { opacity: .8; }
+    12%  { opacity: .7; }
+    88%  { opacity: .7; }
     100% { transform: translate3d(0, -108vh, 0); opacity: 0; }
 }
 
-/* SEASON BANNER */
+/* ─── SEASON BANNER ─── */
 .season-banner {
     position: relative;
     background: linear-gradient(90deg, #2a0a04, #3d1505, #2a0a04);
@@ -141,15 +120,13 @@ img { max-width: 100%; display: block; }
 .season-banner::before {
     content: '';
     position: absolute; inset: 0;
-    background:
-        radial-gradient(circle at 20% 50%, rgba(255, 210, 63, .18), transparent 45%),
-        radial-gradient(circle at 80% 50%, rgba(255, 45, 0, .18), transparent 45%);
-    animation: bannerGlow 3.5s ease-in-out infinite;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 210, 63, .14), transparent 55%);
+    animation: bannerGlow 4s ease-in-out infinite;
     pointer-events: none;
 }
 
 @keyframes bannerGlow {
-    0%, 100% { opacity: .55; }
+    0%, 100% { opacity: .5; }
     50%      { opacity: 1; }
 }
 
@@ -166,11 +143,8 @@ img { max-width: 100%; display: block; }
 
 .season-pulse {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
     width: 12px; height: 12px;
+    flex-shrink: 0;
 }
 
 .season-pulse::before,
@@ -179,13 +153,13 @@ img { max-width: 100%; display: block; }
     position: absolute; inset: 0;
     border-radius: 50%;
     background: var(--yellow);
-    animation: seasonRipple 2s ease-out infinite;
+    animation: ripple 2s ease-out infinite;
     opacity: 0;
 }
 
 .season-pulse::after { animation-delay: 1s; }
 
-@keyframes seasonRipple {
+@keyframes ripple {
     0%   { transform: scale(.6); opacity: .8; }
     100% { transform: scale(2.8); opacity: 0; }
 }
@@ -197,6 +171,7 @@ img { max-width: 100%; display: block; }
     background: var(--yellow);
     box-shadow: 0 0 14px var(--yellow);
     z-index: 1;
+    display: block;
 }
 
 .season-text {
@@ -257,23 +232,23 @@ img { max-width: 100%; display: block; }
 
 .season-close:hover { background: var(--red); color: #fff; transform: translateY(-50%) rotate(90deg); }
 
-/* HEADER */
+/* ─── HEADER ─── */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--glass-strong);
+    background: rgba(13, 8, 5, .95);
     border-bottom: 1px solid var(--border-soft);
-    transition: box-shadow .3s var(--ease-smooth), background .3s;
+    transition: box-shadow .3s;
 }
 
-.site-header.scrolled { box-shadow: 0 8px 30px rgba(0, 0, 0, .55); }
+.site-header.scrolled { box-shadow: 0 8px 30px rgba(0, 0, 0, .5); }
 
 @media (hover: hover) and (min-width: 900px) {
     .site-header {
-        background: rgba(13, 8, 5, .72);
-        backdrop-filter: blur(16px) saturate(140%);
-        -webkit-backdrop-filter: blur(16px) saturate(140%);
+        background: rgba(13, 8, 5, .82);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 }
 
@@ -339,7 +314,6 @@ img { max-width: 100%; display: block; }
     border: none;
     background: transparent;
     font-family: inherit;
-    position: relative;
 }
 
 .nav-link:hover { color: #fff; background: rgba(255, 140, 0, .18); }
@@ -351,7 +325,6 @@ img { max-width: 100%; display: block; }
     color: #fff;
     padding: 1px 5px;
     border-radius: 4px;
-    letter-spacing: .3px;
 }
 
 .menu-toggle {
@@ -367,12 +340,11 @@ img { max-width: 100%; display: block; }
 
 .menu-toggle span { width: 22px; height: 2px; background: var(--text); border-radius: 3px; }
 
-/* LIVE BAR */
+/* ─── LIVE BAR ─── */
 .live-bar {
     background: linear-gradient(180deg, rgba(28, 17, 8, .85), rgba(21, 12, 6, .9));
     border-bottom: 1px solid var(--border-soft);
     padding: 12px 0;
-    position: relative;
 }
 
 .live-inner { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
@@ -454,7 +426,7 @@ img { max-width: 100%; display: block; }
     color: var(--muted);
     cursor: pointer;
     font-size: 15px;
-    transition: color .2s, border-color .2s, transform .3s var(--ease-smooth);
+    transition: color .2s, border-color .2s;
     font-family: inherit;
     padding: 0;
 }
@@ -463,7 +435,6 @@ img { max-width: 100%; display: block; }
 .refresh-btn.spinning { animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* PLAYER LIST */
 .player-list-container {
     display: flex;
     flex-wrap: wrap;
@@ -481,7 +452,7 @@ img { max-width: 100%; display: block; }
     border-radius: 999px;
     font-size: 12.5px;
     font-weight: 700;
-    transition: transform .2s var(--ease-smooth);
+    transition: transform .2s;
     direction: ltr;
 }
 
@@ -494,14 +465,12 @@ img { max-width: 100%; display: block; }
 .player-badge.role-owner {
     background: linear-gradient(135deg, rgba(255, 210, 63, .22), rgba(255, 140, 0, .12));
     border: 1px solid rgba(255, 210, 63, .55);
-    box-shadow: 0 0 12px rgba(255, 210, 63, .2);
 }
 .player-badge.role-owner .badge-role { color: #ffd23f; }
 
 .player-badge.role-manager {
     background: linear-gradient(135deg, rgba(116, 220, 255, .22), rgba(0, 180, 255, .1));
     border: 1px solid rgba(116, 220, 255, .55);
-    box-shadow: 0 0 12px rgba(116, 220, 255, .2);
 }
 .player-badge.role-manager .badge-role { color: #74dcff; }
 
@@ -512,8 +481,8 @@ img { max-width: 100%; display: block; }
 .player-badge.role-player .badge-role { color: var(--muted); font-weight: 700; }
 .player-badge.role-player .badge-name { color: var(--yellow); }
 
-/* HERO */
-.hero { padding: 72px 0 56px; text-align: center; position: relative; }
+/* ─── HERO ─── */
+.hero { padding: 72px 0 56px; text-align: center; }
 
 .hero-greeting {
     display: inline-flex;
@@ -527,13 +496,11 @@ img { max-width: 100%; display: block; }
     font-weight: 800;
     color: var(--yellow);
     margin-bottom: 14px;
-    box-shadow: 0 0 22px rgba(255, 184, 0, .14);
 }
 
 .hero-greeting .greet-icon {
     width: 20px; height: 20px;
     image-rendering: pixelated;
-    filter: drop-shadow(0 0 8px rgba(255, 184, 0, .55));
 }
 
 .hero-greeting .greet-time {
@@ -556,13 +523,12 @@ img { max-width: 100%; display: block; }
     font-weight: 800;
     color: var(--yellow);
     margin-bottom: 22px;
-    box-shadow: 0 0 24px rgba(255, 184, 0, .18);
     animation: badgeGlow 3s ease-in-out infinite;
 }
 
 @keyframes badgeGlow {
-    0%, 100% { box-shadow: 0 0 22px rgba(255, 184, 0, .16); }
-    50%      { box-shadow: 0 0 34px rgba(255, 140, 0, .34); }
+    0%, 100% { box-shadow: 0 0 18px rgba(255, 184, 0, .16); }
+    50%      { box-shadow: 0 0 28px rgba(255, 140, 0, .34); }
 }
 
 .hero-title {
@@ -581,7 +547,7 @@ img { max-width: 100%; display: block; }
     color: transparent;
     animation: shimmer 5s linear infinite;
     display: block;
-    filter: drop-shadow(0 6px 30px rgba(255, 120, 0, .28));
+    filter: drop-shadow(0 6px 24px rgba(255, 120, 0, .25));
 }
 
 .hero-title .outline {
@@ -610,18 +576,17 @@ img { max-width: 100%; display: block; }
     border-radius: 13px;
     font-weight: 800;
     font-size: 15px;
-    transition: transform .28s var(--ease-smooth), box-shadow .3s, border-color .25s, color .25s;
+    transition: transform .25s var(--ease), box-shadow .25s, border-color .2s, color .2s;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     font-family: inherit;
     border: none;
-    will-change: transform;
 }
 
-.btn-primary { background: var(--grad-btn); color: #1a0e00; box-shadow: 0 8px 24px rgba(255, 90, 0, .42); }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(255, 90, 0, .58); }
+.btn-primary { background: var(--grad-btn); color: #1a0e00; box-shadow: 0 8px 22px rgba(255, 90, 0, .4); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(255, 90, 0, .55); }
 
 .btn-outline {
     background: rgba(28, 17, 8, .7);
@@ -631,7 +596,6 @@ img { max-width: 100%; display: block; }
 
 .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-3px); }
 
-/* Trust bar */
 .trust-bar { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
 
 .trust-item {
@@ -645,13 +609,13 @@ img { max-width: 100%; display: block; }
     font-size: 12.5px;
     font-weight: 700;
     color: var(--muted);
-    transition: border-color .25s, color .25s, transform .25s var(--ease-smooth);
+    transition: border-color .25s, color .25s, transform .25s;
 }
 
 .trust-item:hover { border-color: rgba(255, 184, 0, .5); color: var(--text); transform: translateY(-2px); }
 .trust-item img { width: 18px; height: 18px; image-rendering: pixelated; }
 
-/* STATS */
+/* ─── STATS ─── */
 .stats-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -668,7 +632,7 @@ img { max-width: 100%; display: block; }
     border-radius: 16px;
     padding: 18px 14px;
     text-align: center;
-    transition: transform .3s var(--ease-smooth), border-color .3s, box-shadow .3s;
+    transition: transform .25s var(--ease), border-color .25s;
     position: relative;
     overflow: hidden;
 }
@@ -682,11 +646,7 @@ img { max-width: 100%; display: block; }
     opacity: .55;
 }
 
-.stat-box:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 184, 0, .55);
-    box-shadow: 0 12px 30px rgba(255, 140, 0, .18);
-}
+.stat-box:hover { transform: translateY(-5px); border-color: rgba(255, 184, 0, .55); }
 
 .stat-value {
     font-size: 26px;
@@ -700,7 +660,7 @@ img { max-width: 100%; display: block; }
 
 .stat-label { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-top: 4px; }
 
-/* SERVER INFO */
+/* ─── SERVER INFO ─── */
 .server-info { padding: 20px 0 55px; }
 
 .server-card {
@@ -738,10 +698,10 @@ img { max-width: 100%; display: block; }
     border: 1px solid var(--border);
     border-radius: 13px;
     padding: 15px 17px;
-    transition: border-color .25s, transform .25s var(--ease-smooth), background .25s;
+    transition: border-color .25s, transform .25s;
 }
 
-.server-item:hover { border-color: var(--yellow); transform: translateY(-2px); background: rgba(28, 17, 8, .72); }
+.server-item:hover { border-color: var(--yellow); transform: translateY(-2px); }
 
 .server-item-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
 .server-item-value { font-size: 15px; font-weight: 800; color: var(--text); word-break: break-word; }
@@ -760,13 +720,13 @@ img { max-width: 100%; display: block; }
     font-weight: 800;
     font-size: 12px;
     cursor: pointer;
-    transition: transform .2s var(--ease-smooth), background .2s;
+    transition: transform .2s;
 }
 
 .copy-btn:hover { transform: translateY(-1px); }
 .copy-btn.copied { background: #16a34a; color: #fff; }
 
-/* SECTION HEADER */
+/* ─── SECTION HEADER ─── */
 .shop-section, .changelog-section, .support-section, .about-section { padding: 58px 0; }
 
 .section-header { text-align: center; margin-bottom: 44px; }
@@ -799,204 +759,14 @@ img { max-width: 100%; display: block; }
 
 .section-subtitle { color: var(--muted); font-size: 14.5px; max-width: 520px; margin: 0 auto; }
 
-/* TRUST STRIP */
-.trust-strip {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    max-width: 900px;
-    margin: 0 auto 34px;
-}
-
-.trust-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: linear-gradient(160deg, #1c1108, #120a04);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    transition: border-color .3s, transform .3s var(--ease-smooth), box-shadow .3s;
-}
-
-.trust-card:hover {
-    border-color: rgba(255, 184, 0, .5);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(255, 140, 0, .14);
-}
-
-.trust-card-icon {
-    width: 42px; height: 42px;
-    border-radius: 11px;
-    background: rgba(255, 184, 0, .12);
-    border: 1px solid rgba(255, 184, 0, .35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.trust-card-icon img { width: 26px; height: 26px; image-rendering: pixelated; object-fit: contain; }
-
-.trust-card-info { flex: 1; min-width: 0; }
-.trust-card-title { font-size: 13.5px; font-weight: 900; color: var(--text); margin-bottom: 2px; }
-.trust-card-desc { font-size: 11.5px; color: var(--muted); font-weight: 600; }
-
-/* FEATURED */
-.featured-box {
-    display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: 26px;
-    background: linear-gradient(135deg, #2a1508, #1a0e05);
-    border: 1px solid rgba(255, 184, 0, .42);
-    border-radius: 22px;
-    padding: 26px;
-    margin-bottom: 34px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(255, 90, 0, .14);
-}
-
-.featured-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--grad-brand);
-}
-
-.featured-box::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at 15% 30%, rgba(255, 210, 63, .14), transparent 50%);
-    pointer-events: none;
-}
-
-.featured-media {
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1f1206, #2a1a0a);
-    border: 1px solid var(--border);
-    aspect-ratio: 4/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-}
-
-.featured-media img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    padding: 20px;
-    image-rendering: pixelated;
-}
-
-.featured-ribbon {
-    position: absolute;
-    top: 14px; right: 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    background: linear-gradient(135deg, #ff2d00, #ff5a00);
-    color: #fff;
-    font-size: 11.5px;
-    font-weight: 900;
-    border-radius: 999px;
-    letter-spacing: .5px;
-    box-shadow: 0 6px 18px rgba(255, 45, 0, .55);
-    z-index: 3;
-}
-
-.featured-ribbon img { width: 14px; height: 14px; image-rendering: pixelated; }
-
-.featured-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 1;
-    position: relative;
-}
-
-.featured-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11.5px;
-    font-weight: 900;
-    color: var(--yellow);
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-}
-
-.featured-title {
-    font-size: 24px;
-    font-weight: 900;
-    line-height: 1.3;
-    margin-bottom: 10px;
-    background: var(--grad-brand);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.featured-desc { color: var(--muted); font-size: 14px; line-height: 1.9; margin-bottom: 16px; }
-.featured-desc strong { color: var(--yellow); font-weight: 800; }
-
-.featured-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-
-.featured-perk {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    background: rgba(13, 8, 5, .6);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: var(--text);
-}
-
-.featured-perk img { width: 14px; height: 14px; image-rendering: pixelated; }
-
-.featured-buy {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 28px;
-    border-radius: 13px;
-    background: var(--grad-btn);
-    color: #1a0e00;
-    font-weight: 900;
-    font-size: 15.5px;
-    cursor: pointer;
-    font-family: inherit;
-    border: none;
-    box-shadow: 0 10px 28px rgba(255, 90, 0, .48);
-    transition: transform .28s var(--ease-smooth), box-shadow .3s, filter .2s;
-    align-self: flex-start;
-    will-change: transform;
-}
-
-.featured-buy:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 16px 40px rgba(255, 90, 0, .65);
-    filter: brightness(1.06);
-}
-
-.featured-buy img { width: 20px; height: 20px; image-rendering: pixelated; }
-
-/* DISCOUNT BOX */
+/* ─── DISCOUNT BOX (اول فروشگاه) ─── */
 .discount-box {
-    max-width: 620px;
-    margin: 0 auto 34px;
+    max-width: 720px;
+    margin: 0 auto 30px;
     background: linear-gradient(160deg, #1c1108, #120a04);
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 20px 22px;
+    border-radius: 20px;
+    padding: 22px 24px;
     position: relative;
     overflow: hidden;
     transition: border-color .35s, box-shadow .35s;
@@ -1016,7 +786,7 @@ img { max-width: 100%; display: block; }
 }
 
 .discount-title {
-    font-size: 14.5px;
+    font-size: 15.5px;
     font-weight: 900;
     color: var(--yellow);
     display: flex;
@@ -1025,71 +795,62 @@ img { max-width: 100%; display: block; }
     margin-bottom: 6px;
 }
 
-.discount-title img { width: 22px; height: 22px; image-rendering: pixelated; }
-
+.discount-title img { width: 24px; height: 24px; image-rendering: pixelated; }
 .discount-hint { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; font-weight: 600; }
-
 .discount-row { display: flex; gap: 10px; flex-wrap: wrap; }
 
 .discount-input {
     flex: 1;
     min-width: 180px;
-    padding: 12px 16px;
-    border-radius: 11px;
+    padding: 13px 18px;
+    border-radius: 12px;
     background: rgba(13, 8, 5, .8);
     border: 1px solid var(--border);
     color: var(--text);
     font-family: inherit;
-    font-size: 14.5px;
+    font-size: 15px;
     font-weight: 700;
     direction: ltr;
     text-align: left;
-    transition: border-color .25s, background .25s, box-shadow .25s;
     outline: none;
+    transition: border-color .25s, background .25s;
 }
 
 .discount-input::placeholder { color: rgba(184, 160, 122, .55); direction: rtl; text-align: right; }
-
-.discount-input:focus {
-    border-color: var(--yellow);
-    background: rgba(28, 17, 8, .9);
-    box-shadow: 0 0 0 3px rgba(255, 184, 0, .12);
-}
-
+.discount-input:focus { border-color: var(--yellow); background: rgba(28, 17, 8, .9); }
 .discount-input:disabled { opacity: .6; cursor: not-allowed; }
 
 .discount-btn {
-    padding: 12px 26px;
-    border-radius: 11px;
+    padding: 13px 30px;
+    border-radius: 12px;
     background: var(--grad-btn);
     color: #1a0e00;
     font-weight: 900;
-    font-size: 14.5px;
+    font-size: 15px;
     cursor: pointer;
     font-family: inherit;
     border: none;
-    transition: transform .28s var(--ease-smooth), box-shadow .3s, filter .2s, background .3s;
+    transition: transform .25s var(--ease), box-shadow .25s;
     box-shadow: 0 6px 18px rgba(255, 90, 0, .38);
     white-space: nowrap;
-    will-change: transform;
 }
 
-.discount-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255, 90, 0, .55); filter: brightness(1.06); }
-.discount-btn:disabled { background: rgba(34, 197, 94, .35); color: #d4ffd4; cursor: default; box-shadow: none; transform: none; filter: none; }
+.discount-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(255, 90, 0, .5); }
+.discount-btn:disabled { background: rgba(34, 197, 94, .35); color: #d4ffd4; cursor: default; box-shadow: none; transform: none; }
 
 .discount-msg {
     margin-top: 12px;
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 800;
-    padding: 9px 14px;
-    border-radius: 10px;
+    padding: 11px 15px;
+    border-radius: 11px;
     display: none;
     align-items: center;
     gap: 10px;
     line-height: 1.7;
 }
 
-.discount-msg img { width: 18px; height: 18px; image-rendering: pixelated; flex-shrink: 0; }
+.discount-msg img { width: 20px; height: 20px; image-rendering: pixelated; flex-shrink: 0; }
 .discount-msg.show { display: flex; }
 
 .discount-msg.success {
@@ -1104,10 +865,10 @@ img { max-width: 100%; display: block; }
     color: #ff9b7a;
 }
 
-/* PRODUCTS */
+/* ─── PRODUCTS (تولید شده توسط JS) ─── */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 22px;
 }
 
@@ -1118,28 +879,11 @@ img { max-width: 100%; display: block; }
     padding: 18px;
     display: flex;
     flex-direction: column;
-    transition: transform .35s var(--ease-smooth), border-color .3s, box-shadow .35s;
+    transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
     contain: layout paint;
     position: relative;
     overflow: hidden;
-    will-change: transform;
 }
-
-.product-card::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 20px;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 210, 63, .6), transparent 40%, transparent 60%, rgba(255, 90, 0, .5));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity .35s;
-    pointer-events: none;
-}
-
-.product-card:hover::after { opacity: 1; }
 
 .product-card:hover {
     transform: translateY(-7px);
@@ -1147,28 +891,16 @@ img { max-width: 100%; display: block; }
     box-shadow: 0 18px 44px rgba(255, 140, 0, .22);
 }
 
-/* ویژه کارت جدید */
 .product-card.is-new {
     border-color: rgba(192, 132, 252, .45);
     background: linear-gradient(165deg, #201326, #120a1a);
     box-shadow: 0 12px 40px rgba(192, 132, 252, .15);
 }
 
-.product-card.is-new::before {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 20px;
-    background: radial-gradient(circle at 85% 12%, rgba(192, 132, 252, .18), transparent 55%);
-    pointer-events: none;
-    z-index: 0;
-}
-
 .product-card.is-new:hover {
     border-color: rgba(192, 132, 252, .75);
     box-shadow: 0 18px 50px rgba(192, 132, 252, .3);
 }
-
-.product-card.is-new > * { position: relative; z-index: 1; }
 
 .product-image {
     position: relative;
@@ -1194,10 +926,10 @@ img { max-width: 100%; display: block; }
     object-fit: contain;
     padding: 14px;
     image-rendering: pixelated;
-    transition: transform .4s var(--ease-smooth);
+    transition: transform .35s var(--ease);
 }
 
-.product-card:hover .product-image img { transform: scale(1.09); }
+.product-card:hover .product-image img { transform: scale(1.08); }
 
 .product-tags-left {
     position: absolute;
@@ -1218,22 +950,16 @@ img { max-width: 100%; display: block; }
     font-size: 10.5px;
     font-weight: 900;
     letter-spacing: .3px;
-    backdrop-filter: blur(6px);
     white-space: nowrap;
 }
 
 .product-tag img { width: 12px; height: 12px; image-rendering: pixelated; }
 
-.tag-hot { background: linear-gradient(135deg, #ff2d00, #ff5a00); color: #fff; box-shadow: 0 4px 14px rgba(255, 45, 0, .5); }
-.tag-vip { background: linear-gradient(135deg, #ffd23f, #ffb800); color: #1a0e00; box-shadow: 0 4px 14px rgba(255, 184, 0, .5); }
-.tag-off { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; box-shadow: 0 4px 14px rgba(34, 197, 94, .55); }
-
-.tag-new {
-    background: linear-gradient(135deg, #c084fc, #a855f7);
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(192, 132, 252, .55);
-    animation: badgeGlow 2.4s ease-in-out infinite;
-}
+.tag-hot { background: linear-gradient(135deg, #ff2d00, #ff5a00); color: #fff; }
+.tag-vip { background: linear-gradient(135deg, #ffd23f, #ffb800); color: #1a0e00; }
+.tag-off { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+.tag-new { background: linear-gradient(135deg, #c084fc, #a855f7); color: #fff; }
+.tag-stock { background: rgba(255, 45, 0, .18); border: 1px solid rgba(255, 45, 0, .5); color: #ff9b7a; }
 
 .product-name {
     font-size: 18px;
@@ -1253,9 +979,7 @@ img { max-width: 100%; display: block; }
     line-height: 1.8;
 }
 
-/* ============================================
-   SIZE SELECTOR
-   ============================================ */
+/* SIZE SELECTOR */
 .size-selector {
     display: flex;
     flex-wrap: wrap;
@@ -1293,18 +1017,13 @@ img { max-width: 100%; display: block; }
     font-size: 12.5px;
     font-weight: 800;
     cursor: pointer;
-    transition: all .25s var(--ease-smooth);
+    transition: all .22s var(--ease);
     direction: ltr;
     text-align: center;
     font-variant-numeric: tabular-nums;
-    letter-spacing: .3px;
 }
 
-.size-btn:hover {
-    border-color: rgba(192, 132, 252, .7);
-    color: var(--purple-soft);
-    transform: translateY(-2px);
-}
+.size-btn:hover { border-color: rgba(192, 132, 252, .7); color: var(--purple-soft); transform: translateY(-2px); }
 
 .size-btn.active {
     background: linear-gradient(135deg, #a855f7, #7c3aed);
@@ -1324,9 +1043,7 @@ img { max-width: 100%; display: block; }
 
 .size-btn.active .size-price-hint { opacity: .95; }
 
-/* ============================================
-   QUANTITY SLIDER — برای «هر میل پول سرور»
-   ============================================ */
+/* QUANTITY SLIDER */
 .quantity-block {
     margin-bottom: 12px;
     padding: 14px 14px 12px;
@@ -1356,19 +1073,8 @@ img { max-width: 100%; display: block; }
     display: inline-block;
 }
 
-.quantity-display .qty-unit {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--orange);
-    margin-right: 2px;
-}
-
-.quantity-display .qty-eq {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--muted);
-    opacity: .7;
-}
+.quantity-display .qty-unit { font-size: 14px; font-weight: 800; color: var(--orange); margin-right: 2px; }
+.quantity-display .qty-eq { font-size: 15px; font-weight: 800; color: var(--muted); opacity: .7; }
 
 .quantity-display .qty-price {
     font-size: 15.5px;
@@ -1392,7 +1098,6 @@ img { max-width: 100%; display: block; }
     outline: none;
     cursor: pointer;
     direction: ltr;
-    transition: background .2s;
     margin-bottom: 8px;
 }
 
@@ -1405,16 +1110,11 @@ img { max-width: 100%; display: block; }
     background: var(--grad-btn);
     cursor: pointer;
     border: 2px solid #1a0e00;
-    box-shadow: 0 0 14px rgba(255, 184, 0, .75), 0 2px 6px rgba(0, 0, 0, .55);
-    transition: transform .2s var(--ease-smooth), box-shadow .2s;
+    box-shadow: 0 0 14px rgba(255, 184, 0, .75);
+    transition: transform .2s;
 }
 
-.range-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.18);
-    box-shadow: 0 0 22px rgba(255, 184, 0, 1), 0 2px 8px rgba(0, 0, 0, .6);
-}
-
-.range-slider::-webkit-slider-thumb:active { transform: scale(1.05); }
+.range-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
 .range-slider::-moz-range-thumb {
     width: 22px;
@@ -1426,8 +1126,6 @@ img { max-width: 100%; display: block; }
     box-shadow: 0 0 14px rgba(255, 184, 0, .75);
 }
 
-.range-slider:focus { outline: none; }
-
 .range-labels {
     display: flex;
     justify-content: space-between;
@@ -1435,11 +1133,10 @@ img { max-width: 100%; display: block; }
     font-weight: 700;
     color: var(--muted);
     direction: ltr;
-    font-variant-numeric: tabular-nums;
     padding: 0 4px;
 }
 
-/* Product price box */
+/* Product price */
 .product-price {
     display: inline-flex;
     align-items: center;
@@ -1454,7 +1151,6 @@ img { max-width: 100%; display: block; }
     margin-bottom: 14px;
     align-self: flex-start;
     flex-wrap: wrap;
-    transition: background .35s, border-color .35s, transform .3s var(--ease-spring);
 }
 
 .product-card.is-new .product-price {
@@ -1466,45 +1162,30 @@ img { max-width: 100%; display: block; }
 .price-old { text-decoration: line-through; color: var(--muted); font-size: 13px; font-weight: 700; opacity: .8; }
 .price-new { color: var(--green-soft); font-weight: 900; }
 
-.price-bump { animation: priceBump .5s var(--ease-spring); }
-
-@keyframes priceBump {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.14); }
-    100% { transform: scale(1); }
-}
-
+/* BUY BUTTON (زیر هر محصول) */
 .buy-button {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    text-align: center;
     padding: 13px;
     border-radius: 13px;
     background: var(--grad-btn);
     color: #1a0e00;
     font-weight: 900;
     font-size: 15.5px;
-    transition: transform .28s var(--ease-smooth), box-shadow .3s, filter .2s;
+    transition: transform .25s var(--ease), box-shadow .25s, filter .2s;
     box-shadow: 0 8px 20px rgba(255, 90, 0, .36);
     cursor: pointer;
     font-family: inherit;
     border: none;
     width: 100%;
-    will-change: transform;
     margin-top: auto;
 }
 
 .buy-button img { width: 20px; height: 20px; image-rendering: pixelated; }
 
-.buy-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(255, 90, 0, .56);
-    filter: brightness(1.08);
-}
-
-.buy-button:active { transform: translateY(0); }
+.buy-button:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255, 90, 0, .5); filter: brightness(1.06); }
 
 .product-card.is-new .buy-button {
     background: var(--grad-purple);
@@ -1512,9 +1193,9 @@ img { max-width: 100%; display: block; }
     box-shadow: 0 8px 24px rgba(168, 85, 247, .48);
 }
 
-.product-card.is-new .buy-button:hover { box-shadow: 0 14px 34px rgba(168, 85, 247, .7); }
+.product-card.is-new .buy-button:hover { box-shadow: 0 14px 32px rgba(168, 85, 247, .65); }
 
-/* CHANGELOG */
+/* ─── CHANGELOG ─── */
 .changelog-wrap { max-width: 860px; margin: 0 auto; position: relative; padding-right: 28px; }
 
 .changelog-wrap::before {
@@ -1535,9 +1216,8 @@ img { max-width: 100%; display: block; }
     border-radius: 18px;
     padding: 20px 22px;
     margin-bottom: 20px;
-    transition: transform .3s var(--ease-smooth), border-color .3s, box-shadow .3s;
+    transition: transform .28s var(--ease), border-color .28s;
     overflow: hidden;
-    will-change: transform;
 }
 
 .log-item::before {
@@ -1558,14 +1238,9 @@ img { max-width: 100%; display: block; }
     background: var(--bg-1);
     border: 2px solid var(--yellow);
     box-shadow: 0 0 12px rgba(255, 184, 0, .6);
-    z-index: 2;
 }
 
-.log-item:hover {
-    transform: translateX(-4px);
-    border-color: rgba(255, 184, 0, .5);
-    box-shadow: 0 14px 36px rgba(255, 140, 0, .16);
-}
+.log-item:hover { transform: translateX(-4px); border-color: rgba(255, 184, 0, .5); }
 
 .log-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 
@@ -1577,39 +1252,21 @@ img { max-width: 100%; display: block; }
     border-radius: 999px;
     font-size: 12px;
     font-weight: 900;
-    letter-spacing: .5px;
     background: var(--grad-btn);
     color: #1a0e00;
-    box-shadow: 0 4px 14px rgba(255, 90, 0, .35);
 }
 
 .log-version img { width: 14px; height: 14px; image-rendering: pixelated; }
+.log-version.latest { background: linear-gradient(135deg, #ff2d00, #ff5a00); color: #fff; }
+.log-version.new-feature { background: linear-gradient(135deg, #c084fc, #a855f7); color: #fff; }
 
-.log-version.latest {
-    background: linear-gradient(135deg, #ff2d00, #ff5a00);
-    color: #fff;
-    animation: badgeGlow 2.5s ease-in-out infinite;
-}
-
-.log-version.new-feature {
-    background: linear-gradient(135deg, #c084fc, #a855f7);
-    color: #fff;
-    animation: badgeGlow 2.5s ease-in-out infinite;
-}
-
-.log-date { font-size: 12px; color: var(--muted); font-weight: 700; direction: ltr; font-variant-numeric: tabular-nums; }
-
-.log-title { font-size: 17px; font-weight: 900; color: var(--yellow); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.log-date { font-size: 12px; color: var(--muted); font-weight: 700; direction: ltr; }
+.log-title { font-size: 17px; font-weight: 900; color: var(--yellow); margin-bottom: 8px; }
 
 .log-body { color: var(--text); font-size: 14.5px; line-height: 2; }
 .log-body ul { list-style: none; margin-top: 6px; }
 
-.log-body li {
-    position: relative;
-    padding-right: 20px;
-    margin-bottom: 4px;
-    color: #efe1c8;
-}
+.log-body li { position: relative; padding-right: 20px; margin-bottom: 4px; color: #efe1c8; }
 
 .log-body li::before {
     content: '▸';
@@ -1629,7 +1286,6 @@ img { max-width: 100%; display: block; }
     padding: 3px 10px;
     border-radius: 999px;
     border: 1px solid;
-    letter-spacing: .3px;
 }
 
 .tag-new-c { color: #4ade80; border-color: rgba(74, 222, 128, .45); background: rgba(74, 222, 128, .1); }
@@ -1638,7 +1294,7 @@ img { max-width: 100%; display: block; }
 .tag-event { color: #ff8c00; border-color: rgba(255, 140, 0, .45); background: rgba(255, 140, 0, .1); }
 .tag-feature { color: #c084fc; border-color: rgba(192, 132, 252, .45); background: rgba(192, 132, 252, .1); }
 
-/* SUPPORT */
+/* ─── SUPPORT ─── */
 .support-card {
     max-width: 780px;
     margin: 0 auto;
@@ -1664,7 +1320,6 @@ img { max-width: 100%; display: block; }
     image-rendering: pixelated;
     margin: 0 auto 12px;
     display: block;
-    filter: drop-shadow(0 0 18px rgba(255, 184, 0, .6));
     animation: foxBounce 3s ease-in-out infinite;
 }
 
@@ -1694,13 +1349,12 @@ img { max-width: 100%; display: block; }
     letter-spacing: 1px;
     direction: ltr;
     box-shadow: 0 12px 32px rgba(255, 90, 0, .42);
-    transition: transform .3s var(--ease-smooth), box-shadow .3s;
+    transition: transform .25s var(--ease), box-shadow .25s;
     margin-bottom: 14px;
     font-variant-numeric: tabular-nums;
-    will-change: transform;
 }
 
-.support-call:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 42px rgba(255, 90, 0, .6); }
+.support-call:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 40px rgba(255, 90, 0, .55); }
 .support-call img { width: 26px; height: 26px; image-rendering: pixelated; }
 
 .support-note {
@@ -1736,7 +1390,7 @@ img { max-width: 100%; display: block; }
     animation: livePulse 1.5s ease-in-out infinite;
 }
 
-/* ABOUT */
+/* ─── ABOUT ─── */
 .about-card {
     background: linear-gradient(160deg, #1c1108, #120a04);
     border: 1px solid var(--border);
@@ -1780,10 +1434,10 @@ img { max-width: 100%; display: block; }
     border-radius: 13px;
     font-size: 14px;
     font-weight: 600;
-    transition: border-color .25s, transform .25s var(--ease-smooth);
     display: flex;
     align-items: center;
     gap: 9px;
+    transition: border-color .25s, transform .25s;
 }
 
 .about-list li:hover { border-color: var(--yellow); transform: translateY(-2px); }
@@ -1797,7 +1451,7 @@ img { max-width: 100%; display: block; }
     flex-shrink: 0;
 }
 
-/* FOOTER */
+/* ─── FOOTER ─── */
 .site-footer {
     border-top: 1px solid var(--border);
     background: rgba(21, 12, 6, .95);
@@ -1849,14 +1503,14 @@ img { max-width: 100%; display: block; }
     padding: 10px 20px;
     border-radius: 11px;
     background: var(--grad-btn);
-    transition: transform .28s var(--ease-smooth), box-shadow .3s;
+    transition: transform .25s var(--ease), box-shadow .25s;
     box-shadow: 0 8px 20px rgba(255, 90, 0, .36);
     direction: ltr;
 }
 
-.footer-rubika:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255, 90, 0, .52); }
+.footer-rubika:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255, 90, 0, .5); }
 
-/* MODAL */
+/* ─── MODAL ─── */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1868,9 +1522,7 @@ img { max-width: 100%; display: block; }
     padding: 18px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity .28s var(--ease-smooth);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    transition: opacity .25s;
 }
 
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -1885,7 +1537,7 @@ img { max-width: 100%; display: block; }
     position: relative;
     text-align: center;
     transform: translate3d(0, 24px, 0) scale(.95);
-    transition: transform .4s var(--ease-spring);
+    transition: transform .35s var(--ease);
     box-shadow: 0 24px 70px rgba(0, 0, 0, .75);
     max-height: 90vh;
     overflow-y: auto;
@@ -1904,8 +1556,7 @@ img { max-width: 100%; display: block; }
 
 .modal-close {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    top: 14px; left: 14px;
     width: 36px; height: 36px;
     border-radius: 50%;
     background: rgba(255, 90, 0, .18);
@@ -1917,10 +1568,9 @@ img { max-width: 100%; display: block; }
     justify-content: center;
     cursor: pointer;
     font-family: inherit;
-    transition: background .25s, color .25s, transform .35s var(--ease-smooth);
+    transition: background .2s, color .2s, transform .25s;
     z-index: 10;
     padding: 0;
-    line-height: 1;
 }
 
 .modal-close:hover { background: var(--red); color: #fff; transform: rotate(90deg); }
@@ -1930,7 +1580,6 @@ img { max-width: 100%; display: block; }
     image-rendering: pixelated;
     margin: 0 auto 12px;
     display: block;
-    filter: drop-shadow(0 0 14px rgba(255, 184, 0, .55));
 }
 
 .modal-title {
@@ -1945,7 +1594,6 @@ img { max-width: 100%; display: block; }
 
 .modal-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.9; }
 
-/* Order summary in modal */
 .order-summary {
     background: rgba(13, 8, 5, .7);
     border: 1px dashed rgba(192, 132, 252, .4);
@@ -1983,7 +1631,6 @@ img { max-width: 100%; display: block; }
     border-radius: 8px;
     font-size: 12.5px;
     direction: ltr;
-    font-variant-numeric: tabular-nums;
 }
 
 .pay-methods { display: flex; flex-direction: column; gap: 12px; }
@@ -2000,16 +1647,11 @@ img { max-width: 100%; display: block; }
     font-family: inherit;
     text-align: right;
     color: var(--text);
-    transition: border-color .28s, transform .28s var(--ease-smooth), background .28s;
+    transition: border-color .25s, transform .25s, background .25s;
     width: 100%;
-    will-change: transform;
 }
 
-.pay-method:hover {
-    border-color: var(--yellow);
-    transform: translateY(-2px);
-    background: rgba(28, 17, 8, .85);
-}
+.pay-method:hover { border-color: var(--yellow); transform: translateY(-2px); background: rgba(28, 17, 8, .85); }
 
 .pay-method-icon {
     width: 46px; height: 46px;
@@ -2032,7 +1674,7 @@ img { max-width: 100%; display: block; }
     color: var(--muted);
     font-size: 18px;
     flex-shrink: 0;
-    transition: transform .28s var(--ease-smooth), color .28s;
+    transition: transform .25s, color .25s;
 }
 
 .pay-method:hover .pay-method-arrow { color: var(--yellow); transform: translateX(-4px); }
@@ -2052,7 +1694,6 @@ img { max-width: 100%; display: block; }
 .bank-warning-icon {
     width: 56px; height: 56px;
     image-rendering: pixelated;
-    filter: drop-shadow(0 0 16px rgba(255, 45, 0, .6));
     animation: foxBounce 2s ease-in-out infinite;
 }
 
@@ -2072,7 +1713,7 @@ img { max-width: 100%; display: block; }
     font-size: 14px;
     cursor: pointer;
     font-family: inherit;
-    transition: border-color .25s, color .25s, transform .25s var(--ease-smooth);
+    transition: border-color .25s, color .25s, transform .25s;
 }
 
 .btn-back:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-2px); }
@@ -2087,18 +1728,11 @@ img { max-width: 100%; display: block; }
     background: rgba(13, 8, 5, .7);
     border: 1px solid var(--border);
     border-radius: 13px;
-    transition: border-color .25s, transform .25s var(--ease-smooth), background .25s;
+    transition: border-color .25s, transform .25s;
     text-align: right;
-    text-decoration: none;
-    color: inherit;
-    will-change: transform;
 }
 
-.modal-item:hover {
-    border-color: var(--yellow);
-    transform: translateX(-4px);
-    background: rgba(28, 17, 8, .8);
-}
+.modal-item:hover { border-color: var(--yellow); transform: translateX(-4px); }
 
 .modal-item-icon {
     width: 44px; height: 44px;
@@ -2109,7 +1743,6 @@ img { max-width: 100%; display: block; }
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    overflow: hidden;
 }
 
 .modal-item-icon img { width: 30px; height: 30px; image-rendering: pixelated; object-fit: contain; }
@@ -2125,18 +1758,17 @@ img { max-width: 100%; display: block; }
     text-align: right;
 }
 
-/* STICKY MOBILE CTA */
+/* ─── STICKY MOBILE CTA ─── */
 .sticky-cta {
     position: fixed;
-    bottom: 0;
-    left: 0; right: 0;
+    bottom: 0; left: 0; right: 0;
     z-index: 90;
     padding: 10px 14px;
     background: linear-gradient(180deg, transparent, rgba(13, 8, 5, .98) 35%);
     display: none;
     pointer-events: none;
     transform: translate3d(0, 100%, 0);
-    transition: transform .4s var(--ease-smooth);
+    transition: transform .35s var(--ease);
 }
 
 .sticky-cta.visible { transform: translate3d(0, 0, 0); pointer-events: auto; }
@@ -2156,50 +1788,33 @@ img { max-width: 100%; display: block; }
     cursor: pointer;
     font-family: inherit;
     border: none;
-    box-shadow: 0 12px 30px rgba(255, 90, 0, .55), 0 0 0 1px rgba(255, 184, 0, .3) inset;
-    animation: stickyPulse 2.4s ease-in-out infinite;
+    box-shadow: 0 12px 30px rgba(255, 90, 0, .5);
 }
 
 .sticky-cta-btn img { width: 22px; height: 22px; image-rendering: pixelated; }
-
-@keyframes stickyPulse {
-    0%, 100% { box-shadow: 0 12px 30px rgba(255, 90, 0, .55), 0 0 0 1px rgba(255, 184, 0, .3) inset; }
-    50%      { box-shadow: 0 12px 40px rgba(255, 140, 0, .8), 0 0 0 2px rgba(255, 210, 63, .5) inset; }
-}
 
 @media (max-width: 760px) {
     .sticky-cta { display: block; }
     body { padding-bottom: 84px; }
 }
 
-/* CARD ENTRANCE */
+/* ─── ENTRANCE ─── */
 .js-ready .product-card,
-.js-ready .log-item,
-.js-ready .trust-card,
-.js-ready .featured-box {
+.js-ready .log-item {
     opacity: 0;
     transform: translate3d(0, 22px, 0);
-    transition: opacity .55s var(--ease-smooth), transform .55s var(--ease-smooth), border-color .3s, box-shadow .3s;
+    transition: opacity .5s var(--ease), transform .5s var(--ease), border-color .3s, box-shadow .3s;
 }
 
 .js-ready .product-card.visible,
-.js-ready .log-item.visible,
-.js-ready .trust-card.visible,
-.js-ready .featured-box.visible {
+.js-ready .log-item.visible {
     opacity: 1;
     transform: translate3d(0, 0, 0);
 }
 
 .js-ready .product-card.visible:hover { transform: translate3d(0, -7px, 0); }
-.js-ready .log-item.visible:hover { transform: translate3d(-4px, 0, 0); }
-.js-ready .trust-card.visible:hover { transform: translate3d(0, -3px, 0); }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .featured-box { grid-template-columns: 1fr; gap: 20px; }
-    .featured-media { aspect-ratio: 16/10; }
-}
-
+/* ─── RESPONSIVE ─── */
 @media (max-width: 760px) {
     .menu-toggle { display: flex; }
 
@@ -2217,12 +1832,11 @@ img { max-width: 100%; display: block; }
         transform: translate3d(0, -12px, 0);
         opacity: 0;
         pointer-events: none;
-        transition: transform .28s var(--ease-smooth), opacity .28s;
+        transition: transform .25s, opacity .25s;
         box-shadow: 0 15px 40px rgba(0, 0, 0, .65);
     }
 
     .nav.open { transform: translate3d(0, 0, 0); opacity: 1; pointer-events: auto; }
-
     .nav-link { padding: 13px; text-align: center; justify-content: center; }
 
     .live-inner { gap: 9px; }
@@ -2235,22 +1849,16 @@ img { max-width: 100%; display: block; }
     .hero-title .outline { letter-spacing: 5px; }
 
     .server-card { padding: 22px 16px; }
-
     .products-grid { grid-template-columns: 1fr; gap: 16px; }
 
     .product-card:hover { transform: none; }
     .js-ready .product-card.visible:hover { transform: none; }
-    .product-card:hover .product-image img { transform: none; }
 
     .about-card { padding: 24px 18px; }
-
     .footer-inner { flex-direction: column; text-align: center; }
     .footer-contact { text-align: center; }
-
     .section-header { margin-bottom: 32px; }
-
     .modal-box { padding: 30px 18px; }
-
     .stats-row { gap: 10px; margin-top: 36px; }
     .stat-value { font-size: 22px; }
 
@@ -2269,9 +1877,6 @@ img { max-width: 100%; display: block; }
     .discount-row { flex-direction: column; }
     .discount-btn { width: 100%; }
 
-    .trust-strip { grid-template-columns: 1fr; }
-    .featured-title { font-size: 20px; }
-
     .size-btn { flex: 1 1 calc(50% - 3px); }
     .quantity-display .qty-num { font-size: 19px; }
     .quantity-display .qty-price { font-size: 14px; }
@@ -2289,11 +1894,9 @@ img { max-width: 100%; display: block; }
 <body>
 
 <!-- BACKGROUND -->
-<div class="aurora"></div>
 <div class="bg-grid"></div>
 <div class="particles">
-    <span></span><span></span><span></span>
-    <span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
 </div>
 
 
@@ -2303,7 +1906,7 @@ img { max-width: 100%; display: block; }
         <div class="season-pulse"><span class="season-dot"></span></div>
         <div class="season-text">
             <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt="" class="mc-icon"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
             <span><strong>سیزن سوم FoxNova</strong> رسماً آغاز شد — دنیایی کاملاً جدید در انتظار توست!</span>
         </div>
         <span class="season-cta">همین حالا وارد شو</span>
@@ -2315,11 +1918,9 @@ img { max-width: 100%; display: block; }
 <!-- HEADER -->
 <header class="site-header" id="siteHeader">
     <div class="container header-inner">
-
         <a href="#home" class="logo">
-            <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png"
-                 alt="Fox" class="logo-icon"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:28px&quot;>◆</span>'">
+            <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png" alt="Fox" class="logo-icon"
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:28px&quot;>◆</span>'">
             <span class="logo-text">FoxNova</span>
         </a>
 
@@ -2335,7 +1936,6 @@ img { max-width: 100%; display: block; }
         <button class="menu-toggle" id="menuToggle" aria-label="منو">
             <span></span><span></span><span></span>
         </button>
-
     </div>
 </header>
 
@@ -2343,7 +1943,6 @@ img { max-width: 100%; display: block; }
 <!-- LIVE BAR -->
 <div class="live-bar">
     <div class="container live-inner">
-
         <div class="live-status">
             <span class="live-dot" id="liveDot"></span>
             <span class="live-status-text" id="liveStatusText">در حال بررسی سرور...</span>
@@ -2356,14 +1955,12 @@ img { max-width: 100%; display: block; }
 
         <div class="live-ip-mini" id="liveIpMini" title="برای کپی کلیک کن">
             <img src="https://minecraft.wiki/images/Compass_JE3_BE3.png" alt="" style="width:16px;height:16px;image-rendering:pixelated;"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
             <span>217.18.90.4:19132</span>
         </div>
 
-        <button type="button" class="refresh-btn" id="refreshBtn" title="بروزرسانی وضعیت" aria-label="بروزرسانی">⟳</button>
-
+        <button type="button" class="refresh-btn" id="refreshBtn" title="بروزرسانی" aria-label="بروزرسانی">⟳</button>
         <div class="player-list-container" id="playerListContainer"></div>
-
     </div>
 </div>
 
@@ -2371,19 +1968,17 @@ img { max-width: 100%; display: block; }
 <!-- HERO -->
 <section class="hero" id="home">
     <div class="container">
-
         <div class="hero-greeting">
             <img id="greetIcon" class="greet-icon"
-                 src="https://minecraft.wiki/images/Clock_JE3_BE3.png"
-                 alt=""
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                 src="https://minecraft.wiki/images/Clock_JE3_BE3.png" alt=""
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
             <span id="greetText">سلام!</span>
             <span class="greet-time" id="greetTime">--:--</span>
         </div>
 
         <div class="hero-badge">
             <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt="" class="mc-icon"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
             <span>سیزن سوم FoxNova آغاز شد!</span>
         </div>
 
@@ -2401,12 +1996,12 @@ img { max-width: 100%; display: block; }
         <div class="hero-buttons">
             <a href="#shop" class="btn btn-primary">
                 <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png" alt="" style="width:20px;height:20px;image-rendering:pixelated;"
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 ورود به فروشگاه
             </a>
             <a href="#changelog" class="btn btn-outline">
                 <img src="https://minecraft.wiki/images/Book_JE2_BE2.png" alt="" style="width:20px;height:20px;image-rendering:pixelated;"
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 تغییرات سیزن سوم
             </a>
         </div>
@@ -2414,22 +2009,22 @@ img { max-width: 100%; display: block; }
         <div class="trust-bar">
             <div class="trust-item">
                 <img src="https://minecraft.wiki/images/Beacon_JE3_BE2.png" alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 <span>تحویل فوری</span>
             </div>
             <div class="trust-item">
                 <img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 <span>پرداخت امن</span>
             </div>
             <div class="trust-item">
                 <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 <span>پشتیبانی ۲۴/۷</span>
             </div>
             <div class="trust-item">
                 <img src="https://minecraft.wiki/images/Diamond_JE3_BE3.png" alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 <span>تضمین کیفیت</span>
             </div>
         </div>
@@ -2452,7 +2047,6 @@ img { max-width: 100%; display: block; }
                 <div class="stat-label">آپ‌تایم سرور</div>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -2461,16 +2055,13 @@ img { max-width: 100%; display: block; }
 <section class="server-info" id="server">
     <div class="container">
         <div class="server-card">
-
             <div class="server-card-title">
-                <img src="https://minecraft.wiki/images/Compass_JE3_BE3.png"
-                     alt="" class="mc-icon"
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Compass_JE3_BE3.png" alt="" class="mc-icon"
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 اطلاعات سرور FoxNova — سیزن سوم
             </div>
 
             <div class="server-grid">
-
                 <div class="server-item">
                     <div class="server-item-label">آی‌پی سرور</div>
                     <div class="ip-copy">
@@ -2508,349 +2099,45 @@ img { max-width: 100%; display: block; }
                     <div class="server-item-label">پشتیبانی ۲۴ ساعته</div>
                     <div class="server-item-value">۰۹۱۴۸۱۴۰۴۶۶</div>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
 
 
-<!-- PRODUCTS -->
+<!-- SHOP -->
 <section class="shop-section" id="shop">
     <div class="container">
-
         <div class="section-header">
             <div class="section-tag">
-                <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png"
-                     alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 SHOP — SEASON III
             </div>
             <h2 class="section-title">فروشگاه <span class="gradient-text">FoxNova</span></h2>
             <p class="section-subtitle">کیت مورد نظرت رو انتخاب کن و روی خرید بزن</p>
         </div>
 
-        <!-- Trust strip -->
-        <div class="trust-strip">
-            <div class="trust-card">
-                <div class="trust-card-icon">
-                    <img src="https://minecraft.wiki/images/Beacon_JE3_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                </div>
-                <div class="trust-card-info">
-                    <div class="trust-card-title">تحویل فوری</div>
-                    <div class="trust-card-desc">کمتر از ۵ دقیقه</div>
-                </div>
-            </div>
-            <div class="trust-card">
-                <div class="trust-card-icon">
-                    <img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                </div>
-                <div class="trust-card-info">
-                    <div class="trust-card-title">پرداخت مطمئن</div>
-                    <div class="trust-card-desc">با پشتیبانی مستقیم</div>
-                </div>
-            </div>
-            <div class="trust-card">
-                <div class="trust-card-icon">
-                    <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                </div>
-                <div class="trust-card-info">
-                    <div class="trust-card-title">پشتیبانی ۲۴/۷</div>
-                    <div class="trust-card-desc">هر ساعت از شبانه‌روز</div>
-                </div>
-            </div>
-            <div class="trust-card">
-                <div class="trust-card-icon">
-                    <img src="https://minecraft.wiki/images/Totem_of_Undying_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                </div>
-                <div class="trust-card-info">
-                    <div class="trust-card-title">تضمین بازگشت</div>
-                    <div class="trust-card-desc">در صورت مشکل</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Featured product -->
-        <div class="featured-box">
-            <div class="featured-media">
-                <div class="featured-ribbon">
-                    <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    پیشنهاد ویژه
-                </div>
-                <img src="https://cdn.imgurl.ir/uploads/k97948_Untitled48_20260916123322.png"
-                     alt="کیت گاد"
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:60px&quot;>◆</span>'">
-            </div>
-            <div class="featured-info">
-                <div class="featured-label">
-                    <img src="https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" alt=""
-                         style="width:14px;height:14px;image-rendering:pixelated;"
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    پرفروش‌ترین محصول سیزن
-                </div>
-                <h3 class="featured-title">کیت گاد — فول انچنت + رنک VIP</h3>
-                <p class="featured-desc">
-                    کامل‌ترین کیت سرور با تمام انچنت‌های سطح بالا، آرمور ندرایت و
-                    <strong>رنک VIP رایگان</strong> برای همیشه. تنها کیتی که همه پلیرهای حرفه‌ای
-                    برای شروع سیزن سوم انتخاب می‌کنند.
-                </p>
-                <div class="featured-perks">
-                    <span class="featured-perk">
-                        <img src="https://minecraft.wiki/images/Diamond_JE3_BE3.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                        فول انچنت
-                    </span>
-                    <span class="featured-perk">
-                        <img src="https://minecraft.wiki/images/Netherite_Ingot_JE1_BE2.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                        آرمور ندرایت
-                    </span>
-                    <span class="featured-perk">
-                        <img src="https://minecraft.wiki/images/Emerald_JE3_BE3.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                        رنک VIP دائمی
-                    </span>
-                </div>
-                <button type="button" class="featured-buy" data-open-modal="buyModal"
-                        data-product-name="کیت گاد"
-                        data-price="1800000">
-                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    همین حالا سفارش بده
-                </button>
-            </div>
-        </div>
-
-        <!-- Discount box -->
+        <!-- کد تخفیف — اول فروشگاه -->
         <div class="discount-box" id="discountBox">
             <div class="discount-title">
                 <img src="https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 <span>کد تخفیف داری؟</span>
             </div>
             <p class="discount-hint">
                 کد تخفیف ویژه خود را در کادر زیر وارد کنید و از تخفیف روی همه محصولات بهره‌مند شوید.
             </p>
             <div class="discount-row">
-                <input type="text"
-                       class="discount-input"
-                       id="discountInput"
-                       placeholder="کد تخفیف را وارد کنید..."
-                       autocomplete="off"
-                       spellcheck="false">
+                <input type="text" class="discount-input" id="discountInput"
+                       placeholder="کد تخفیف را وارد کنید..." autocomplete="off" spellcheck="false">
                 <button type="button" class="discount-btn" id="discountBtn">اعمال کد</button>
             </div>
             <div class="discount-msg" id="discountMsg"></div>
         </div>
 
-        <!-- ================================================================
-             PRODUCTS GRID
-             ================================================================ -->
-        <div class="products-grid" id="productsGrid">
-
-            <!-- ═══════════════════════════════════════════════════════════
-                 ✦✦✦ اولین محصول: ساخت استش و بیس ✦✦✦
-                 
-                 📷 عکس: برای تغییر عکس، فقط آدرس داخل src را عوض کن
-                 ═══════════════════════════════════════════════════════════ -->
-            <div class="product-card is-new" id="stashBaseCard">
-                <div class="product-image">
-                    <div class="product-tags-left">
-                        <span class="product-tag tag-new">
-                            <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
-                                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                            جدید
-                        </span>
-                    </div>
-                    <!-- ▼▼▼ لینک عکس استش و بیس را اینجا بگذار ▼▼▼ -->
-                    <img src="https://cdn.imgurl.ir/uploads/p906822_Untitled48_20260916123322.png"
-                         alt="ساخت استش و بیس" loading="lazy"
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
-                    <!-- ▲▲▲ لینک عکس استش و بیس را اینجا بگذار ▲▲▲ -->
-                </div>
-                <h3 class="product-name">
-                    ساخت استش و بیس
-                    <span class="product-tag tag-new" style="font-size:9.5px;padding:2px 8px;">
-                        <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                        NEW
-                    </span>
-                </h3>
-                <p class="product-caption">ساخت استش و بیس اختصاصی با اندازه دلخواه — کاملاً مخفی و امن</p>
-
-                <!-- SIZE SELECTOR -->
-                <div class="size-selector" data-size-selector>
-                    <div class="size-selector-label">
-                        <img src="https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                        اندازه را انتخاب کنید
-                    </div>
-                    <button type="button" class="size-btn active" data-size="20x20" data-price="300000">
-                        20×20
-                        <span class="size-price-hint">300K</span>
-                    </button>
-                    <button type="button" class="size-btn" data-size="40x40" data-price="800000">
-                        40×40
-                        <span class="size-price-hint">800K</span>
-                    </button>
-                    <button type="button" class="size-btn" data-size="60x60" data-price="1800000">
-                        60×60
-                        <span class="size-price-hint">1.8M</span>
-                    </button>
-                    <button type="button" class="size-btn" data-size="80x80" data-price="3500000">
-                        80×80
-                        <span class="size-price-hint">3.5M</span>
-                    </button>
-                    <button type="button" class="size-btn" data-size="100x100" data-price="6000000">
-                        100×100
-                        <span class="size-price-hint">6M</span>
-                    </button>
-                </div>
-
-                <div class="product-price" data-price="300000" id="stashPriceBox">
-                    <span class="price-value" id="stashPriceValue">300,000 ریال</span>
-                </div>
-
-                <button type="button" class="buy-button" data-open-modal="buyModal"
-                        data-product-name="ساخت استش و بیس"
-                        data-size="20x20"
-                        data-price="300000">
-                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    خرید
-                </button>
-            </div>
-
-            <!-- کیت گاد -->
-            <div class="product-card">
-                <div class="product-image">
-                    <div class="product-tags-left">
-                        <span class="product-tag tag-hot">پرفروش</span>
-                    </div>
-                    <img src="https://cdn.imgurl.ir/uploads/k97948_Untitled48_20260916123322.png"
-                         alt="کیت گاد" loading="lazy"
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
-                </div>
-                <h3 class="product-name">کیت گاد</h3>
-                <p class="product-caption">کیت فول انچنت به همراه رنک VIP</p>
-                <div class="product-price" data-price="1800000">
-                    <span class="price-value">1,800,000 ریال</span>
-                </div>
-                <button type="button" class="buy-button" data-open-modal="buyModal"
-                        data-product-name="کیت گاد"
-                        data-price="1800000">
-                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    خرید
-                </button>
-            </div>
-
-            <!-- کیت دایمندی -->
-            <div class="product-card">
-                <div class="product-image">
-                    <div class="product-tags-left">
-                        <span class="product-tag tag-vip">ویژه</span>
-                    </div>
-                    <img src="https://cdn.imgurl.ir/uploads/m10702_Untitled48_20260917120247.png"
-                         alt="کیت دایمندی" loading="lazy"
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
-                </div>
-                <h3 class="product-name">کیت دایمندی</h3>
-                <p class="product-caption">کیت دایمندی فول اینچنت + کلنک آمتیست سی روزه</p>
-                <div class="product-price" data-price="900000">
-                    <span class="price-value">900,000 ریال</span>
-                </div>
-                <button type="button" class="buy-button" data-open-modal="buyModal"
-                        data-product-name="کیت دایمندی"
-                        data-price="900000">
-                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    خرید
-                </button>
-            </div>
-
-            <!-- ساخت مپ آرت -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://cdn.imgurl.ir/uploads/x1838_Screenshot_2026-09-17-16-19-27-846_com.mojang.mine1215007.jpg"
-                         alt="ساخت مپ آرت" loading="lazy"
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
-                </div>
-                <h3 class="product-name">ساخت مپ آرت</h3>
-                <p class="product-caption">ساخت مپ آرت با عکس دلخواه</p>
-                <div class="product-price" data-price="300000">
-                    <span class="price-value">300,000 ریال</span>
-                </div>
-                <button type="button" class="buy-button" data-open-modal="buyModal"
-                        data-product-name="ساخت مپ آرت"
-                        data-price="300000">
-                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    خرید
-                </button>
-            </div>
-
-            <!-- ═══════════════════════════════════════════════════════════
-                 ✦✦✦ هر میل پول سرور — با اسلایدر انتخاب مقدار ✦✦✦
-                 
-                 ⚙️ برای تغییر بازه یا قیمت، فقط مقادیر زیر را ویرایش کن:
-                    - min="1"     : حداقل مقدار (میلیون)
-                    - max="500"   : حداکثر مقدار (میلیون)
-                    - value="10"  : مقدار پیش‌فرض
-                    - data-price-per-unit="50000" : قیمت هر میلیون به ریال
-                 ═══════════════════════════════════════════════════════════ -->
-            <div class="product-card" id="moneyCard">
-                <div class="product-image">
-                    <img src="https://cdn.imgurl.ir/uploads/c76020_1061777-----.jpg"
-                         alt="هر میل پول سرور" loading="lazy"
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:56px&quot;>◆</span>'">
-                </div>
-                <h3 class="product-name">هر میل پول سرور</h3>
-                <p class="product-caption">مقدار دلخواه پول سرور را انتخاب کن — قیمت به‌صورت لحظه‌ای محاسبه می‌شود</p>
-
-                <!-- QUANTITY SLIDER -->
-                <div class="quantity-block"
-                     data-slider
-                     data-price-per-unit="50000">
-                    <div class="quantity-display">
-                        <span class="qty-num" id="moneyQty">10</span><span class="qty-unit">m</span>
-                        <span class="qty-eq">=</span>
-                        <span class="qty-price" id="moneyLivePrice">500,000 ریال</span>
-                    </div>
-                    <input type="range"
-                           class="range-slider"
-                           id="moneySlider"
-                           min="1"
-                           max="500"
-                           value="10"
-                           step="1">
-                    <div class="range-labels">
-                        <span>1m</span>
-                        <span>500m</span>
-                    </div>
-                </div>
-
-                <div class="product-price" data-price="500000" id="moneyPriceBox" style="display:none;">
-                    <span class="price-value" id="moneyPriceValue">500,000 ریال</span>
-                </div>
-
-                <button type="button" class="buy-button" data-open-modal="buyModal"
-                        data-product-name="هر میل پول سرور"
-                        data-size="10m"
-                        data-price="500000">
-                    <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-                         onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                    خرید
-                </button>
-            </div>
-
-        </div>
-
+        <!-- محصولات — به‌صورت داینامیک از JS رندر می‌شوند -->
+        <div class="products-grid" id="productsGrid"></div>
     </div>
 </section>
 
@@ -2858,12 +2145,10 @@ img { max-width: 100%; display: block; }
 <!-- CHANGELOG -->
 <section class="changelog-section" id="changelog">
     <div class="container">
-
         <div class="section-header">
             <div class="section-tag">
-                <img src="https://minecraft.wiki/images/Book_JE2_BE2.png"
-                     alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Book_JE2_BE2.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 CHANGELOG
             </div>
             <h2 class="section-title">تغییرات <span class="gradient-text">FoxNova</span></h2>
@@ -2871,12 +2156,11 @@ img { max-width: 100%; display: block; }
         </div>
 
         <div class="changelog-wrap">
-
             <div class="log-item">
                 <div class="log-head">
                     <span class="log-version new-feature">
                         <img src="https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                         قابلیت جدید
                     </span>
                     <span class="log-date">2026/09/18</span>
@@ -2887,13 +2171,11 @@ img { max-width: 100%; display: block; }
                     می‌تونید اندازه دلخواه خودتون رو از بین ۵ سایز مختلف انتخاب کنید:
                     <ul>
                         <li><strong>20×20</strong> — برای بیس‌های کوچک و مخفی</li>
-                        <li><strong>40×40</strong> — برای بیس‌های متوسط و استش‌های استاندارد</li>
-                        <li><strong>60×60</strong> — برای بیس‌های بزرگ با فضای ذخیره‌سازی بالا</li>
-                        <li><strong>80×80</strong> — برای بیس‌های حرفه‌ای و چندطبقه</li>
-                        <li><strong>100×100</strong> — برای استش‌های غول‌پیکر و کلن‌بیس</li>
+                        <li><strong>40×40</strong> — برای بیس‌های متوسط</li>
+                        <li><strong>60×60</strong> — برای بیس‌های بزرگ</li>
+                        <li><strong>80×80</strong> — برای بیس‌های حرفه‌ای</li>
+                        <li><strong>100×100</strong> — برای استش‌های غول‌پیکر</li>
                     </ul>
-                    هر اندازه قیمت مخصوص به خودش رو داره و با انتخاب هر سایز، قیمت به‌صورت خودکار
-                    به‌روز میشه.
                 </div>
                 <div class="log-tags">
                     <span class="log-tag tag-feature">قابلیت جدید</span>
@@ -2905,17 +2187,16 @@ img { max-width: 100%; display: block; }
                 <div class="log-head">
                     <span class="log-version latest">
                         <img src="https://minecraft.wiki/images/Nether_Star_JE3_BE3.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                         SEASON III
                     </span>
                     <span class="log-date">2026/09/18</span>
                 </div>
                 <h3 class="log-title">آغاز رسمی سیزن سوم!</h3>
                 <div class="log-body">
-                    سیزن سوم FoxNova با یک دنیای کاملاً جدید و امکانات تازه آغاز شد. از این لحظه
-                    همه چیز از صفر شروع می‌شود — بیایید و سیزن جدید را با هم بسازیم!
+                    سیزن سوم FoxNova با یک دنیای کاملاً جدید و امکانات تازه آغاز شد.
                     <ul>
-                        <li>نقشه کاملاً جدید با بیوم‌های تازه و ساختارهای مخفی</li>
+                        <li>نقشه کاملاً جدید با بیوم‌های تازه</li>
                         <li>سیستم اقتصاد جدید و متعادل‌تر</li>
                         <li>کیت‌های سیزن سوم با قابلیت‌های ویژه</li>
                         <li>ایونت‌های هفتگی با جوایز اختصاصی</li>
@@ -2924,7 +2205,6 @@ img { max-width: 100%; display: block; }
                 <div class="log-tags">
                     <span class="log-tag tag-new-c">جدید</span>
                     <span class="log-tag tag-update">آپدیت بزرگ</span>
-                    <span class="log-tag tag-event">ایونت</span>
                 </div>
             </div>
 
@@ -2939,8 +2219,8 @@ img { max-width: 100%; display: block; }
                     <ul>
                         <li>پشتیبانی از <strong>Bedrock 1.21.50 تا 1.21.93</strong></li>
                         <li>پشتیبانی از <strong>همه نسخه‌های Java</strong></li>
-                        <li>کاهش لگ و بهبود پینگ در ساعات شلوغی</li>
-                        <li>رفع باگ‌های گزارش‌شده توسط پلیرها</li>
+                        <li>کاهش لگ و بهبود پینگ</li>
+                        <li>رفع باگ‌های گزارش‌شده</li>
                     </ul>
                 </div>
                 <div class="log-tags">
@@ -2948,33 +2228,7 @@ img { max-width: 100%; display: block; }
                     <span class="log-tag tag-update">آپدیت</span>
                 </div>
             </div>
-
-            <div class="log-item">
-                <div class="log-head">
-                    <span class="log-version">
-                        <img src="https://minecraft.wiki/images/Golden_Apple_JE2_BE2.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
-                        هدیه
-                    </span>
-                    <span class="log-date">2026/09/16</span>
-                </div>
-                <h3 class="log-title">هدیه ورود به سیزن سوم</h3>
-                <div class="log-body">
-                    به مناسبت آغاز سیزن سوم، یک هدیه ویژه برای همه پلیرها فعال شد.
-                    <ul>
-                        <li>کیت شروع رایگان برای همه پلیرهای جدید</li>
-                        <li>۲ برابر پول سرور در ۷ روز اول</li>
-                        <li>دسترسی به ایونت افتتاحیه</li>
-                    </ul>
-                </div>
-                <div class="log-tags">
-                    <span class="log-tag tag-event">ایونت</span>
-                    <span class="log-tag tag-new-c">جدید</span>
-                </div>
-            </div>
-
         </div>
-
     </div>
 </section>
 
@@ -2982,12 +2236,10 @@ img { max-width: 100%; display: block; }
 <!-- SUPPORT -->
 <section class="support-section" id="support">
     <div class="container">
-
         <div class="section-header">
             <div class="section-tag">
-                <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png"
-                     alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 SUPPORT 24/7
             </div>
             <h2 class="section-title">پشتیبانی <span class="gradient-text">۲۴ ساعته</span></h2>
@@ -2996,16 +2248,16 @@ img { max-width: 100%; display: block; }
 
         <div class="support-card">
             <img src="https://minecraft.wiki/images/Bell_JE1_BE1.png" alt="" class="support-icon"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:60px&quot;>◆</span>'">
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:60px&quot;>◆</span>'">
             <h3 class="support-title">۲۴ ساعته در خدمتیم</h3>
             <p class="support-desc">
-                تیم پشتیبانی FoxNova <strong>۲۴ ساعته</strong> آماده پاسخگویی به سوالات، مشکلات و درخواست‌های شماست.
-                می‌تونید هر ساعتی که خواستید به ما <strong>زنگ بزنید</strong> یا از طریق روبیکا پیام بدید.
+                تیم پشتیبانی FoxNova <strong>۲۴ ساعته</strong> آماده پاسخگویی به سوالات و درخواست‌های شماست.
+                می‌تونید هر ساعتی به ما <strong>زنگ بزنید</strong> یا از طریق روبیکا پیام بدید.
             </p>
 
             <a href="tel:09148140466" class="support-call">
                 <img src="https://minecraft.wiki/images/Map_JE4_BE3.png" alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 <span>09148140466</span>
             </a>
 
@@ -3015,7 +2267,6 @@ img { max-width: 100%; display: block; }
                 <span>روبیکا: <strong style="color:#ffd23f">@LagMaster</strong></span>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -3023,12 +2274,10 @@ img { max-width: 100%; display: block; }
 <!-- ABOUT -->
 <section class="about-section" id="about">
     <div class="container">
-
         <div class="section-header">
             <div class="section-tag">
-                <img src="https://minecraft.wiki/images/Grass_Block_JE7_BE6.png"
-                     alt=""
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Grass_Block_JE7_BE6.png" alt=""
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 ABOUT
             </div>
             <h2 class="section-title">درباره سرور <span class="gradient-text">FoxNova</span></h2>
@@ -3038,9 +2287,8 @@ img { max-width: 100%; display: block; }
             <p>
                 سرور <strong>FoxNova</strong> یک سرور ماینکرافت فارسی با گیم‌مود <strong>SMP Anarchy</strong> است
                 که از همه نسخه‌های <strong>Java</strong> و نسخه‌های <strong>Bedrock از 1.21.50 تا 1.21.93</strong>
-                پشتیبانی می‌کند. در <strong>سیزن سوم</strong>، دنیایی تازه با امکانات جدید، ایونت‌های متنوع
-                و اقتصاد پویا در انتظار شماست. در Anarchy هیچ قانونی وجود ندارد — هر کاری دوست داری می‌تونی بکنی،
-                فقط باید از خودت محافظت کنی!
+                پشتیبانی می‌کند. در <strong>سیزن سوم</strong>، دنیایی تازه با امکانات جدید و اقتصاد پویا
+                در انتظار شماست. در Anarchy هیچ قانونی وجود ندارد — هر کاری دوست داری می‌تونی بکنی!
             </p>
 
             <ul class="about-list">
@@ -3054,7 +2302,6 @@ img { max-width: 100%; display: block; }
                 <li>آپ‌تایم ۲۴ ساعته</li>
             </ul>
         </div>
-
     </div>
 </section>
 
@@ -3062,12 +2309,10 @@ img { max-width: 100%; display: block; }
 <!-- FOOTER -->
 <footer class="site-footer">
     <div class="container footer-inner">
-
         <div class="footer-brand">
             <div class="footer-logo">
-                <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png"
-                     alt="Fox" class="mc-icon"
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Fox_JE2_BE2.png" alt="Fox" class="mc-icon"
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 FoxNova
             </div>
             <p class="footer-copyright">© 2026 FoxNova — سیزن سوم<br>تمامی حقوق محفوظ است.</p>
@@ -3075,11 +2320,8 @@ img { max-width: 100%; display: block; }
 
         <div class="footer-contact">
             <p>راه ارتباطی روبیکا:</p>
-            <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="footer-rubika">
-                @LagMaster
-            </a>
+            <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="footer-rubika">@LagMaster</a>
         </div>
-
     </div>
 </footer>
 
@@ -3088,7 +2330,7 @@ img { max-width: 100%; display: block; }
 <div class="sticky-cta" id="stickyCta">
     <button type="button" class="sticky-cta-btn" data-open-modal="buyModal">
         <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt=""
-             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
         خرید از فروشگاه FoxNova
     </button>
 </div>
@@ -3097,7 +2339,6 @@ img { max-width: 100%; display: block; }
 <!-- MODAL — خرید -->
 <div class="modal-overlay" id="buyModal">
     <div class="modal-box">
-
         <button type="button" class="modal-close" data-close-modal aria-label="بستن">✕</button>
 
         <div class="order-summary" id="orderSummary" style="display:none;">
@@ -3119,23 +2360,17 @@ img { max-width: 100%; display: block; }
             </div>
         </div>
 
-        <!-- View 1: انتخاب روش پرداخت -->
         <div id="buyStep1">
-            <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png"
-                 alt="Chest" class="modal-icon-img"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
-
+            <img src="https://minecraft.wiki/images/Chest_JE2_BE2.png" alt="Chest" class="modal-icon-img"
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
             <h3 class="modal-title">خرید محصول</h3>
-            <p class="modal-subtitle">
-                روش پرداخت رو انتخاب کن
-            </p>
+            <p class="modal-subtitle">روش پرداخت رو انتخاب کن</p>
 
             <div class="pay-methods">
-
                 <button type="button" class="pay-method" data-method="bank">
                     <div class="pay-method-icon">
                         <img src="https://minecraft.wiki/images/Gold_Ingot_JE4_BE2.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                     </div>
                     <div class="pay-method-info">
                         <div class="pay-method-name">خرید با درگاه بانکی</div>
@@ -3147,7 +2382,7 @@ img { max-width: 100%; display: block; }
                 <button type="button" class="pay-method" data-method="normal">
                     <div class="pay-method-icon">
                         <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" alt=""
-                             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                     </div>
                     <div class="pay-method-info">
                         <div class="pay-method-name">خرید عادی</div>
@@ -3155,49 +2390,38 @@ img { max-width: 100%; display: block; }
                     </div>
                     <span class="pay-method-arrow">‹</span>
                 </button>
-
             </div>
         </div>
 
-        <!-- View 2: خطای درگاه بانکی -->
         <div id="buyStepBank" style="display:none;">
-            <img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png"
-                 alt="" class="modal-icon-img"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
+            <img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png" alt="" class="modal-icon-img"
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
             <h3 class="modal-title">درگاه بانکی</h3>
             <p class="modal-subtitle">اطلاعیه مهم</p>
 
             <div class="bank-warning">
-                <img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png"
-                     alt="" class="bank-warning-icon"
-                     onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:48px&quot;>◆</span>'">
+                <img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png" alt="" class="bank-warning-icon"
+                     onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:48px&quot;>◆</span>'">
                 <div class="bank-warning-text">
                     درگاه بانکی متصل نمی‌باشد<br>
                     لذا از پرداخت عادی استفاده کنید
                 </div>
             </div>
 
-            <button type="button" class="btn-back" data-back-to="buyStep1">
-                ← بازگشت
-            </button>
+            <button type="button" class="btn-back" data-back-to="buyStep1">← بازگشت</button>
         </div>
 
-        <!-- View 3: خرید عادی -->
         <div id="buyStepNormal" style="display:none;">
-            <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png"
-                 alt="" class="modal-icon-img"
-                 onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
+            <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" alt="" class="modal-icon-img"
+                 onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
             <h3 class="modal-title">خرید عادی</h3>
-            <p class="modal-subtitle">
-                برای خرید این محصول، از راه‌های زیر با ما در ارتباط باش
-            </p>
+            <p class="modal-subtitle">برای خرید این محصول، از راه‌های زیر با ما در ارتباط باش</p>
 
             <div class="modal-items">
-
                 <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="modal-item">
                     <div class="modal-item-icon">
-                        <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png"
-                             alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                     </div>
                     <div class="modal-item-info">
                         <div class="modal-item-label">آیدی روبیکا</div>
@@ -3207,22 +2431,18 @@ img { max-width: 100%; display: block; }
 
                 <a href="tel:09148140466" class="modal-item">
                     <div class="modal-item-icon">
-                        <img src="https://minecraft.wiki/images/Map_JE4_BE3.png"
-                             alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                        <img src="https://minecraft.wiki/images/Map_JE4_BE3.png" alt=""
+                             onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                     </div>
                     <div class="modal-item-info">
                         <div class="modal-item-label">شماره تماس (۲۴ ساعته)</div>
                         <div class="modal-item-value">09148140466</div>
                     </div>
                 </a>
-
             </div>
 
-            <button type="button" class="btn-back" data-back-to="buyStep1" style="margin-top:18px;">
-                ← بازگشت
-            </button>
+            <button type="button" class="btn-back" data-back-to="buyStep1" style="margin-top:18px;">← بازگشت</button>
         </div>
-
     </div>
 </div>
 
@@ -3230,24 +2450,19 @@ img { max-width: 100%; display: block; }
 <!-- MODAL — پشتیبانی -->
 <div class="modal-overlay" id="supportModal">
     <div class="modal-box">
-
         <button type="button" class="modal-close" data-close-modal aria-label="بستن">✕</button>
 
-        <img src="https://minecraft.wiki/images/Book_JE2_BE2.png"
-             alt="Book" class="modal-icon-img"
-             onerror="this.outerHTML='<span class=&quot;icon-fallback&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
+        <img src="https://minecraft.wiki/images/Book_JE2_BE2.png" alt="Book" class="modal-icon-img"
+             onerror="this.outerHTML='<span class=&quot;icon-fb&quot; style=&quot;font-size:54px;display:block;margin:0 auto 12px&quot;>◆</span>'">
 
         <h3 class="modal-title">پشتیبانی ۲۴ ساعته</h3>
-        <p class="modal-subtitle">
-            هر ساعتی از شبانه‌روز در خدمتیم — زنگ بزن یا پیام بده
-        </p>
+        <p class="modal-subtitle">هر ساعتی از شبانه‌روز در خدمتیم — زنگ بزن یا پیام بده</p>
 
         <div class="modal-items">
-
             <a href="tel:09148140466" class="modal-item">
                 <div class="modal-item-icon">
-                    <img src="https://minecraft.wiki/images/Map_JE4_BE3.png"
-                         alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    <img src="https://minecraft.wiki/images/Map_JE4_BE3.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 </div>
                 <div class="modal-item-info">
                     <div class="modal-item-label">شماره تماس (۲۴ ساعته)</div>
@@ -3257,187 +2472,351 @@ img { max-width: 100%; display: block; }
 
             <a href="https://rubika.ir/LagMaster" target="_blank" rel="noopener" class="modal-item">
                 <div class="modal-item-icon">
-                    <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png"
-                         alt="" onerror="this.outerHTML='<span class=&quot;icon-fallback&quot;>◆</span>'">
+                    <img src="https://minecraft.wiki/images/Paper_JE2_BE2.png" alt=""
+                         onerror="this.outerHTML='<span class=&quot;icon-fb&quot;>◆</span>'">
                 </div>
                 <div class="modal-item-info">
                     <div class="modal-item-label">آیدی روبیکا</div>
                     <div class="modal-item-value">@LagMaster</div>
                 </div>
             </a>
-
         </div>
     </div>
 </div>
 
 
-<!-- SCRIPT -->
+<!-- ================================================================
+     SCRIPT
+     ================================================================ -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
     document.body.classList.add('js-ready');
 
-    /* ============================================
-       PRODUCT CONFIGS — قابل ویرایش
-       ============================================ */
-    const PRODUCT_CONFIGS = {
-        /* ساخت استش و بیس — انتخاب اندازه */
-        stashBase: {
-            more: true,
-            type: 'sizes',
-            sizes: [
-                { size: '20x20',   price: 300000   },
-                { size: '40x40',   price: 800000   },
-                { size: '60x60',   price: 1800000  },
-                { size: '80x80',   price: 3500000  },
-                { size: '100x100', price: 6000000  }
-            ]
+    /* ══════════════════════════════════════════════════════════════
+       🛒 PRODUCTS DATA
+       ─────────────────────────────────────────────────────────────
+       برای افزودن محصول جدید، فقط یک آبجکت به این آرایه اضافه کن.
+
+       فیلدهای لازم:
+         id       : شناسه یکتا
+         name     : نام محصول
+         image    : آدرس عکس
+         caption  : توضیح کوتاه
+         tags     : آرایه تگ‌ها  [{ label: 'متن', type: 'hot|vip|new|stock' }]
+         price    : قیمت (برای محصولات ساده)
+
+       برای محصولات با کنترل خاص:
+         control: { type: 'sizes',  options: [{ size, price }] }
+         control: { type: 'slider', min, max, default, unit, pricePerUnit }
+       ══════════════════════════════════════════════════════════════ */
+    const PRODUCTS = [
+        {
+            id: 'stash-base',
+            name: 'ساخت استش و بیس',
+            image: 'https://cdn.imgurl.ir/uploads/p906822_Untitled48_20260916123322.png',
+            caption: 'ساخت استش و بیس اختصاصی با اندازه دلخواه — کاملاً مخفی و امن',
+            isNew: true,
+            tags: [{ label: 'جدید', type: 'new' }],
+            control: {
+                type: 'sizes',
+                options: [
+                    { size: '20x20',   price: 300000  },
+                    { size: '40x40',   price: 800000  },
+                    { size: '60x60',   price: 1800000 },
+                    { size: '80x80',   price: 3500000 },
+                    { size: '100x100', price: 6000000 }
+                ]
+            }
         },
-
-        /* هر میل پول سرور — اسلایدر مقدار */
-        money: {
-            more2: true,
-            type: 'slider',
-            min: 1,
-            max: 500,
-            default: 10,
-            unit: 'm',
-            pricePerUnit: 50000    /* قیمت هر میلیون به ریال */
+        {
+            id: 'kit-god',
+            name: 'کیت گاد',
+            image: 'https://cdn.imgurl.ir/uploads/j00112_Untitled58_20260918093730.png',
+            caption: 'کیت فول انچنت به همراه رنک VIP',
+            tags: [{ label: 'پرفروش', type: 'hot' }],
+            price: 1800000
+        },
+        {
+            id: 'kit-diamond',
+            name: 'کیت دایمندی',
+            image: 'https://cdn.imgurl.ir/uploads/r131651_Untitled58_20260918093718.png',
+            caption: 'کیت دایمندی فول اینچنت + کلنک آمتیست سی روزه',
+            tags: [{ label: 'ویژه', type: 'vip' }],
+            price: 900000
+        },
+        {
+            id: 'map-art',
+            name: 'ساخت مپ آرت',
+            image: 'https://cdn.imgurl.ir/uploads/x1838_Screenshot_2026-09-17-16-19-27-846_com.mojang.mine1215007.jpg',
+            caption: 'ساخت مپ آرت با عکس دلخواه',
+            tags: [],
+            price: 300000
+        },
+        {
+            id: 'money',
+            name: 'هر میل پول سرور',
+            image: 'https://cdn.imgurl.ir/uploads/c76020_1061777-----.jpg',
+            caption: 'مقدار دلخواه پول سرور را انتخاب کن — قیمت به‌صورت لحظه‌ای محاسبه می‌شود',
+            tags: [],
+            control: {
+                type: 'slider',
+                min: 1,
+                max: 500,
+                default: 10,
+                unit: 'm',
+                pricePerUnit: 50000
+            }
         }
-    };
+    ];
 
-    const DISCOUNT_PERCENT = 25;
+    /* ══════════════════════════════════════════════════════════════
+       DISCOUNT
+       ══════════════════════════════════════════════════════════════ */
     const VALID_CODE = 'sweetiefox';
+    const DISCOUNT_PERCENT = 25;
 
     let discountApplied = false;
 
-    /* ============================================
-       سیستم رتبه‌بندی پلیرها
-       ============================================ */
-    const PLAYER_ROLES = {
-        'lagmaster':  { role: 'Owner',   icon: 'https://minecraft.wiki/images/Nether_Star_JE3_BE3.png' },
-        'c1ast3':     { role: 'Owner',   icon: 'https://minecraft.wiki/images/Nether_Star_JE3_BE3.png' },
-        'darkamir':   { role: 'Manager', icon: 'https://minecraft.wiki/images/Diamond_JE3_BE3.png' }
+    const ICONS = {
+        chest: 'https://minecraft.wiki/images/Chest_JE2_BE2.png',
+        pickaxe: 'https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png'
     };
 
-    const DEFAULT_PLAYER = {
-        role: 'Player',
-        icon: 'https://minecraft.wiki/images/Emerald_JE3_BE3.png'
-    };
-
-    function buildPlayerBadge(playerName) {
-        const key = String(playerName).toLowerCase().trim();
-        const info = PLAYER_ROLES[key] || DEFAULT_PLAYER;
-
-        const badge = document.createElement('span');
-        badge.className = 'player-badge role-' + info.role.toLowerCase();
-
-        const icon = document.createElement('img');
-        icon.className = 'badge-icon';
-        icon.src = info.icon;
-        icon.alt = info.role;
-        icon.loading = 'lazy';
-        icon.onerror = function () {
-            const span = document.createElement('span');
-            span.textContent = '◆';
-            span.style.fontSize = '13px';
-            this.parentNode.replaceChild(span, this);
-        };
-        badge.appendChild(icon);
-
-        const roleSpan = document.createElement('span');
-        roleSpan.className = 'badge-role';
-        roleSpan.textContent = info.role + ' :';
-        badge.appendChild(roleSpan);
-
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'badge-name';
-        nameSpan.textContent = playerName;
-        badge.appendChild(nameSpan);
-
-        return badge;
-    }
-
-
-    /* ============================================
-       سلام بر اساس ساعت
-       ============================================ */
-    const greetText = document.getElementById('greetText');
-    const greetIcon = document.getElementById('greetIcon');
-    const greetTime = document.getElementById('greetTime');
-
-    const GREET_ICONS = {
-        morning: 'https://minecraft.wiki/images/Sun_JE3_BE3.png',
-        noon:    'https://minecraft.wiki/images/Sun_JE3_BE3.png',
-        evening: 'https://minecraft.wiki/images/Sun_JE3_BE3.png',
-        night:   'https://minecraft.wiki/images/Clock_JE3_BE3.png',
-        late:    'https://minecraft.wiki/images/Clock_JE3_BE3.png'
-    };
-
-    function updateGreeting() {
-        const now = new Date();
-        const h = now.getHours();
-        let text, iconUrl;
-
-        if (h >= 5 && h < 12) { text = 'صبح بخیر'; iconUrl = GREET_ICONS.morning; }
-        else if (h >= 12 && h < 15) { text = 'ظهر بخیر'; iconUrl = GREET_ICONS.noon; }
-        else if (h >= 15 && h < 19) { text = 'عصر بخیر'; iconUrl = GREET_ICONS.evening; }
-        else if (h >= 19 && h < 23) { text = 'شب بخیر'; iconUrl = GREET_ICONS.night; }
-        else { text = 'شب بخیر'; iconUrl = GREET_ICONS.late; }
-
-        if (greetText) greetText.textContent = text + ' — خوش اومدی به FoxNova';
-        if (greetIcon) greetIcon.src = iconUrl;
-
-        if (greetTime) {
-            greetTime.textContent =
-                String(now.getHours()).padStart(2, '0') + ':' +
-                String(now.getMinutes()).padStart(2, '0');
-        }
-    }
-
-    updateGreeting();
-    setInterval(updateGreeting, 30000);
-
-
-    /* ============================================
-       بستن بنر سیزن
-       ============================================ */
-    const seasonBanner = document.getElementById('seasonBanner');
-    const seasonClose = document.getElementById('seasonClose');
-
-    if (seasonClose && seasonBanner) {
-        seasonClose.addEventListener('click', function () {
-            seasonBanner.style.transition = 'opacity .3s, max-height .35s, padding .3s';
-            seasonBanner.style.opacity = '0';
-            seasonBanner.style.maxHeight = '0';
-            seasonBanner.style.overflow = 'hidden';
-            setTimeout(function () { seasonBanner.style.display = 'none'; }, 350);
-        });
-    }
-
-
-    /* ============================================
-       ابزار کمکی
-       ============================================ */
     function formatPrice(num) {
         return Number(num).toLocaleString('en-US');
     }
 
+    function fbIcon() {
+        return '<span class="icon-fb">◆</span>';
+    }
 
-    /* ============================================
-       کد تخفیف
-       ============================================ */
+    /* ══════════════════════════════════════════════════════════════
+       RENDER PRODUCTS
+       ══════════════════════════════════════════════════════════════ */
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        if (!grid) return;
+
+        grid.innerHTML = '';
+
+        PRODUCTS.forEach(function (product) {
+            const card = document.createElement('div');
+            card.className = 'product-card' + (product.isNew ? ' is-new' : '');
+            card.id = product.id + 'Card';
+
+            let tagsHtml = '';
+            if (product.tags && product.tags.length) {
+                tagsHtml = '<div class="product-tags-left">' +
+                    product.tags.map(function (t) {
+                        return '<span class="product-tag tag-' + t.type + '">' + t.label + '</span>';
+                    }).join('') +
+                    '</div>';
+            }
+
+            let controlHtml = '';
+            let initialPrice = product.price || 0;
+            let initialSize = '';
+
+            if (product.control && product.control.type === 'sizes') {
+                const opts = product.control.options;
+                initialPrice = opts[0].price;
+                initialSize = opts[0].size;
+
+                controlHtml =
+                    '<div class="size-selector">' +
+                        '<div class="size-selector-label">' +
+                            '<img src="' + ICONS.pickaxe + '" alt="" onerror="this.outerHTML=\'' + fbIcon().replace(/'/g, "\\'") + '\'">' +
+                            'اندازه را انتخاب کنید' +
+                        '</div>' +
+                        opts.map(function (o, i) {
+                            const hint = o.price >= 1000000
+                                ? (o.price / 1000000).toFixed(1).replace('.0','') + 'M'
+                                : Math.round(o.price / 1000) + 'K';
+                            return '<button type="button" class="size-btn' + (i === 0 ? ' active' : '') +
+                                   '" data-size="' + o.size + '" data-price="' + o.price + '">' +
+                                   o.size + '<span class="size-price-hint">' + hint + '</span>' +
+                                   '</button>';
+                        }).join('') +
+                    '</div>';
+            } else if (product.control && product.control.type === 'slider') {
+                const cfg = product.control;
+                initialPrice = cfg.default * cfg.pricePerUnit;
+                initialSize = cfg.default + cfg.unit;
+
+                controlHtml =
+                    '<div class="quantity-block" data-price-per-unit="' + cfg.pricePerUnit + '">' +
+                        '<div class="quantity-display">' +
+                            '<span class="qty-num" data-qty>' + cfg.default + '</span>' +
+                            '<span class="qty-unit">' + cfg.unit + '</span>' +
+                            '<span class="qty-eq">=</span>' +
+                            '<span class="qty-price" data-price>' + formatPrice(initialPrice) + ' ریال</span>' +
+                        '</div>' +
+                        '<input type="range" class="range-slider" min="' + cfg.min + '" max="' + cfg.max +
+                        '" value="' + cfg.default + '" step="1" data-slider>' +
+                        '<div class="range-labels">' +
+                            '<span>' + cfg.min + cfg.unit + '</span>' +
+                            '<span>' + cfg.max + cfg.unit + '</span>' +
+                        '</div>' +
+                    '</div>';
+            }
+
+            const priceLabel = product.control
+                ? (product.control.type === 'slider'
+                    ? cfgPriceLabelSlider(product.control)
+                    : '')
+                : formatPrice(product.price) + ' ریال';
+
+            const priceBlockHtml = product.control && product.control.type === 'slider'
+                ? ''  /* slider خودش قیمت رو نشون میده */
+                : '<div class="product-price" data-price="' + initialPrice + '">' +
+                      '<span class="price-value">' + priceLabel + '</span>' +
+                  '</div>';
+
+            card.innerHTML =
+                '<div class="product-image">' +
+                    tagsHtml +
+                    '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy" ' +
+                         'onerror="this.outerHTML=\'' + '<span class=&quot;icon-fb&quot; style=&quot;font-size:56px&quot;>◆</span>' + '\'">' +
+                '</div>' +
+                '<h3 class="product-name">' + product.name + '</h3>' +
+                '<p class="product-caption">' + product.caption + '</p>' +
+                controlHtml +
+                priceBlockHtml +
+                '<button type="button" class="buy-button" ' +
+                    'data-open-modal="buyModal" ' +
+                    'data-product-name="' + product.name + '" ' +
+                    'data-product-id="' + product.id + '" ' +
+                    'data-size="' + initialSize + '" ' +
+                    'data-price="' + initialPrice + '">' +
+                    '<img src="' + ICONS.chest + '" alt="" onerror="this.outerHTML=\'' + fbIcon().replace(/'/g, "\\'") + '\'">' +
+                    'خرید' +
+                '</button>';
+
+            grid.appendChild(card);
+        });
+
+        /* اتصال کنترل‌ها */
+        initControls();
+        /* انیمیشن ورود */
+        requestAnimationFrame(function () {
+            grid.querySelectorAll('.product-card').forEach(function (c, i) {
+                c.style.transitionDelay = Math.min(i * 0.06, 0.3) + 's';
+                c.classList.add('visible');
+            });
+        });
+    }
+
+    function cfgPriceLabelSlider(cfg) {
+        return cfg.default * cfg.pricePerUnit;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       INIT CONTROLS (Size + Slider)
+       ══════════════════════════════════════════════════════════════ */
+    function initControls() {
+        /* Size buttons */
+        document.querySelectorAll('.size-selector').forEach(function (selector) {
+            const card = selector.closest('.product-card');
+            const buyBtn = card.querySelector('.buy-button');
+            const priceBox = card.querySelector('.product-price');
+
+            selector.querySelectorAll('.size-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    selector.querySelectorAll('.size-btn').forEach(function (b) {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    const price = parseInt(this.getAttribute('data-price'), 10);
+                    const size = this.getAttribute('data-size');
+
+                    if (buyBtn) {
+                        buyBtn.setAttribute('data-size', size);
+                        buyBtn.setAttribute('data-price', price);
+                    }
+                    if (priceBox) {
+                        updatePriceBox(priceBox, price);
+                        priceBox.classList.remove('price-bump');
+                        void priceBox.offsetWidth;
+                        priceBox.classList.add('price-bump');
+                    }
+                });
+            });
+        });
+
+        /* Slider */
+        document.querySelectorAll('.quantity-block').forEach(function (block) {
+            const slider = block.querySelector('[data-slider]');
+            const qtyEl = block.querySelector('[data-qty]');
+            const priceEl = block.querySelector('[data-price]');
+            const card = block.closest('.product-card');
+            const buyBtn = card.querySelector('.buy-button');
+            const perUnit = parseInt(block.getAttribute('data-price-per-unit'), 10) || 0;
+            const unit = block.querySelector('.qty-unit').textContent;
+
+            if (!slider) return;
+
+            function update() {
+                const qty = parseInt(slider.value, 10);
+                const total = qty * perUnit;
+
+                if (qtyEl) qtyEl.textContent = qty;
+                if (priceEl) priceEl.innerHTML = renderSliderPrice(total, perUnit);
+                if (buyBtn) {
+                    buyBtn.setAttribute('data-size', qty + unit);
+                    buyBtn.setAttribute('data-price', total);
+                }
+
+                /* رنگ گرادیان اسلایدر */
+                const min = parseInt(slider.min, 10);
+                const max = parseInt(slider.max, 10);
+                const pct = ((qty - min) / (max - min)) * 100;
+                slider.style.background =
+                    'linear-gradient(to right, #ffd23f 0%, #ff8c00 ' + pct + '%, ' +
+                    'rgba(255,255,255,.08) ' + pct + '%, rgba(255,255,255,.08) 100%)';
+            }
+
+            slider.addEventListener('input', update);
+            update();
+        });
+    }
+
+    function renderSliderPrice(total, perUnit) {
+        if (discountApplied) {
+            const discounted = Math.round(total * (100 - DISCOUNT_PERCENT) / 100);
+            return '<span class="price-old">' + formatPrice(total) + ' ریال</span> ' +
+                   '<span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
+        }
+        return formatPrice(total) + ' ریال';
+    }
+
+    function updatePriceBox(box, basePrice) {
+        if (discountApplied) {
+            const discounted = Math.round(basePrice * (100 - DISCOUNT_PERCENT) / 100);
+            box.innerHTML =
+                '<span class="price-old">' + formatPrice(basePrice) + ' ریال</span>' +
+                '<span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
+        } else {
+            box.innerHTML = '<span class="price-value">' + formatPrice(basePrice) + ' ریال</span>';
+        }
+        box.setAttribute('data-price', basePrice);
+    }
+
+
+    /* ══════════════════════════════════════════════════════════════
+       DISCOUNT LOGIC
+       ══════════════════════════════════════════════════════════════ */
     const discountBox = document.getElementById('discountBox');
     const discountInput = document.getElementById('discountInput');
     const discountBtn = document.getElementById('discountBtn');
     const discountMsg = document.getElementById('discountMsg');
-    const productPrices = document.querySelectorAll('.product-price');
 
     function showDiscountMsg(type, text) {
         discountMsg.className = 'discount-msg show ' + type;
         const icon = type === 'success'
-            ? '<img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt="" onerror="this.outerHTML=\'<span class=&quot;icon-fallback&quot;>◆</span>\'">'
-            : '<img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png" alt="" onerror="this.outerHTML=\'<span class=&quot;icon-fallback&quot;>◆</span>\'">';
+            ? '<img src="https://minecraft.wiki/images/Enchanted_Golden_Apple_JE2_BE2.png" alt="" onerror="this.outerHTML=\'<span class=&quot;icon-fb&quot;>◆</span>\'">'
+            : '<img src="https://minecraft.wiki/images/Redstone_Torch_JE1_BE1.png" alt="" onerror="this.outerHTML=\'<span class=&quot;icon-fb&quot;>◆</span>\'">';
         discountMsg.innerHTML = icon + '<span>' + text + '</span>';
     }
 
@@ -3456,19 +2835,23 @@ document.addEventListener('DOMContentLoaded', function () {
             discountBtn.textContent = 'اعمال شد';
             discountBox.classList.add('applied');
 
-            /* به‌روزرسانی قیمت‌های عادی (به‌جز دو کارت با قیمت پویا) */
-            productPrices.forEach(function (priceEl) {
-                if (priceEl.id === 'stashPriceBox') return;
-                if (priceEl.id === 'moneyPriceBox') return;
-                const original = parseInt(priceEl.getAttribute('data-price'), 10);
-                if (isNaN(original)) return;
-                const discounted = Math.round(original * (100 - DISCOUNT_PERCENT) / 100);
-                priceEl.innerHTML =
-                    '<span class="price-old">' + formatPrice(original) + ' ریال</span>' +
-                    '<span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
+            /* بروزرسانی همه قیمت‌ها */
+            document.querySelectorAll('.product-price').forEach(function (box) {
+                const price = parseInt(box.getAttribute('data-price'), 10);
+                if (!isNaN(price)) updatePriceBox(box, price);
             });
 
-            /* تگ تخفیف روی همه کارت‌ها */
+            /* بروزرسانی اسلایدرها */
+            document.querySelectorAll('.quantity-block').forEach(function (block) {
+                const slider = block.querySelector('[data-slider]');
+                const priceEl = block.querySelector('[data-price]');
+                const perUnit = parseInt(block.getAttribute('data-price-per-unit'), 10) || 0;
+                if (slider && priceEl) {
+                    priceEl.innerHTML = renderSliderPrice(parseInt(slider.value, 10) * perUnit, perUnit);
+                }
+            });
+
+            /* تگ تخفیف روی کارت‌ها */
             document.querySelectorAll('.product-card').forEach(function (card) {
                 const imgBox = card.querySelector('.product-image');
                 const tagsBox = imgBox ? imgBox.querySelector('.product-tags-left') : null;
@@ -3479,10 +2862,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     tagsBox.appendChild(tag);
                 }
             });
-
-            /* رفرش قیمت‌های پویا */
-            refreshStashPrice();
-            updateMoneyDisplay();
 
             showDiscountMsg('success',
                 'کد تخفیف اعمال شد! ' + DISCOUNT_PERCENT + '٪ تخفیف روی همه محصولات فعال شد.');
@@ -3502,122 +2881,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* ============================================
-       SIZE SELECTOR — ساخت استش و بیس
-       ============================================ */
-    const stashCard = document.getElementById('stashBaseCard');
-    const stashPriceBox = document.getElementById('stashPriceBox');
-    const stashPriceValue = document.getElementById('stashPriceValue');
-    const stashBuyBtn = stashCard ? stashCard.querySelector('.buy-button') : null;
-
-    function refreshStashPrice() {
-        if (!stashCard) return;
-        const activeBtn = stashCard.querySelector('.size-btn.active');
-        if (!activeBtn) return;
-
-        const basePrice = parseInt(activeBtn.getAttribute('data-price'), 10);
-        if (discountApplied) {
-            const discounted = Math.round(basePrice * (100 - DISCOUNT_PERCENT) / 100);
-            stashPriceValue.innerHTML =
-                '<span class="price-old">' + formatPrice(basePrice) + ' ریال</span>' +
-                ' <span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
-        } else {
-            stashPriceValue.textContent = formatPrice(basePrice) + ' ریال';
-        }
-        stashPriceBox.classList.remove('price-bump');
-        void stashPriceBox.offsetWidth;
-        stashPriceBox.classList.add('price-bump');
-        stashPriceBox.setAttribute('data-price', basePrice);
-    }
-
-    if (stashCard) {
-        const sizeButtons = stashCard.querySelectorAll('.size-btn');
-        sizeButtons.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                sizeButtons.forEach(function (b) { b.classList.remove('active'); });
-                this.classList.add('active');
-                const size = this.getAttribute('data-size');
-                if (stashBuyBtn) stashBuyBtn.setAttribute('data-size', size);
-                refreshStashPrice();
-            });
-        });
-    }
-
-
-    /* ============================================
-       QUANTITY SLIDER — هر میل پول سرور
-       ============================================ */
-    const moneyCard = document.getElementById('moneyCard');
-    const moneySlider = document.getElementById('moneySlider');
-    const moneyQty = document.getElementById('moneyQty');
-    const moneyLivePrice = document.getElementById('moneyLivePrice');
-    const moneyPriceBox = document.getElementById('moneyPriceBox');
-    const moneyPriceValue = document.getElementById('moneyPriceValue');
-    const moneyBuyBtn = moneyCard ? moneyCard.querySelector('.buy-button') : null;
-
-    const moneyConfig = PRODUCT_CONFIGS.money;
-    const MONEY_PER_UNIT = moneyConfig.pricePerUnit;
-
-    function updateSliderFill() {
-        if (!moneySlider) return;
-        const val = parseInt(moneySlider.value, 10);
-        const min = parseInt(moneySlider.min, 10);
-        const max = parseInt(moneySlider.max, 10);
-        const percent = ((val - min) / (max - min)) * 100;
-        moneySlider.style.background =
-            'linear-gradient(to right, ' +
-            '#ffd23f 0%, #ff8c00 ' + percent + '%, ' +
-            'rgba(255, 255, 255, .08) ' + percent + '%, rgba(255, 255, 255, .08) 100%)';
-    }
-
-    function updateMoneyDisplay() {
-        if (!moneySlider) return;
-
-        const qty = parseInt(moneySlider.value, 10);
-        const basePrice = qty * MONEY_PER_UNIT;
-
-        moneyQty.textContent = qty;
-
-        if (discountApplied) {
-            const discounted = Math.round(basePrice * (100 - DISCOUNT_PERCENT) / 100);
-            moneyLivePrice.innerHTML =
-                '<span class="price-old">' + formatPrice(basePrice) + ' ریال</span>' +
-                ' <span class="price-new">' + formatPrice(discounted) + ' ریال</span>';
-        } else {
-            moneyLivePrice.textContent = formatPrice(basePrice) + ' ریال';
-        }
-
-        if (moneyPriceBox) moneyPriceBox.setAttribute('data-price', basePrice);
-        if (moneyBuyBtn) {
-            moneyBuyBtn.setAttribute('data-size', qty + 'm');
-            moneyBuyBtn.setAttribute('data-price', basePrice);
-        }
-
-        updateSliderFill();
-    }
-
-    if (moneySlider) {
-        /* تنظیم مقادیر از config */
-        moneySlider.min = moneyConfig.min;
-        moneySlider.max = moneyConfig.max;
-        moneySlider.value = moneyConfig.default;
-        moneySlider.step = 1;
-
-        /* رفرش label ها */
-        const moneyRangeLabels = moneyCard.querySelectorAll('.range-labels span');
-        if (moneyRangeLabels.length >= 2) {
-            moneyRangeLabels[0].textContent = moneyConfig.min + moneyConfig.unit;
-            moneyRangeLabels[1].textContent = moneyConfig.max + moneyConfig.unit;
-        }
-
-        moneySlider.addEventListener('input', updateMoneyDisplay);
-        updateMoneyDisplay();
-    }
-
-
-    /* ============================================
+    /* ══════════════════════════════════════════════════════════════
        MODAL SYSTEM
-       ============================================ */
+       ══════════════════════════════════════════════════════════════ */
     const summaryBox = document.getElementById('orderSummary');
     const summaryProduct = document.getElementById('summaryProduct');
     const summarySizeRow = document.getElementById('summarySizeRow');
@@ -3628,7 +2894,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showOrderSummary(productName, size, basePrice) {
         if (!summaryBox) return;
-
         summaryProduct.textContent = productName;
         summaryPrice.textContent = formatPrice(basePrice) + ' ریال';
 
@@ -3699,26 +2964,19 @@ document.addEventListener('DOMContentLoaded', function () {
             const modalId = this.getAttribute('data-open-modal');
             const productName = this.getAttribute('data-product-name');
             const size = this.getAttribute('data-size');
+            let price = parseInt(this.getAttribute('data-price'), 10);
+
+            if (isNaN(price)) {
+                const card = this.closest('.product-card');
+                if (card) {
+                    const box = card.querySelector('.product-price');
+                    if (box) price = parseInt(box.getAttribute('data-price'), 10) || 0;
+                }
+            }
+            if (isNaN(price)) price = 0;
 
             if (modalId === 'buyModal' && productName) {
-                /* پیدا کردن قیمت از خود دکمه یا از کارت */
-                let price = parseInt(this.getAttribute('data-price'), 10);
-
-                if (isNaN(price)) {
-                    const card = this.closest('.product-card');
-                    if (card) {
-                        const priceBox = card.querySelector('.product-price');
-                        if (priceBox) price = parseInt(priceBox.getAttribute('data-price'), 10) || 0;
-                    }
-                }
-
-                if (isNaN(price)) price = 0;
-
-                openModal(modalId, {
-                    productName: productName,
-                    size: size,
-                    price: price
-                });
+                openModal(modalId, { productName: productName, size: size, price: price });
             } else {
                 openModal(modalId);
             }
@@ -3743,10 +3001,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Escape') closeAllModals();
     });
 
-
-    /* ============================================
-       روش پرداخت
-       ============================================ */
     document.querySelectorAll('.pay-method').forEach(function (btn) {
         btn.addEventListener('click', function () {
             const method = this.getAttribute('data-method');
@@ -3758,7 +3012,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 s1.style.display = 'none';
                 sBank.style.display = '';
                 sNormal.style.display = 'none';
-            } else if (method === 'normal') {
+            } else {
                 s1.style.display = 'none';
                 sBank.style.display = 'none';
                 sNormal.style.display = '';
@@ -3768,8 +3022,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('[data-back-to]').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            const targetId = this.getAttribute('data-back-to');
-            const target = document.getElementById(targetId);
+            const target = document.getElementById(this.getAttribute('data-back-to'));
             const sBank = document.getElementById('buyStepBank');
             const sNormal = document.getElementById('buyStepNormal');
             if (sBank) sBank.style.display = 'none';
@@ -3779,9 +3032,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    /* ============================================
+    /* ══════════════════════════════════════════════════════════════
        منوی موبایل
-       ============================================ */
+       ══════════════════════════════════════════════════════════════ */
     const menuToggle = document.getElementById('menuToggle');
     const nav = document.querySelector('.nav');
 
@@ -3793,9 +3046,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* ============================================
-       هدر — سایه هنگام اسکرول
-       ============================================ */
+    /* ══════════════════════════════════════════════════════════════
+       هدر — سایه اسکرول
+       ══════════════════════════════════════════════════════════════ */
     const siteHeader = document.getElementById('siteHeader');
     if (siteHeader) {
         window.addEventListener('scroll', function () {
@@ -3805,37 +3058,66 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* ============================================
-       انیمیشن ورود کارت‌ها
-       ============================================ */
-    const animatedItems = document.querySelectorAll('.product-card, .log-item, .trust-card, .featured-box');
+    /* ══════════════════════════════════════════════════════════════
+       سلام بر اساس ساعت
+       ══════════════════════════════════════════════════════════════ */
+    const greetText = document.getElementById('greetText');
+    const greetIcon = document.getElementById('greetIcon');
+    const greetTime = document.getElementById('greetTime');
 
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.08 });
+    const GREET_ICONS = {
+        morning: 'https://minecraft.wiki/images/Sun_JE3_BE3.png',
+        noon:    'https://minecraft.wiki/images/Sun_JE3_BE3.png',
+        evening: 'https://minecraft.wiki/images/Sun_JE3_BE3.png',
+        night:   'https://minecraft.wiki/images/Clock_JE3_BE3.png',
+        late:    'https://minecraft.wiki/images/Clock_JE3_BE3.png'
+    };
 
-        animatedItems.forEach(function (item, i) {
-            item.style.transitionDelay = Math.min(i * 0.06, 0.3) + 's';
-            observer.observe(item);
+    function updateGreeting() {
+        const now = new Date();
+        const h = now.getHours();
+        let text, iconUrl;
+
+        if (h >= 5 && h < 12) { text = 'صبح بخیر'; iconUrl = GREET_ICONS.morning; }
+        else if (h >= 12 && h < 15) { text = 'ظهر بخیر'; iconUrl = GREET_ICONS.noon; }
+        else if (h >= 15 && h < 19) { text = 'عصر بخیر'; iconUrl = GREET_ICONS.evening; }
+        else if (h >= 19 && h < 23) { text = 'شب بخیر'; iconUrl = GREET_ICONS.night; }
+        else { text = 'شب بخیر'; iconUrl = GREET_ICONS.late; }
+
+        if (greetText) greetText.textContent = text + ' — خوش اومدی به FoxNova';
+        if (greetIcon) greetIcon.src = iconUrl;
+
+        if (greetTime) {
+            greetTime.textContent =
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0');
+        }
+    }
+
+    updateGreeting();
+    setInterval(updateGreeting, 30000);
+
+
+    /* ══════════════════════════════════════════════════════════════
+       بستن بنر سیزن
+       ══════════════════════════════════════════════════════════════ */
+    const seasonBanner = document.getElementById('seasonBanner');
+    const seasonClose = document.getElementById('seasonClose');
+
+    if (seasonClose && seasonBanner) {
+        seasonClose.addEventListener('click', function () {
+            seasonBanner.style.transition = 'opacity .3s, max-height .35s';
+            seasonBanner.style.opacity = '0';
+            seasonBanner.style.maxHeight = '0';
+            seasonBanner.style.overflow = 'hidden';
+            setTimeout(function () { seasonBanner.style.display = 'none'; }, 350);
         });
-
-        setTimeout(function () {
-            animatedItems.forEach(function (item) { item.classList.add('visible'); });
-        }, 1600);
-    } else {
-        animatedItems.forEach(function (item) { item.classList.add('visible'); });
     }
 
 
-    /* ============================================
+    /* ══════════════════════════════════════════════════════════════
        اسکرول نرم
-       ============================================ */
+       ══════════════════════════════════════════════════════════════ */
     document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -3850,9 +3132,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    /* ============================================
+    /* ══════════════════════════════════════════════════════════════
        کپی آی‌پی
-       ============================================ */
+       ══════════════════════════════════════════════════════════════ */
     const copyBtn = document.getElementById('copyIpBtn');
     const liveIpMini = document.getElementById('liveIpMini');
     const SERVER_IP = '217.18.90.4:19132';
@@ -3906,30 +3188,76 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* ============================================
-       استیکی موبایل CTA
-       ============================================ */
+    /* ══════════════════════════════════════════════════════════════
+       sticky CTA موبایل
+       ══════════════════════════════════════════════════════════════ */
     const stickyCta = document.getElementById('stickyCta');
     const shopSection = document.getElementById('shop');
 
     if (stickyCta && shopSection && window.innerWidth <= 760) {
         if ('IntersectionObserver' in window) {
-            const ctaObserver = new IntersectionObserver(function (entries) {
+            const obs = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) stickyCta.classList.add('visible');
                     else stickyCta.classList.remove('visible');
                 });
             }, { threshold: 0.15 });
-            ctaObserver.observe(shopSection);
-        } else {
-            stickyCta.classList.add('visible');
+            obs.observe(shopSection);
         }
     }
 
 
-    /* ============================================
+    /* ══════════════════════════════════════════════════════════════
+       رتبه پلیرها
+       ══════════════════════════════════════════════════════════════ */
+    const PLAYER_ROLES = {
+        'lagmaster':  { role: 'Owner',   icon: 'https://minecraft.wiki/images/Nether_Star_JE3_BE3.png' },
+        'c1ast3':     { role: 'Owner',   icon: 'https://minecraft.wiki/images/Nether_Star_JE3_BE3.png' },
+        'darkamir':   { role: 'Manager', icon: 'https://minecraft.wiki/images/Diamond_JE3_BE3.png' }
+    };
+
+    const DEFAULT_PLAYER = {
+        role: 'Player',
+        icon: 'https://minecraft.wiki/images/Emerald_JE3_BE3.png'
+    };
+
+    function buildPlayerBadge(playerName) {
+        const key = String(playerName).toLowerCase().trim();
+        const info = PLAYER_ROLES[key] || DEFAULT_PLAYER;
+
+        const badge = document.createElement('span');
+        badge.className = 'player-badge role-' + info.role.toLowerCase();
+
+        const icon = document.createElement('img');
+        icon.className = 'badge-icon';
+        icon.src = info.icon;
+        icon.alt = info.role;
+        icon.loading = 'lazy';
+        icon.onerror = function () {
+            const s = document.createElement('span');
+            s.textContent = '◆';
+            s.style.fontSize = '13px';
+            this.parentNode.replaceChild(s, this);
+        };
+        badge.appendChild(icon);
+
+        const roleSpan = document.createElement('span');
+        roleSpan.className = 'badge-role';
+        roleSpan.textContent = info.role + ' :';
+        badge.appendChild(roleSpan);
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'badge-name';
+        nameSpan.textContent = playerName;
+        badge.appendChild(nameSpan);
+
+        return badge;
+    }
+
+
+    /* ══════════════════════════════════════════════════════════════
        وضعیت زنده سرور
-       ============================================ */
+       ══════════════════════════════════════════════════════════════ */
     const liveDot = document.getElementById('liveDot');
     const liveStatusText = document.getElementById('liveStatusText');
     const liveCount = document.getElementById('liveCount');
@@ -4005,7 +3333,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (serverStatusValue) serverStatusValue.textContent = 'نامشخص';
         }
 
-        const displayCount = (state === 'online') ? (players != null ? players : 0) : (state === 'offline' ? 0 : '—');
+        const displayCount = (state === 'online')
+            ? (players != null ? players : 0)
+            : (state === 'offline' ? 0 : '—');
         liveCount.textContent = displayCount;
         if (statPlayers) statPlayers.textContent = displayCount;
 
@@ -4046,7 +3376,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(endpoint.url, { signal: controller.signal, cache: 'no-store' })
                 .then(function (res) {
                     clearTimeout(timer);
-                    if (!res.ok) throw new Error('bad status');
+                    if (!res.ok) throw new Error('bad');
                     return res.json();
                 })
                 .then(function (data) {
@@ -4104,6 +3434,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
     fetchServerStatus();
     setInterval(fetchServerStatus, 45000);
+
+
+    /* ══════════════════════════════════════════════════════════════
+       اجرا
+       ══════════════════════════════════════════════════════════════ */
+    renderProducts();
+
+    /* انیمیشن ورود آیتم‌های چنج‌لاگ */
+    if ('IntersectionObserver' in window) {
+        const logObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    logObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.log-item').forEach(function (item, i) {
+            item.style.transitionDelay = Math.min(i * 0.06, 0.3) + 's';
+            logObs.observe(item);
+        });
+
+        setTimeout(function () {
+            document.querySelectorAll('.log-item').forEach(function (item) {
+                item.classList.add('visible');
+            });
+        }, 1500);
+    } else {
+        document.querySelectorAll('.log-item').forEach(function (item) {
+            item.classList.add('visible');
+        });
+    }
 
 });
 </script>
